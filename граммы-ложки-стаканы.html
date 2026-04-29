@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Граммы ↔ ложки и стаканы — Планета Х</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#FDF8F3;
+  --terra:#E85D3A;
+  --gold:#D4A052;
+  --dark:#2D2A26;
+  --line:rgba(45,42,38,.1);
+  --soft:rgba(45,42,38,.55);
+}
+html,body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--dark);line-height:1.5;-webkit-font-smoothing:antialiased}
+
+.wrap{max-width:780px;margin:0 auto;padding:48px 28px 80px}
+
+.hero{text-align:center;margin-bottom:36px}
+.hero .eyebrow{font-family:'Caveat',cursive;color:var(--terra);font-size:30px;line-height:1;margin-bottom:6px}
+.hero h1{font-size:42px;font-weight:700;letter-spacing:-.02em;margin-bottom:14px}
+.hero p{font-size:17px;color:var(--soft);max-width:580px;margin:0 auto}
+
+.divider{width:48px;height:3px;background:var(--gold);border-radius:2px;margin:18px auto 22px}
+
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 1px 2px rgba(45,42,38,.04)}
+.card-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
+.card-title{font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--soft)}
+.card-hint{font-family:'Caveat',cursive;font-size:20px;color:var(--terra)}
+
+.field label{display:block;font-size:13px;color:var(--soft);margin-bottom:6px;font-weight:500}
+.field-row{display:flex;align-items:center;gap:8px;background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:10px 14px;transition:border-color .15s}
+.field-row:focus-within{border-color:var(--terra)}
+.field-row input{
+  width:100%;border:none;background:transparent;font-family:'Inter',sans-serif;font-size:18px;font-weight:600;color:var(--dark);outline:none;
+  -moz-appearance:textfield
+}
+.field-row input::-webkit-outer-spin-button,
+.field-row input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.field-row .unit{font-size:14px;color:var(--soft);white-space:nowrap}
+
+.select{
+  width:100%;border:1px solid var(--line);background:var(--cream);border-radius:12px;
+  padding:12px 14px;font-family:'Inter',sans-serif;font-size:15px;font-weight:500;color:var(--dark);
+  outline:none;appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1L6 6L11 1' stroke='%232D2A26' stroke-width='1.6' stroke-linecap='round'/></svg>");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:38px;
+  transition:border-color .15s
+}
+.select:focus{border-color:var(--terra)}
+
+.amounts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+@media(max-width:520px){.amounts{grid-template-columns:1fr}}
+
+.amounts .field-row.active{border-color:var(--terra);background:#fff;box-shadow:0 0 0 3px rgba(232,93,58,.08)}
+
+.note{margin-top:18px;font-size:13px;color:var(--soft);line-height:1.7;background:var(--cream);border-radius:12px;padding:12px 14px;border-left:3px solid var(--gold)}
+
+.meta{margin-top:34px;text-align:center;font-size:13px;color:var(--soft)}
+
+.btn-row{margin-top:18px;display:flex;justify-content:flex-end}
+.btn{
+  background:transparent;color:var(--dark);border:1px solid var(--line);border-radius:999px;padding:10px 20px;
+  font-family:'Inter',sans-serif;font-size:14px;font-weight:500;cursor:pointer;
+  transition:transform .1s,background .15s,color .15s,border-color .15s;letter-spacing:.02em
+}
+.btn:hover{background:var(--dark);color:#fff;border-color:var(--dark)}
+.btn:active{transform:scale(.97)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Без весов? — не страшно</div>
+    <h1>Граммы ↔ ложки и стаканы</h1>
+    <div class="divider"></div>
+    <p>Выберите продукт, впишите количество в любое поле — остальные пересчитаются сами. Работает в обе стороны.</p>
+  </header>
+
+  <section class="card">
+    <div class="card-head">
+      <div class="card-title">Продукт</div>
+      <div class="card-hint" id="dens-hint">— г / ст. л.</div>
+    </div>
+    <div class="field">
+      <select id="product" class="select"></select>
+    </div>
+
+    <div class="amounts">
+      <div class="field">
+        <label>Граммы</label>
+        <div class="field-row" data-key="g">
+          <input type="text" inputmode="decimal" pattern="[0-9.,]*" id="g" placeholder="—">
+          <span class="unit">г</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>Столовые ложки</label>
+        <div class="field-row" data-key="tbsp">
+          <input type="text" inputmode="decimal" pattern="[0-9.,]*" id="tbsp" placeholder="—">
+          <span class="unit">ст. л.</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>Чайные ложки</label>
+        <div class="field-row" data-key="tsp">
+          <input type="text" inputmode="decimal" pattern="[0-9.,]*" id="tsp" placeholder="—">
+          <span class="unit">ч. л.</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>Стакан гранёный</label>
+        <div class="field-row" data-key="cup200">
+          <input type="text" inputmode="decimal" pattern="[0-9.,]*" id="cup200" placeholder="—">
+          <span class="unit">200 мл</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>Стакан тонкий</label>
+        <div class="field-row" data-key="cup250">
+          <input type="text" inputmode="decimal" pattern="[0-9.,]*" id="cup250" placeholder="—">
+          <span class="unit">250 мл</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="note" id="note">
+      Меры округлены под домашнюю кухню. Для выпечки точнее работают весы.
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" id="reset">Очистить</button>
+    </div>
+  </section>
+
+  <div class="meta">Калькулятор для xplanet.club · Планета Х</div>
+</div>
+
+<script>
+(() => {
+  // Граммы для каждой меры. null — продукт несоразмерен этой мере (например, мёд в стаканах редко).
+  const PRODUCTS = [
+    { name: 'Мука пшеничная',        tbsp: 25, tsp: 8,  cup200: 130, cup250: 160 },
+    { name: 'Мука цельнозерновая',   tbsp: 20, tsp: 7,  cup200: 110, cup250: 140 },
+    { name: 'Сахар',                 tbsp: 25, tsp: 8,  cup200: 160, cup250: 200 },
+    { name: 'Сахар коричневый',      tbsp: 20, tsp: 7,  cup200: 140, cup250: 180 },
+    { name: 'Сахарная пудра',        tbsp: 15, tsp: 5,  cup200: 120, cup250: 150 },
+    { name: 'Соль мелкая',           tbsp: 30, tsp: 10, cup200: 260, cup250: 325 },
+    { name: 'Соль крупная',          tbsp: 25, tsp: 8,  cup200: 220, cup250: 280 },
+    { name: 'Сода пищевая',          tbsp: 24, tsp: 12, cup200: null, cup250: null },
+    { name: 'Разрыхлитель',          tbsp: 15, tsp: 5,  cup200: null, cup250: null },
+    { name: 'Дрожжи сухие',          tbsp: 12, tsp: 4,  cup200: null, cup250: null },
+    { name: 'Какао-порошок',         tbsp: 15, tsp: 5,  cup200: 100, cup250: 125 },
+    { name: 'Крахмал',               tbsp: 12, tsp: 4,  cup200: 150, cup250: 180 },
+    { name: 'Манка',                 tbsp: 25, tsp: 8,  cup200: 160, cup250: 200 },
+    { name: 'Овсяные хлопья',        tbsp: 12, tsp: 4,  cup200: 80,  cup250: 100 },
+    { name: 'Рис',                   tbsp: 25, tsp: 8,  cup200: 185, cup250: 230 },
+    { name: 'Гречка',                tbsp: 25, tsp: 8,  cup200: 165, cup250: 210 },
+    { name: 'Мёд',                   tbsp: 30, tsp: 10, cup200: 260, cup250: 325 },
+    { name: 'Сметана',               tbsp: 25, tsp: 10, cup200: 200, cup250: 250 },
+    { name: 'Молоко / вода',         tbsp: 18, tsp: 5,  cup200: 200, cup250: 250 },
+    { name: 'Масло сливочное (растопл.)', tbsp: 17, tsp: 5,  cup200: 180, cup250: 230 },
+    { name: 'Масло растительное',    tbsp: 17, tsp: 5,  cup200: 185, cup250: 230 },
+    { name: 'Изюм',                  tbsp: 25, tsp: 7,  cup200: 155, cup250: 190 },
+    { name: 'Орехи рубленые',        tbsp: 15, tsp: 4,  cup200: 100, cup250: 130 },
+    { name: 'Кокосовая стружка',     tbsp: 10, tsp: 3,  cup200: 65,  cup250: 80 }
+  ];
+
+  const select = document.getElementById('product');
+  const fields = ['g','tbsp','tsp','cup200','cup250'];
+  const inputs = Object.fromEntries(fields.map(k => [k, document.getElementById(k)]));
+  const rows = Object.fromEntries(fields.map(k => [k, document.querySelector(`[data-key="${k}"]`)]));
+  const densHint = document.getElementById('dens-hint');
+  const noteEl = document.getElementById('note');
+  const resetBtn = document.getElementById('reset');
+
+  let current = PRODUCTS[0];
+  let lastEdited = 'g';
+
+  PRODUCTS.forEach((p, i) => {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = p.name;
+    select.appendChild(opt);
+  });
+
+  function fmt(n){
+    if (!isFinite(n) || n === 0) return '';
+    const r = Math.round(n * 100) / 100;
+    if (Math.abs(r - Math.round(r)) < 0.005) return String(Math.round(r));
+    let s = r.toFixed(2).replace(/0+$/,'').replace(/\.$/,'');
+    return s.replace('.', ',');
+  }
+
+  function parseInput(v){
+    if (v === '' || v == null) return NaN;
+    return parseFloat(String(v).replace(',', '.'));
+  }
+
+  function recalc(fromKey){
+    lastEdited = fromKey;
+    const v = parseInput(inputs[fromKey].value);
+
+    // Активная подсветка строки, в которую вводят
+    fields.forEach(k => rows[k].classList.toggle('active', k === fromKey));
+
+    if (!isFinite(v)){
+      // если поле очищено — стираем остальные
+      fields.forEach(k => { if (k !== fromKey) inputs[k].value = ''; });
+      return;
+    }
+
+    // Перевод в граммы
+    let grams;
+    if (fromKey === 'g') grams = v;
+    else {
+      const g = current[fromKey];
+      if (g == null){
+        fields.forEach(k => { if (k !== fromKey) inputs[k].value = ''; });
+        return;
+      }
+      grams = v * g;
+    }
+
+    // Из грамм во все остальные
+    fields.forEach(k => {
+      if (k === fromKey) return;
+      if (k === 'g'){ inputs[k].value = fmt(grams); return; }
+      const g = current[k];
+      if (g == null){ inputs[k].value = ''; inputs[k].placeholder = '—'; return; }
+      inputs[k].value = fmt(grams / g);
+    });
+  }
+
+  function applyProduct(){
+    current = PRODUCTS[parseInt(select.value, 10) || 0];
+    densHint.textContent = `${current.tbsp} г / ст. л.`;
+    // Блокировка/разблокировка стаканов в зависимости от продукта
+    ['cup200','cup250'].forEach(k => {
+      const has = current[k] != null;
+      inputs[k].disabled = !has;
+      rows[k].style.opacity = has ? '1' : '.45';
+      if (!has) inputs[k].value = '';
+    });
+    // Если уже что-то введено — пересчитать от последнего
+    if (inputs[lastEdited].value !== '' && !inputs[lastEdited].disabled){
+      recalc(lastEdited);
+    } else if (inputs.g.value !== ''){
+      recalc('g');
+    }
+  }
+
+  fields.forEach(k => {
+    inputs[k].addEventListener('input', () => recalc(k));
+    inputs[k].addEventListener('focus', () => {
+      fields.forEach(x => rows[x].classList.toggle('active', x === k));
+    });
+  });
+  select.addEventListener('change', applyProduct);
+  resetBtn.addEventListener('click', () => {
+    fields.forEach(k => { inputs[k].value = ''; rows[k].classList.remove('active'); });
+    inputs.g.focus();
+  });
+
+  applyProduct();
+})();
+</script>
+</body>
+</html>

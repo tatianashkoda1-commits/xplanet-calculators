@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Температуры духовки — Планета Х</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#FDF8F3;
+  --terra:#E85D3A;
+  --gold:#D4A052;
+  --dark:#2D2A26;
+  --line:rgba(45,42,38,.1);
+  --soft:rgba(45,42,38,.55);
+}
+html,body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--dark);line-height:1.5;-webkit-font-smoothing:antialiased}
+
+.wrap{max-width:780px;margin:0 auto;padding:48px 28px 80px}
+
+.hero{text-align:center;margin-bottom:36px}
+.hero .eyebrow{font-family:'Caveat',cursive;color:var(--terra);font-size:30px;line-height:1;margin-bottom:6px}
+.hero h1{font-size:42px;font-weight:700;letter-spacing:-.02em;margin-bottom:14px}
+.hero p{font-size:17px;color:var(--soft);max-width:580px;margin:0 auto}
+
+.divider{width:48px;height:3px;background:var(--gold);border-radius:2px;margin:18px auto 22px}
+
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 1px 2px rgba(45,42,38,.04)}
+.card-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
+.card-title{font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--soft)}
+.card-hint{font-family:'Caveat',cursive;font-size:20px;color:var(--terra)}
+
+.fields{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+@media(max-width:540px){.fields{grid-template-columns:1fr}}
+
+.field label{display:block;font-size:13px;color:var(--soft);margin-bottom:6px;font-weight:500}
+.field-row{display:flex;align-items:center;gap:8px;background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:10px 14px;transition:border-color .15s,background .15s,box-shadow .15s}
+.field-row:focus-within{border-color:var(--terra);background:#fff;box-shadow:0 0 0 3px rgba(232,93,58,.08)}
+.field-row.active{border-color:var(--terra);background:#fff;box-shadow:0 0 0 3px rgba(232,93,58,.08)}
+.field-row input{
+  width:100%;border:none;background:transparent;font-family:'Inter',sans-serif;font-size:22px;font-weight:600;color:var(--dark);outline:none
+}
+.field-row .unit{font-size:14px;color:var(--soft);white-space:nowrap}
+
+.verdict{margin-top:22px;text-align:center;padding:18px 14px;background:var(--cream);border-radius:14px;border:1px dashed var(--line)}
+.verdict .label{font-family:'Caveat',cursive;color:var(--terra);font-size:22px;line-height:1;margin-bottom:6px}
+.verdict .value{font-size:22px;font-weight:600;color:var(--dark)}
+.verdict.empty .value{color:var(--soft);font-style:italic;font-weight:500}
+
+.note{margin-top:18px;font-size:13px;color:var(--soft);line-height:1.7;background:var(--cream);border-radius:12px;padding:12px 14px;border-left:3px solid var(--gold)}
+
+.btn-row{margin-top:18px;display:flex;justify-content:flex-end}
+.btn{
+  background:transparent;color:var(--dark);border:1px solid var(--line);border-radius:999px;padding:10px 20px;
+  font-family:'Inter',sans-serif;font-size:14px;font-weight:500;cursor:pointer;
+  transition:transform .1s,background .15s,color .15s,border-color .15s;letter-spacing:.02em
+}
+.btn:hover{background:var(--dark);color:#fff;border-color:var(--dark)}
+.btn:active{transform:scale(.97)}
+
+.meta{margin-top:34px;text-align:center;font-size:13px;color:var(--soft)}
+
+.scale{margin-top:24px;display:grid;grid-template-columns:repeat(9,1fr);gap:6px}
+@media(max-width:540px){.scale{grid-template-columns:repeat(3,1fr)}}
+.scale-cell{background:var(--cream);border:1px solid var(--line);border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
+.scale-cell:hover{border-color:var(--terra)}
+.scale-cell.active{background:var(--dark);border-color:var(--dark);color:#fff}
+.scale-cell .num{font-family:'Caveat',cursive;font-size:22px;line-height:1;color:var(--terra)}
+.scale-cell.active .num{color:var(--gold)}
+.scale-cell .deg{font-size:12px;font-weight:600;margin-top:2px}
+.scale-cell .word{font-size:11px;color:var(--soft);margin-top:2px}
+.scale-cell.active .word{color:rgba(255,255,255,.7)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">У всех духовка своя</div>
+    <h1>Температуры духовки</h1>
+    <div class="divider"></div>
+    <p>Введите температуру в любой шкале — остальные пересчитаются. Подскажу, какая это «отметка» по бабушкиной шкале и сила нагрева словом.</p>
+  </header>
+
+  <section class="card">
+    <div class="card-head">
+      <div class="card-title">Температура</div>
+      <div class="card-hint" id="hint">впишите в любое поле</div>
+    </div>
+
+    <div class="fields">
+      <div class="field">
+        <label for="celsius">По Цельсию</label>
+        <div class="field-row" data-key="c">
+          <input id="celsius" type="text" inputmode="decimal" pattern="[0-9.,]*" placeholder="—">
+          <span class="unit">°C</span>
+        </div>
+      </div>
+      <div class="field">
+        <label for="fahrenheit">По Фаренгейту</label>
+        <div class="field-row" data-key="f">
+          <input id="fahrenheit" type="text" inputmode="decimal" pattern="[0-9.,]*" placeholder="—">
+          <span class="unit">°F</span>
+        </div>
+      </div>
+      <div class="field">
+        <label for="gas">Газовая отметка</label>
+        <div class="field-row" data-key="g">
+          <input id="gas" type="text" inputmode="decimal" pattern="[0-9.,]*" placeholder="—">
+          <span class="unit">из 9</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="verdict empty" id="verdict">
+      <div class="label">режим</div>
+      <div class="value" id="verdict-value">введите температуру</div>
+    </div>
+
+    <div class="scale" id="scale"></div>
+
+    <div class="note">
+      Газовые отметки и слова — ориентир, у разных духовок реальная температура отличается на 10–20°C. Для выпечки точнее всего проверять термометром.
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" id="reset">Очистить</button>
+    </div>
+  </section>
+
+  <div class="meta">Калькулятор для xplanet.club · Планета Х</div>
+</div>
+
+<script>
+(() => {
+  // Газовая шкала: каждая отметка = средняя температура в °C
+  const GAS_TABLE = [
+    { mark: 1, c: 140, word: 'слабый' },
+    { mark: 2, c: 150, word: 'слабый' },
+    { mark: 3, c: 165, word: 'умеренный' },
+    { mark: 4, c: 180, word: 'умеренный' },
+    { mark: 5, c: 190, word: 'средний' },
+    { mark: 6, c: 200, word: 'средний' },
+    { mark: 7, c: 220, word: 'сильный' },
+    { mark: 8, c: 230, word: 'сильный' },
+    { mark: 9, c: 245, word: 'очень сильный' }
+  ];
+
+  const cEl = document.getElementById('celsius');
+  const fEl = document.getElementById('fahrenheit');
+  const gEl = document.getElementById('gas');
+  const rows = {
+    c: document.querySelector('[data-key="c"]'),
+    f: document.querySelector('[data-key="f"]'),
+    g: document.querySelector('[data-key="g"]')
+  };
+  const verdictEl = document.getElementById('verdict');
+  const verdictValue = document.getElementById('verdict-value');
+  const scaleEl = document.getElementById('scale');
+  const resetBtn = document.getElementById('reset');
+  const hintEl = document.getElementById('hint');
+
+  function readNum(el){
+    const v = String(el.value).replace(',', '.').trim();
+    if (v === '') return NaN;
+    return parseFloat(v);
+  }
+
+  function fmt(n, decimals = 1){
+    if (!isFinite(n)) return '';
+    const r = Math.round(n * Math.pow(10, decimals)) / Math.pow(10, decimals);
+    if (Math.abs(r - Math.round(r)) < 0.005) return String(Math.round(r));
+    return r.toString().replace('.', ',');
+  }
+
+  function celsiusToWord(c){
+    if (c < 130) return 'совсем слабый';
+    if (c < 165) return 'слабый';
+    if (c < 190) return 'умеренный';
+    if (c < 215) return 'средний';
+    if (c < 235) return 'сильный';
+    return 'очень сильный';
+  }
+
+  function celsiusToGas(c){
+    if (c < 135 || c > 260) return null;
+    // ближайшая отметка
+    let best = GAS_TABLE[0], diff = Math.abs(c - best.c);
+    for (const g of GAS_TABLE){
+      const d = Math.abs(c - g.c);
+      if (d < diff){ diff = d; best = g; }
+    }
+    return best;
+  }
+
+  function gasToCelsius(mark){
+    const m = Math.round(mark);
+    const found = GAS_TABLE.find(g => g.mark === m);
+    return found ? found.c : null;
+  }
+
+  function highlight(activeKey){
+    Object.entries(rows).forEach(([k, el]) => el.classList.toggle('active', k === activeKey));
+  }
+
+  function clearOthers(except){
+    if (except !== 'c') cEl.value = '';
+    if (except !== 'f') fEl.value = '';
+    if (except !== 'g') gEl.value = '';
+  }
+
+  function update(fromKey){
+    highlight(fromKey);
+
+    let c;
+    if (fromKey === 'c'){
+      c = readNum(cEl);
+    } else if (fromKey === 'f'){
+      const f = readNum(fEl);
+      c = isFinite(f) ? (f - 32) * 5 / 9 : NaN;
+    } else { // gas
+      const m = readNum(gEl);
+      c = isFinite(m) ? gasToCelsius(m) : NaN;
+      if (c == null) c = NaN;
+    }
+
+    if (!isFinite(c)){
+      clearOthers(fromKey);
+      setVerdict(null);
+      renderScale(null);
+      return;
+    }
+
+    if (fromKey !== 'c') cEl.value = fmt(c, 0);
+    if (fromKey !== 'f') fEl.value = fmt(c * 9 / 5 + 32, 0);
+    if (fromKey !== 'g'){
+      const g = celsiusToGas(c);
+      gEl.value = g ? String(g.mark) : '';
+    }
+
+    setVerdict(c);
+    const g = celsiusToGas(c);
+    renderScale(g ? g.mark : null);
+  }
+
+  function setVerdict(c){
+    if (!isFinite(c)){
+      verdictEl.classList.add('empty');
+      verdictValue.textContent = 'введите температуру';
+      return;
+    }
+    verdictEl.classList.remove('empty');
+    verdictValue.textContent = celsiusToWord(c);
+  }
+
+  function renderScale(activeMark){
+    scaleEl.innerHTML = '';
+    GAS_TABLE.forEach(g => {
+      const cell = document.createElement('div');
+      cell.className = 'scale-cell' + (activeMark === g.mark ? ' active' : '');
+      cell.innerHTML = `<div class="num">${g.mark}</div><div class="deg">${g.c}°C</div><div class="word">${g.word}</div>`;
+      cell.addEventListener('click', () => {
+        gEl.value = String(g.mark);
+        update('g');
+      });
+      scaleEl.appendChild(cell);
+    });
+  }
+
+  cEl.addEventListener('input', () => update('c'));
+  fEl.addEventListener('input', () => update('f'));
+  gEl.addEventListener('input', () => update('g'));
+
+  resetBtn.addEventListener('click', () => {
+    cEl.value = ''; fEl.value = ''; gEl.value = '';
+    Object.values(rows).forEach(el => el.classList.remove('active'));
+    setVerdict(null);
+    renderScale(null);
+    cEl.focus();
+  });
+
+  renderScale(null);
+})();
+</script>
+</body>
+</html>

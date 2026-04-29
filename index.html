@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Калькуляторы — Планета Х</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#FDF8F3;
+  --terra:#E85D3A;
+  --gold:#D4A052;
+  --dark:#2D2A26;
+  --line:rgba(45,42,38,.1);
+  --soft:rgba(45,42,38,.55);
+}
+html,body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--dark);line-height:1.5;-webkit-font-smoothing:antialiased}
+
+.wrap{max-width:980px;margin:0 auto;padding:64px 28px 80px}
+
+.hero{text-align:center;margin-bottom:48px}
+.hero .eyebrow{font-family:'Caveat',cursive;color:var(--terra);font-size:32px;line-height:1;margin-bottom:8px}
+.hero h1{font-size:54px;font-weight:700;letter-spacing:-.02em;margin-bottom:14px}
+.hero p{font-size:18px;color:var(--soft);max-width:620px;margin:0 auto}
+
+.divider{width:48px;height:3px;background:var(--gold);border-radius:2px;margin:20px auto 26px}
+
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:680px){.cards{grid-template-columns:1fr}}
+
+.card{
+  background:#fff;border:1px solid var(--line);border-radius:18px;padding:26px 24px;
+  text-decoration:none;color:inherit;display:block;
+  transition:transform .15s,box-shadow .15s,border-color .15s;
+  position:relative;overflow:hidden
+}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(45,42,38,.08);border-color:var(--terra)}
+.card .eyebrow{font-family:'Caveat',cursive;color:var(--terra);font-size:20px;line-height:1;margin-bottom:6px}
+.card h2{font-size:24px;font-weight:600;letter-spacing:-.01em;margin-bottom:8px;color:var(--dark)}
+.card p{font-size:14px;color:var(--soft);line-height:1.6}
+.card .arrow{
+  position:absolute;top:24px;right:22px;
+  width:36px;height:36px;border:1px solid var(--line);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s,border-color .15s,color .15s
+}
+.card:hover .arrow{background:var(--dark);border-color:var(--dark);color:#fff}
+.card .arrow svg{width:14px;height:14px}
+
+.tagline{margin-top:48px;text-align:center;font-family:'Caveat',cursive;font-size:26px;color:var(--gold)}
+.tagline em{font-style:normal;color:var(--terra)}
+
+.meta{margin-top:14px;text-align:center;font-size:13px;color:var(--soft)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Кухня без подвигов</div>
+    <h1>Калькуляторы Планеты Х</h1>
+    <div class="divider"></div>
+    <p>Маленькие помощники для домашней кухни: пересчитать порции, перевести ложки в граммы, понять отметку духовки, подогнать рецепт под свою форму.</p>
+  </header>
+
+  <div class="cards">
+    <a class="card" href="пересчёт-порций.html">
+      <div class="eyebrow">сколько на сколько</div>
+      <h2>Пересчёт порций</h2>
+      <p>Вставьте рецепт и пересчитайте его на нужное количество порций — или от любого ингредиента, который у вас уже есть.</p>
+      <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+    </a>
+
+    <a class="card" href="граммы-ложки-стаканы.html">
+      <div class="eyebrow">без весов? — не страшно</div>
+      <h2>Граммы ↔ ложки и стаканы</h2>
+      <p>Выбираете продукт — переводите между граммами, столовыми и чайными ложками, гранёным и тонким стаканом.</p>
+      <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+    </a>
+
+    <a class="card" href="температуры-духовки.html">
+      <div class="eyebrow">у всех духовка своя</div>
+      <h2>Температуры духовки</h2>
+      <p>Цельсий, Фаренгейт и газовая отметка в одном месте. Подскажет, какой это режим словом — слабый, средний, сильный.</p>
+      <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+    </a>
+
+    <a class="card" href="расход-на-форму.html">
+      <div class="eyebrow">бисквит уехал в другую форму?</div>
+      <h2>Расход на форму</h2>
+      <p>Пересчёт ингредиентов под другую форму по площади. Круглая, квадратная, прямоугольная — в любом сочетании.</p>
+      <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+    </a>
+  </div>
+
+  <div class="tagline">Готовьте, <em>не мучайтесь</em></div>
+  <div class="meta">xplanet.club · Планета Х</div>
+</div>
+</body>
+</html>

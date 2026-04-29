@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Пересчёт порций — Планета Х</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#FDF8F3;
+  --terra:#E85D3A;
+  --gold:#D4A052;
+  --dark:#2D2A26;
+  --line:rgba(45,42,38,.1);
+  --soft:rgba(45,42,38,.55);
+}
+html,body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--dark);line-height:1.5;-webkit-font-smoothing:antialiased}
+
+.wrap{max-width:1180px;margin:0 auto;padding:48px 28px 80px}
+
+.hero{text-align:center;margin-bottom:36px}
+.hero .eyebrow{font-family:'Caveat',cursive;color:var(--terra);font-size:30px;line-height:1;margin-bottom:6px}
+.hero h1{font-size:46px;font-weight:700;letter-spacing:-.02em;margin-bottom:14px}
+.hero p{font-size:17px;color:var(--soft);max-width:580px;margin:0 auto}
+
+.divider{width:48px;height:3px;background:var(--gold);border-radius:2px;margin:18px auto 22px}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:880px){.grid{grid-template-columns:1fr}}
+
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 1px 2px rgba(45,42,38,.04)}
+.card-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
+.card-title{font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--soft)}
+.card-hint{font-family:'Caveat',cursive;font-size:20px;color:var(--terra)}
+
+textarea#recipe{
+  width:100%;min-height:380px;border:1px solid var(--line);border-radius:12px;
+  padding:14px 16px;font-family:'Inter',sans-serif;font-size:15px;line-height:1.55;color:var(--dark);
+  background:var(--cream);resize:vertical;outline:none;transition:border-color .15s
+}
+textarea#recipe:focus{border-color:var(--terra)}
+
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.field label{display:block;font-size:13px;color:var(--soft);margin-bottom:6px;font-weight:500}
+.field-row{display:flex;align-items:center;gap:8px;background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:10px 14px;transition:border-color .15s}
+.field-row:focus-within{border-color:var(--terra)}
+.field-row input{
+  width:100%;border:none;background:transparent;font-family:'Inter',sans-serif;font-size:18px;font-weight:600;color:var(--dark);outline:none;
+  -moz-appearance:textfield
+}
+.field-row input::-webkit-outer-spin-button,
+.field-row input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.field-row .unit{font-size:14px;color:var(--soft);white-space:nowrap}
+
+.output{
+  min-height:380px;background:var(--cream);border:1px solid var(--line);border-radius:12px;
+  padding:14px 16px;font-size:15px;line-height:1.7;white-space:pre-wrap;
+  font-feature-settings:'tnum'
+}
+.output .head{font-weight:600;color:var(--dark);display:block;margin-top:8px}
+.output .head:first-child{margin-top:0}
+.output .changed{color:var(--terra);font-weight:600}
+.output .empty{color:var(--soft);font-style:italic}
+
+.copy-row{margin-top:14px;display:flex;justify-content:flex-end;gap:10px}
+.btn{
+  background:var(--dark);color:#fff;border:none;border-radius:999px;padding:10px 20px;
+  font-family:'Inter',sans-serif;font-size:14px;font-weight:500;cursor:pointer;
+  transition:transform .1s,background .15s;letter-spacing:.02em
+}
+.btn:hover{background:var(--terra)}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:transparent;color:var(--dark);border:1px solid var(--line)}
+.btn.ghost:hover{background:var(--dark);color:#fff;border-color:var(--dark)}
+.btn.copied{background:var(--gold)}
+
+.meta{margin-top:34px;text-align:center;font-size:13px;color:var(--soft);line-height:1.7}
+.meta a{color:var(--terra);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s}
+.meta a:hover{border-bottom-color:var(--terra)}
+
+.legend{margin-top:14px;display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--soft)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend .dot{width:8px;height:8px;border-radius:50%;background:var(--terra)}
+
+.mode-tabs{display:inline-flex;background:var(--cream);border:1px solid var(--line);border-radius:999px;padding:4px;margin:18px 0 14px;gap:4px}
+.mode-tab{background:transparent;border:none;padding:8px 18px;border-radius:999px;font-family:inherit;font-size:13px;font-weight:500;color:var(--soft);cursor:pointer;letter-spacing:.02em;transition:background .15s,color .15s}
+.mode-tab.active{background:var(--dark);color:#fff}
+.mode-tab:not(.active):hover{color:var(--dark)}
+
+.mode-block[hidden]{display:none}
+
+.select{
+  width:100%;border:1px solid var(--line);background:var(--cream);border-radius:12px;
+  padding:11px 14px;font-family:'Inter',sans-serif;font-size:15px;font-weight:500;color:var(--dark);
+  outline:none;appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1L6 6L11 1' stroke='%232D2A26' stroke-width='1.6' stroke-linecap='round'/></svg>");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:38px;
+  transition:border-color .15s
+}
+.select:focus{border-color:var(--terra)}
+.select:disabled{opacity:.5;cursor:not-allowed}
+.ing-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:14px}
+@media(max-width:520px){.ing-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Сколько брать на сколько хотите</div>
+    <h1>Пересчёт порций</h1>
+    <div class="divider"></div>
+    <p>Вставьте рецепт, укажите, на сколько он рассчитан и на сколько вам нужно — пересчитаю каждую строку. Подзаголовки, «по вкусу» и «щепотку» не трогаю.</p>
+  </header>
+
+  <div class="grid">
+    <section class="card">
+      <div class="card-head">
+        <div class="card-title">Ваш рецепт</div>
+        <div class="card-hint">вставьте сюда</div>
+      </div>
+      <textarea id="recipe" spellcheck="false">Булочки с сыром
+
+Тесто:
+180 мл молока
+70 мл сгущенного молока
+1 яйцо
+3 ст.л. раст. масла (для хрусткости корочки)
+3 ст.л. слив. масла (для нежности мякиша)
+2 ст.л. сметаны (для лучшего брожения)
+соль (в зависимости от просоленности сыра)
+500 г муки (+/-)
+5-6 г сухих дрожжей
+(15 г свежих)
+ваниль на кончике ножа (по вкусу)
+
+
+Начинка:
+50 г сыра твердых сортов
+
+
+Для верха:
+1 яйцо</textarea>
+
+      <div class="mode-tabs" role="tablist">
+        <button class="mode-tab active" data-mode="portions" role="tab">По порциям</button>
+        <button class="mode-tab" data-mode="ingredient" role="tab">По продукту</button>
+      </div>
+
+      <div class="mode-block" id="mode-portions">
+        <div class="controls">
+          <div class="field">
+            <label for="from">Сейчас на</label>
+            <div class="field-row">
+              <input id="from" type="text" inputmode="decimal" pattern="[0-9.,]*" value="1">
+              <span class="unit">порций</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="to">Нужно на</label>
+            <div class="field-row">
+              <input id="to" type="text" inputmode="decimal" pattern="[0-9.,]*" value="1.5">
+              <span class="unit">порций</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mode-block" id="mode-ingredient" hidden>
+        <div class="ing-grid">
+          <div class="field">
+            <label for="ing-select">Какой продукт у вас уже есть</label>
+            <select id="ing-select" class="select"></select>
+          </div>
+          <div class="field">
+            <label for="ing-have">У меня</label>
+            <div class="field-row">
+              <input id="ing-have" type="text" inputmode="decimal" pattern="[0-9.,]*" placeholder="—">
+              <span class="unit" id="ing-unit"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="legend">
+        <span><span class="dot"></span> изменённые числа выделяются цветом</span>
+      </div>
+
+      <div class="copy-row">
+        <button class="btn ghost" id="reset">Сбросить</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <div class="card-title">Пересчитанный рецепт</div>
+        <div class="card-hint" id="ratio-hint">×1.5</div>
+      </div>
+      <div class="output" id="output"></div>
+      <div class="copy-row">
+        <button class="btn" id="copy">Скопировать</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="meta">Калькулятор для xplanet.club · Планета Х</div>
+</div>
+
+<script>
+(() => {
+  const recipeEl = document.getElementById('recipe');
+  const fromEl = document.getElementById('from');
+  const toEl = document.getElementById('to');
+  const outputEl = document.getElementById('output');
+  const ratioHint = document.getElementById('ratio-hint');
+  const copyBtn = document.getElementById('copy');
+  const resetBtn = document.getElementById('reset');
+  const modeTabs = document.querySelectorAll('.mode-tab');
+  const modePortions = document.getElementById('mode-portions');
+  const modeIngredient = document.getElementById('mode-ingredient');
+  const ingSelect = document.getElementById('ing-select');
+  const ingHave = document.getElementById('ing-have');
+  const ingUnit = document.getElementById('ing-unit');
+
+  let mode = 'portions';
+
+  const NUM = '\\d+(?:[.,]\\d+)?';
+  const RANGE_RE = new RegExp(`(${NUM})\\s*([–—-])\\s*(${NUM})`, 'g');
+  const SINGLE_RE = new RegExp(`(${NUM})`, 'g');
+  const UNIT_RE = /^\s*(кг|мл|ст\.?\s*л\.?|ч\.?\s*л\.?|шт\.?|стакан\w*|г|л)(?=\s|$|[.,;:!?)])/i;
+
+  function parseNum(s){ return parseFloat(s.replace(',', '.')); }
+
+  function formatNum(n){
+    if (!isFinite(n)) return '';
+    const rounded = Math.round(n * 100) / 100;
+    if (Math.abs(rounded - Math.round(rounded)) < 0.005) return String(Math.round(rounded));
+    let s = rounded.toFixed(2).replace(/0+$/, '').replace(/\.$/, '');
+    return s.replace('.', ',');
+  }
+
+  function recalcLine(line, k){
+    if (k === 1) return { text: line, changed: false };
+
+    let changed = false;
+
+    // 1) диапазоны "5-6 г" / "5–6"
+    let result = line.replace(RANGE_RE, (m, a, dash, b) => {
+      changed = true;
+      return `<span class="changed">${formatNum(parseNum(a)*k)}${dash}${formatNum(parseNum(b)*k)}</span>`;
+    });
+
+    // 2) одиночные числа — заменяем по очереди, пропуская уже вставленные spans
+    // Для безопасности парсим строку по фрагментам: всё, что внутри уже поставленных <span class="changed">...</span> не трогаем
+    const parts = result.split(/(<span class="changed">[\s\S]*?<\/span>)/);
+    for (let i = 0; i < parts.length; i++){
+      if (parts[i].startsWith('<span')) continue;
+      parts[i] = parts[i].replace(SINGLE_RE, (m, a) => {
+        changed = true;
+        return `<span class="changed">${formatNum(parseNum(a)*k)}</span>`;
+      });
+    }
+    return { text: parts.join(''), changed };
+  }
+
+  function escape(s){
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function isHeading(line){
+    const t = line.trim();
+    return t.endsWith(':') && !/\d/.test(t);
+  }
+
+  function normalizeUnit(base, unit){
+    const u = unit.toLowerCase().replace(/[\s.]/g, '');
+    if (u === 'кг') return { base: base * 1000, unit: 'г' };
+    if (u === 'л')  return { base: base * 1000, unit: 'мл' };
+    return { base, unit };
+  }
+
+  function parseIngredients(text){
+    const out = [];
+    text.split('\n').forEach(line => {
+      const t = line.trim();
+      if (!t || isHeading(line)) return;
+      if (t.startsWith('(')) return; // альтернатива в скобках — не показываем
+      // Захватываем число или диапазон целиком, чтобы after-номер начинался с единицы
+      const m = t.match(/(\d+(?:[.,]\d+)?)(?:\s*[–—-]\s*\d+(?:[.,]\d+)?)?/);
+      if (!m) return;
+      const rawBase = parseFloat(m[1].replace(',', '.'));
+      const afterNum = t.slice(m.index + m[0].length);
+      const unitMatch = afterNum.match(UNIT_RE);
+      const rawUnit = unitMatch ? unitMatch[1].replace(/\s+/g,'') : '';
+      const norm = normalizeUnit(rawBase, rawUnit);
+      // лейбл — строка без концевого комментария в скобках
+      const label = t.replace(/\s*\([^)]*\)\s*$/, '').trim();
+      out.push({ label, base: norm.base, unit: norm.unit });
+    });
+    return out;
+  }
+
+  function refreshIngredients(){
+    const items = parseIngredients(recipeEl.value);
+    const prevValue = ingSelect.value;
+    ingSelect.innerHTML = '';
+    if (items.length === 0){
+      const opt = document.createElement('option');
+      opt.textContent = '— добавьте рецепт слева —';
+      opt.value = '';
+      ingSelect.appendChild(opt);
+      ingSelect.disabled = true;
+      ingHave.disabled = true;
+      ingUnit.textContent = '';
+      return;
+    }
+    ingSelect.disabled = false;
+    ingHave.disabled = false;
+    items.forEach((it, i) => {
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = it.label;
+      opt.dataset.base = it.base;
+      opt.dataset.unit = it.unit;
+      ingSelect.appendChild(opt);
+    });
+    // сохраняем предыдущий выбор, если возможно
+    const matchIdx = items.findIndex(it => it.label === prevValue);
+    ingSelect.selectedIndex = matchIdx >= 0 ? matchIdx : 0;
+    updateIngUnit();
+  }
+
+  function updateIngUnit(){
+    const opt = ingSelect.options[ingSelect.selectedIndex];
+    ingUnit.textContent = opt ? (opt.dataset.unit || '') : '';
+  }
+
+  function readNum(el){ return parseFloat(String(el.value).replace(',', '.')); }
+
+  function getCoefficient(){
+    if (mode === 'portions'){
+      const from = readNum(fromEl) || 1;
+      const to = readNum(toEl) || 1;
+      return to / from;
+    } else {
+      const opt = ingSelect.options[ingSelect.selectedIndex];
+      const base = opt ? parseFloat(opt.dataset.base) : NaN;
+      const have = readNum(ingHave);
+      if (!isFinite(base) || !isFinite(have) || base <= 0) return 1;
+      return have / base;
+    }
+  }
+
+  function render(){
+    const k = getCoefficient();
+    ratioHint.textContent = (k === 1 ? '×1' : '×' + formatNum(k));
+
+    const text = recipeEl.value;
+    if (!text.trim()){
+      outputEl.innerHTML = '<span class="empty">Здесь появится пересчитанный рецепт</span>';
+      return;
+    }
+
+    const lines = text.split('\n');
+    const out = lines.map(line => {
+      if (line.trim() === '') return '';
+      if (isHeading(line)) return `<span class="head">${escape(line)}</span>`;
+      // числа в строке заменяем; сначала экранируем HTML, потом подставляем span'ы
+      const safe = escape(line);
+      const { text: rendered } = recalcLine(safe, k);
+      return rendered;
+    });
+
+    outputEl.innerHTML = out.join('\n');
+  }
+
+  function getPlainOutput(){
+    // Возвращает текст без HTML — для копирования
+    const tmp = document.createElement('div');
+    tmp.innerHTML = outputEl.innerHTML;
+    return tmp.textContent;
+  }
+
+  recipeEl.addEventListener('input', () => { refreshIngredients(); render(); });
+  fromEl.addEventListener('input', render);
+  toEl.addEventListener('input', render);
+  ingSelect.addEventListener('change', () => { updateIngUnit(); render(); });
+  ingHave.addEventListener('input', render);
+
+  modeTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      modeTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      mode = tab.dataset.mode;
+      modePortions.hidden = mode !== 'portions';
+      modeIngredient.hidden = mode !== 'ingredient';
+      render();
+    });
+  });
+
+  copyBtn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(getPlainOutput());
+      copyBtn.textContent = 'Скопировано';
+      copyBtn.classList.add('copied');
+      setTimeout(() => {
+        copyBtn.textContent = 'Скопировать';
+        copyBtn.classList.remove('copied');
+      }, 1600);
+    } catch(e){
+      alert('Не удалось скопировать. Выделите текст вручную.');
+    }
+  });
+
+  resetBtn.addEventListener('click', () => {
+    recipeEl.value = '';
+    fromEl.value = 1;
+    toEl.value = 1;
+    ingHave.value = '';
+    refreshIngredients();
+    render();
+    recipeEl.focus();
+  });
+
+  refreshIngredients();
+  render();
+})();
+</script>
+</body>
+</html>

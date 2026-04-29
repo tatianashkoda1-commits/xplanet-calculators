@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Расход на форму — Планета Х</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#FDF8F3;
+  --terra:#E85D3A;
+  --gold:#D4A052;
+  --dark:#2D2A26;
+  --line:rgba(45,42,38,.1);
+  --soft:rgba(45,42,38,.55);
+}
+html,body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--dark);line-height:1.5;-webkit-font-smoothing:antialiased}
+
+.wrap{max-width:1180px;margin:0 auto;padding:48px 28px 80px}
+
+.hero{text-align:center;margin-bottom:36px}
+.hero .eyebrow{font-family:'Caveat',cursive;color:var(--terra);font-size:30px;line-height:1;margin-bottom:6px}
+.hero h1{font-size:46px;font-weight:700;letter-spacing:-.02em;margin-bottom:14px}
+.hero p{font-size:17px;color:var(--soft);max-width:620px;margin:0 auto}
+
+.divider{width:48px;height:3px;background:var(--gold);border-radius:2px;margin:18px auto 22px}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+@media(max-width:880px){.grid{grid-template-columns:1fr}}
+
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 1px 2px rgba(45,42,38,.04)}
+.card + .card{margin-top:18px}
+.card-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
+.card-title{font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--soft)}
+.card-hint{font-family:'Caveat',cursive;font-size:20px;color:var(--terra)}
+
+.form-tabs{display:inline-flex;background:var(--cream);border:1px solid var(--line);border-radius:999px;padding:4px;gap:4px;margin-bottom:14px;flex-wrap:wrap}
+.form-tab{background:transparent;border:none;padding:8px 16px;border-radius:999px;font-family:inherit;font-size:13px;font-weight:500;color:var(--soft);cursor:pointer;letter-spacing:.02em;transition:background .15s,color .15s}
+.form-tab.active{background:var(--dark);color:#fff}
+.form-tab:not(.active):hover{color:var(--dark)}
+
+.size-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.size-fields.single{grid-template-columns:1fr}
+
+.field label{display:block;font-size:13px;color:var(--soft);margin-bottom:6px;font-weight:500}
+.field-row{display:flex;align-items:center;gap:8px;background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:10px 14px;transition:border-color .15s}
+.field-row:focus-within{border-color:var(--terra)}
+.field-row input{
+  width:100%;border:none;background:transparent;font-family:'Inter',sans-serif;font-size:18px;font-weight:600;color:var(--dark);outline:none
+}
+.field-row .unit{font-size:14px;color:var(--soft);white-space:nowrap}
+
+.area-pill{margin-top:10px;display:inline-block;background:var(--cream);border-radius:999px;padding:6px 12px;font-size:12px;color:var(--soft)}
+.area-pill strong{color:var(--terra);font-weight:600}
+
+textarea#recipe{
+  width:100%;min-height:280px;border:1px solid var(--line);border-radius:12px;
+  padding:14px 16px;font-family:'Inter',sans-serif;font-size:15px;line-height:1.55;color:var(--dark);
+  background:var(--cream);resize:vertical;outline:none;transition:border-color .15s
+}
+textarea#recipe:focus{border-color:var(--terra)}
+
+.output{
+  min-height:280px;background:var(--cream);border:1px solid var(--line);border-radius:12px;
+  padding:14px 16px;font-size:15px;line-height:1.7;white-space:pre-wrap
+}
+.output .head{font-weight:600;color:var(--dark);display:block;margin-top:8px}
+.output .head:first-child{margin-top:0}
+.output .changed{color:var(--terra);font-weight:600}
+.output .empty{color:var(--soft);font-style:italic}
+
+.btn-row{margin-top:14px;display:flex;justify-content:flex-end;gap:10px}
+.btn{
+  background:var(--dark);color:#fff;border:none;border-radius:999px;padding:10px 20px;
+  font-family:'Inter',sans-serif;font-size:14px;font-weight:500;cursor:pointer;
+  transition:transform .1s,background .15s;letter-spacing:.02em
+}
+.btn:hover{background:var(--terra)}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:transparent;color:var(--dark);border:1px solid var(--line)}
+.btn.ghost:hover{background:var(--dark);color:#fff;border-color:var(--dark)}
+.btn.copied{background:var(--gold)}
+
+.legend{margin-top:14px;font-size:12px;color:var(--soft)}
+
+.meta{margin-top:34px;text-align:center;font-size:13px;color:var(--soft)}
+
+.summary{
+  margin-top:14px;background:var(--cream);border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.7;border-left:3px solid var(--gold)
+}
+.summary strong{color:var(--terra)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Бисквит уехал в другую форму?</div>
+    <h1>Расход на форму</h1>
+    <div class="divider"></div>
+    <p>Скажите, какая форма была в рецепте и какая у вас — пересчитаю ингредиенты по площади, чтобы корж не получился слишком тонким или толстым.</p>
+  </header>
+
+  <div class="grid">
+    <div>
+      <section class="card">
+        <div class="card-head">
+          <div class="card-title">Форма в рецепте</div>
+          <div class="card-hint">было</div>
+        </div>
+        <div class="form-tabs" data-set="from">
+          <button class="form-tab active" data-shape="round">Круглая</button>
+          <button class="form-tab" data-shape="square">Квадратная</button>
+          <button class="form-tab" data-shape="rect">Прямоугольная</button>
+        </div>
+        <div class="size-fields single" id="from-fields"></div>
+        <div class="area-pill">Площадь: <strong id="from-area">—</strong></div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <div class="card-title">Ваша форма</div>
+          <div class="card-hint">стало</div>
+        </div>
+        <div class="form-tabs" data-set="to">
+          <button class="form-tab active" data-shape="round">Круглая</button>
+          <button class="form-tab" data-shape="square">Квадратная</button>
+          <button class="form-tab" data-shape="rect">Прямоугольная</button>
+        </div>
+        <div class="size-fields single" id="to-fields"></div>
+        <div class="area-pill">Площадь: <strong id="to-area">—</strong></div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <div class="card-title">Рецепт</div>
+          <div class="card-hint">вставьте сюда</div>
+        </div>
+        <textarea id="recipe" spellcheck="false">Бисквит классический
+
+5 яиц
+150 г сахара
+150 г муки
+1 ч.л. разрыхлителя
+ванилин на кончике ножа</textarea>
+        <div class="legend">Подзаголовки, «по вкусу» и щепотки не трогаются.</div>
+        <div class="btn-row">
+          <button class="btn ghost" id="reset-left">Сбросить</button>
+        </div>
+      </section>
+    </div>
+
+    <div>
+      <section class="card">
+        <div class="card-head">
+          <div class="card-title">Пересчитанный рецепт</div>
+          <div class="card-hint" id="ratio-hint">×1</div>
+        </div>
+        <div class="output" id="output"></div>
+        <div class="summary" id="summary">Укажите обе формы — посчитаю коэффициент.</div>
+        <div class="btn-row">
+          <button class="btn ghost" id="reset">Сбросить</button>
+          <button class="btn" id="copy">Скопировать</button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="meta">Калькулятор для xplanet.club · Планета Х</div>
+</div>
+
+<script>
+(() => {
+  const recipeEl = document.getElementById('recipe');
+  const outputEl = document.getElementById('output');
+  const ratioHint = document.getElementById('ratio-hint');
+  const summaryEl = document.getElementById('summary');
+  const fromAreaEl = document.getElementById('from-area');
+  const toAreaEl = document.getElementById('to-area');
+  const fromFields = document.getElementById('from-fields');
+  const toFields = document.getElementById('to-fields');
+  const copyBtn = document.getElementById('copy');
+  const resetBtn = document.getElementById('reset');
+
+  const state = {
+    from: { shape: 'round', d: 22, a: 22, b: 28 },
+    to:   { shape: 'round', d: 26, a: 24, b: 30 }
+  };
+
+  const NUM = '\\d+(?:[.,]\\d+)?';
+  const RANGE_RE = new RegExp(`(${NUM})\\s*([–—-])\\s*(${NUM})`, 'g');
+  const SINGLE_RE = new RegExp(`(${NUM})`, 'g');
+
+  function parseNum(s){ return parseFloat(String(s).replace(',', '.')); }
+
+  function fmt(n, decimals = 1){
+    if (!isFinite(n) || n === 0) return '0';
+    const r = Math.round(n * Math.pow(10, decimals)) / Math.pow(10, decimals);
+    if (Math.abs(r - Math.round(r)) < 0.005) return String(Math.round(r));
+    return r.toString().replace('.', ',');
+  }
+
+  function area(set){
+    const s = state[set];
+    if (s.shape === 'round') return Math.PI * Math.pow(s.d/2, 2);
+    if (s.shape === 'square') return s.a * s.a;
+    if (s.shape === 'rect') return s.a * s.b;
+    return 0;
+  }
+
+  function shapeName(set){
+    const s = state[set];
+    if (s.shape === 'round') return `круглая Ø${fmt(s.d, 1)} см`;
+    if (s.shape === 'square') return `квадратная ${fmt(s.a, 1)}×${fmt(s.a, 1)} см`;
+    return `прямоугольная ${fmt(s.a, 1)}×${fmt(s.b, 1)} см`;
+  }
+
+  function renderFields(set){
+    const s = state[set];
+    const container = set === 'from' ? fromFields : toFields;
+    container.classList.toggle('single', s.shape !== 'rect');
+    let html = '';
+    if (s.shape === 'round'){
+      html = `<div class="field"><label>Диаметр</label><div class="field-row"><input type="text" inputmode="decimal" pattern="[0-9.,]*" data-set="${set}" data-key="d" value="${s.d}"><span class="unit">см</span></div></div>`;
+    } else if (s.shape === 'square'){
+      html = `<div class="field"><label>Сторона</label><div class="field-row"><input type="text" inputmode="decimal" pattern="[0-9.,]*" data-set="${set}" data-key="a" value="${s.a}"><span class="unit">см</span></div></div>`;
+    } else {
+      html = `
+        <div class="field"><label>Длина</label><div class="field-row"><input type="text" inputmode="decimal" pattern="[0-9.,]*" data-set="${set}" data-key="a" value="${s.a}"><span class="unit">см</span></div></div>
+        <div class="field"><label>Ширина</label><div class="field-row"><input type="text" inputmode="decimal" pattern="[0-9.,]*" data-set="${set}" data-key="b" value="${s.b}"><span class="unit">см</span></div></div>
+      `;
+    }
+    container.innerHTML = html;
+    container.querySelectorAll('input').forEach(inp => {
+      inp.addEventListener('input', e => {
+        const v = parseNum(e.target.value);
+        if (isFinite(v)) state[e.target.dataset.set][e.target.dataset.key] = v;
+        render();
+      });
+    });
+  }
+
+  function setShape(set, shape){
+    state[set].shape = shape;
+    document.querySelectorAll(`.form-tabs[data-set="${set}"] .form-tab`).forEach(t => {
+      t.classList.toggle('active', t.dataset.shape === shape);
+    });
+    renderFields(set);
+    render();
+  }
+
+  document.querySelectorAll('.form-tabs').forEach(tabs => {
+    tabs.querySelectorAll('.form-tab').forEach(tab => {
+      tab.addEventListener('click', () => setShape(tabs.dataset.set, tab.dataset.shape));
+    });
+  });
+
+  function escape(s){
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function isHeading(line){
+    const t = line.trim();
+    return t.endsWith(':') && !/\d/.test(t);
+  }
+
+  function recalcLine(line, k){
+    if (k === 1) return line;
+    let result = line.replace(RANGE_RE, (m, a, dash, b) => {
+      return `<span class="changed">${fmt(parseNum(a)*k)}${dash}${fmt(parseNum(b)*k)}</span>`;
+    });
+    const parts = result.split(/(<span class="changed">[\s\S]*?<\/span>)/);
+    for (let i = 0; i < parts.length; i++){
+      if (parts[i].startsWith('<span')) continue;
+      parts[i] = parts[i].replace(SINGLE_RE, (m, a) => {
+        return `<span class="changed">${fmt(parseNum(a)*k)}</span>`;
+      });
+    }
+    return parts.join('');
+  }
+
+  function render(){
+    const a1 = area('from');
+    const a2 = area('to');
+    fromAreaEl.textContent = a1 > 0 ? `${fmt(a1, 0)} см²` : '—';
+    toAreaEl.textContent = a2 > 0 ? `${fmt(a2, 0)} см²` : '—';
+
+    const k = (a1 > 0 && a2 > 0) ? a2 / a1 : 1;
+    ratioHint.textContent = (k === 1 ? '×1' : '×' + fmt(k, 2));
+
+    if (a1 > 0 && a2 > 0){
+      summaryEl.innerHTML = `Было: ${shapeName('from')} · ${fmt(a1, 0)} см². Стало: ${shapeName('to')} · ${fmt(a2, 0)} см². Коэффициент <strong>×${fmt(k, 2)}</strong>.`;
+    } else {
+      summaryEl.textContent = 'Укажите обе формы — посчитаю коэффициент.';
+    }
+
+    const text = recipeEl.value;
+    if (!text.trim()){
+      outputEl.innerHTML = '<span class="empty">Здесь появится пересчитанный рецепт</span>';
+      return;
+    }
+
+    const lines = text.split('\n');
+    const out = lines.map(line => {
+      if (line.trim() === '') return '';
+      if (isHeading(line)) return `<span class="head">${escape(line)}</span>`;
+      const safe = escape(line);
+      return recalcLine(safe, k);
+    });
+    outputEl.innerHTML = out.join('\n');
+  }
+
+  recipeEl.addEventListener('input', render);
+
+  copyBtn.addEventListener('click', async () => {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = outputEl.innerHTML;
+    try {
+      await navigator.clipboard.writeText(tmp.textContent);
+      copyBtn.textContent = 'Скопировано';
+      copyBtn.classList.add('copied');
+      setTimeout(() => {
+        copyBtn.textContent = 'Скопировать';
+        copyBtn.classList.remove('copied');
+      }, 1600);
+    } catch(e){
+      alert('Не удалось скопировать. Выделите текст вручную.');
+    }
+  });
+
+  function doReset(){
+    recipeEl.value = '';
+    state.from = { shape: 'round', d: 22, a: 22, b: 28 };
+    state.to   = { shape: 'round', d: 26, a: 24, b: 30 };
+    setShape('from', 'round');
+    setShape('to', 'round');
+    recipeEl.focus();
+  }
+  resetBtn.addEventListener('click', doReset);
+  document.getElementById('reset-left').addEventListener('click', doReset);
+
+  renderFields('from');
+  renderFields('to');
+  render();
+})();
+</script>
+</body>
+</html>
