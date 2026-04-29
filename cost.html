@@ -469,6 +469,9 @@ textarea#recipe:focus{border-color:var(--terra)}
     if (u === 'л')  return { amount: amount * 1000, unit: 'мл', kind: 'volume' };
     if (u === 'мл') return { amount, unit: 'мл', kind: 'volume' };
     if (u === 'шт' || u === 'штук' || u === 'штука' || u === 'штуки') return { amount, unit: 'шт', kind: 'piece' };
+    if (u === 'ст' || u === 'стл' || u === 'ч' || u === 'чл' || u.startsWith('стакан')) return { amount, unit, kind: 'custom' };
+    // число есть, единица не распознана (1 яйцо, 3 банана, 2 лимона) — считаем штучным
+    if (u === '') return { amount, unit: 'шт', kind: 'piece' };
     return { amount, unit, kind: 'custom' };
   }
 
