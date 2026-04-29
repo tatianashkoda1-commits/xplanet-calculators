@@ -29,6 +29,13 @@ html,body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--dar
 .divider{width:48px;height:3px;background:var(--gold);border-radius:2px;margin:20px auto 26px}
 
 .cards{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(min-width:681px){
+  .cards > .card:last-child:nth-child(odd){
+    grid-column:1 / -1;
+    max-width:calc(50% - 9px);
+    margin:0 auto
+  }
+}
 @media(max-width:680px){.cards{grid-template-columns:1fr}}
 
 .card{
