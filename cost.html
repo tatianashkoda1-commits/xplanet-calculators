@@ -126,7 +126,8 @@ textarea#recipe:focus{border-color:var(--terra)}
 .btn{
   background:transparent;color:var(--dark);border:1px solid var(--line);border-radius:999px;padding:10px 20px;
   font-family:'Inter',sans-serif;font-size:14px;font-weight:500;cursor:pointer;
-  transition:transform .1s,background .15s,color .15s,border-color .15s;letter-spacing:.02em
+  transition:transform .1s,background .15s,color .15s,border-color .15s;letter-spacing:.02em;
+  display:inline-block;text-decoration:none;text-align:center;line-height:1.2
 }
 .btn:hover{background:var(--dark);color:#fff;border-color:var(--dark)}
 .btn:active{transform:scale(.97)}
@@ -289,7 +290,8 @@ textarea#recipe:focus{border-color:var(--terra)}
         <div class="pantry-list" id="pantry-list"></div>
         <div class="pantry-actions">
           <button class="btn small" id="pantry-add">➕ Добавить</button>
-          <button class="btn small" id="pantry-export">⬇ Скачать JSON</button>
+          <a class="btn small" href="sample-prices.json" download="sample-prices.json" title="Готовый список на 46 продуктов для тортов">⬇ Скачать пример</a>
+          <button class="btn small" id="pantry-export">⬇ Скачать мой</button>
           <button class="btn small" id="pantry-import">⬆ Загрузить JSON</button>
           <input type="file" id="pantry-file" accept="application/json" hidden>
         </div>
