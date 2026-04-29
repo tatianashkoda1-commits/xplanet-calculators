@@ -1,0 +1,56 @@
+[
+  { "name": "мука", "unit": "кг", "price": 80 },
+  { "name": "мука миндальная", "unit": "кг", "price": 1800 },
+  { "name": "крахмал кукурузный", "unit": "кг", "pack": { "amount": 200, "unit": "г", "price": 55 } },
+  { "name": "сахар", "unit": "кг", "price": 95 },
+  { "name": "сахарная пудра", "unit": "кг", "pack": { "amount": 200, "unit": "г", "price": 45 } },
+  { "name": "сахар коричневый", "unit": "кг", "pack": { "amount": 500, "unit": "г", "price": 180 } },
+  { "name": "ванильный сахар", "unit": "кг", "pack": { "amount": 8, "unit": "г", "price": 18 } },
+  { "name": "ванилин", "unit": "кг", "pack": { "amount": 1.5, "unit": "г", "price": 12 } },
+  { "name": "мёд", "unit": "кг", "pack": { "amount": 250, "unit": "г", "price": 220 } },
+
+  { "name": "масло сливочное", "unit": "кг", "pack": { "amount": 180, "unit": "г", "price": 159 } },
+  { "name": "масло растительное", "unit": "л", "pack": { "amount": 1, "unit": "л", "price": 145 } },
+
+  { "name": "молоко", "unit": "л", "pack": { "amount": 950, "unit": "мл", "price": 89 } },
+  { "name": "сливки 33%", "unit": "л", "pack": { "amount": 250, "unit": "мл", "price": 199 } },
+  { "name": "сливки 10%", "unit": "л", "pack": { "amount": 500, "unit": "мл", "price": 145 } },
+  { "name": "сметана", "unit": "кг", "pack": { "amount": 350, "unit": "г", "price": 95 } },
+  { "name": "творог", "unit": "кг", "pack": { "amount": 200, "unit": "г", "price": 89 } },
+  { "name": "маскарпоне", "unit": "кг", "pack": { "amount": 250, "unit": "г", "price": 380 } },
+  { "name": "крем-сыр", "unit": "кг", "pack": { "amount": 150, "unit": "г", "price": 230 } },
+  { "name": "сгущёнка", "unit": "кг", "pack": { "amount": 380, "unit": "г", "price": 95 } },
+  { "name": "йогурт натуральный", "unit": "кг", "pack": { "amount": 290, "unit": "г", "price": 65 } },
+
+  { "name": "яйцо", "unit": "шт", "price": 12 },
+
+  { "name": "какао-порошок", "unit": "кг", "pack": { "amount": 100, "unit": "г", "price": 75 } },
+  { "name": "шоколад тёмный", "unit": "кг", "pack": { "amount": 100, "unit": "г", "price": 145 } },
+  { "name": "шоколад молочный", "unit": "кг", "pack": { "amount": 100, "unit": "г", "price": 120 } },
+  { "name": "шоколад белый", "unit": "кг", "pack": { "amount": 100, "unit": "г", "price": 130 } },
+
+  { "name": "миндаль", "unit": "кг", "pack": { "amount": 200, "unit": "г", "price": 280 } },
+  { "name": "фундук", "unit": "кг", "pack": { "amount": 200, "unit": "г", "price": 320 } },
+  { "name": "грецкий орех", "unit": "кг", "pack": { "amount": 200, "unit": "г", "price": 250 } },
+  { "name": "фисташки", "unit": "кг", "pack": { "amount": 100, "unit": "г", "price": 250 } },
+  { "name": "кокосовая стружка", "unit": "кг", "pack": { "amount": 100, "unit": "г", "price": 70 } },
+
+  { "name": "изюм", "unit": "кг", "price": 320 },
+  { "name": "курага", "unit": "кг", "price": 450 },
+  { "name": "чернослив", "unit": "кг", "price": 380 },
+  { "name": "клубника свежая", "unit": "кг", "price": 600 },
+  { "name": "малина свежая", "unit": "кг", "price": 900 },
+  { "name": "вишня замороженная", "unit": "кг", "pack": { "amount": 300, "unit": "г", "price": 180 } },
+
+  { "name": "овсяные хлопья", "unit": "кг", "pack": { "amount": 500, "unit": "г", "price": 89 } },
+  { "name": "савоярди", "unit": "кг", "pack": { "amount": 200, "unit": "г", "price": 250 } },
+
+  { "name": "желатин", "unit": "кг", "pack": { "amount": 10, "unit": "г", "price": 35 } },
+  { "name": "агар-агар", "unit": "кг", "pack": { "amount": 10, "unit": "г", "price": 80 } },
+  { "name": "разрыхлитель", "unit": "кг", "pack": { "amount": 10, "unit": "г", "price": 25 } },
+  { "name": "сода", "unit": "кг", "pack": { "amount": 500, "unit": "г", "price": 100 } },
+  { "name": "дрожжи сухие", "unit": "кг", "pack": { "amount": 11, "unit": "г", "price": 35 } },
+
+  { "name": "лимон", "unit": "шт", "price": 30 },
+  { "name": "корица молотая", "unit": "кг", "pack": { "amount": 15, "unit": "г", "price": 65 } }
+]

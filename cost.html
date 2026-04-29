@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Себестоимость порции — Планета Х</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#FDF8F3;
+  --terra:#E85D3A;
+  --gold:#D4A052;
+  --dark:#2D2A26;
+  --line:rgba(45,42,38,.1);
+  --soft:rgba(45,42,38,.55);
+}
+html,body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--dark);line-height:1.5;-webkit-font-smoothing:antialiased}
+
+.wrap{max-width:1280px;margin:0 auto;padding:48px 28px 80px}
+
+.hero{text-align:center;margin-bottom:36px}
+.hero .eyebrow{font-family:'Caveat',cursive;color:var(--terra);font-size:30px;line-height:1;margin-bottom:6px}
+.hero h1{font-size:46px;font-weight:700;letter-spacing:-.02em;margin-bottom:14px}
+.hero p{font-size:17px;color:var(--soft);max-width:640px;margin:0 auto}
+
+.divider{width:48px;height:3px;background:var(--gold);border-radius:2px;margin:18px auto 22px}
+
+.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:start}
+@media(max-width:980px){.grid{grid-template-columns:1fr}}
+
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 1px 2px rgba(45,42,38,.04)}
+.card + .card{margin-top:18px}
+.card-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px;gap:14px}
+.card-title{font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--soft)}
+.card-hint{font-family:'Caveat',cursive;font-size:20px;color:var(--terra)}
+
+textarea#recipe{
+  width:100%;min-height:180px;border:1px solid var(--line);border-radius:12px;
+  padding:14px 16px;font-family:'Inter',sans-serif;font-size:15px;line-height:1.55;color:var(--dark);
+  background:var(--cream);resize:vertical;outline:none;transition:border-color .15s
+}
+textarea#recipe:focus{border-color:var(--terra)}
+
+.row-controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:14px}
+@media(max-width:640px){.row-controls{grid-template-columns:1fr}}
+
+.field label{display:block;font-size:13px;color:var(--soft);margin-bottom:6px;font-weight:500}
+.field-row{display:flex;align-items:center;gap:8px;background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:10px 14px;transition:border-color .15s}
+.field-row:focus-within{border-color:var(--terra)}
+.field-row input{
+  width:100%;border:none;background:transparent;font-family:'Inter',sans-serif;font-size:17px;font-weight:600;color:var(--dark);outline:none
+}
+.field-row .unit{font-size:13px;color:var(--soft);white-space:nowrap}
+
+.select{
+  width:100%;border:1px solid var(--line);background:var(--cream);border-radius:12px;
+  padding:11px 14px;font-family:'Inter',sans-serif;font-size:15px;font-weight:500;color:var(--dark);
+  outline:none;appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1L6 6L11 1' stroke='%232D2A26' stroke-width='1.6' stroke-linecap='round'/></svg>");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:38px
+}
+.select:focus{border-color:var(--terra)}
+
+.toggle{display:inline-flex;background:var(--cream);border:1px solid var(--line);border-radius:999px;padding:4px;gap:4px;width:100%}
+.toggle button{flex:1;background:transparent;border:none;padding:8px 14px;border-radius:999px;font-family:inherit;font-size:13px;font-weight:500;color:var(--soft);cursor:pointer;transition:background .15s,color .15s}
+.toggle button.active{background:var(--dark);color:#fff}
+
+.ing-list{display:flex;flex-direction:column;gap:12px}
+.ing-row{
+  background:var(--cream);border:1px solid var(--line);border-radius:14px;padding:14px;
+  display:grid;grid-template-columns:1fr auto;gap:12px 14px;align-items:start
+}
+.ing-name{font-weight:500;color:var(--dark);min-width:0}
+.ing-name small{display:block;color:var(--soft);font-weight:400;margin-top:2px;font-size:12px}
+.ing-name .saved-mark{display:inline-block;margin-left:6px;font-family:'Caveat',cursive;color:var(--gold);font-size:16px}
+.ing-cost{text-align:right;font-weight:700;color:var(--terra);font-variant-numeric:tabular-nums;white-space:nowrap;font-size:16px}
+.ing-cost.empty{color:var(--soft);font-weight:400}
+
+.ing-controls{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.mini-toggle{display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px}
+.mini-toggle button{background:transparent;border:none;padding:5px 12px;border-radius:999px;font-family:inherit;font-size:12px;font-weight:500;color:var(--soft);cursor:pointer;transition:background .15s,color .15s;letter-spacing:.02em}
+.mini-toggle button.active{background:var(--dark);color:#fff}
+
+.mini-input-group{display:inline-flex;gap:6px;align-items:center;flex-wrap:wrap}
+.mini-input{
+  border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 10px;
+  font-family:inherit;font-size:13px;font-weight:600;color:var(--dark);outline:none;
+  width:80px;transition:border-color .15s
+}
+.mini-input.wide{width:110px}
+.mini-input:focus{border-color:var(--terra)}
+.mini-select{
+  border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 22px 6px 8px;
+  font-family:inherit;font-size:13px;font-weight:500;color:var(--dark);outline:none;cursor:pointer;
+  appearance:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 12 8' fill='none'><path d='M1 1L6 6L11 1' stroke='%232D2A26' stroke-width='1.6' stroke-linecap='round'/></svg>");
+  background-repeat:no-repeat;background-position:right 6px center
+}
+.mini-label{font-size:12px;color:var(--soft)}
+
+.ing-add{
+  margin-left:auto;background:transparent;border:1px dashed var(--line);border-radius:999px;
+  padding:5px 12px;font-family:inherit;font-size:12px;font-weight:500;color:var(--soft);cursor:pointer;
+  transition:background .15s,border-color .15s,color .15s
+}
+.ing-add:hover{background:var(--gold);border-color:var(--gold);color:#fff;border-style:solid}
+.ing-add.saved{background:var(--gold);border-color:var(--gold);border-style:solid;color:#fff}
+
+.ing-empty{padding:40px 20px;text-align:center;color:var(--soft);font-style:italic;font-size:14px}
+
+.summary-line{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px dashed var(--line)}
+.summary-line:last-child{border-bottom:none}
+.summary-line .l{color:var(--soft);font-size:14px}
+.summary-line .v{font-weight:600;font-size:18px;font-variant-numeric:tabular-nums}
+.summary-line.big{padding:14px 0}
+.summary-line.big .v{font-size:26px;color:var(--terra)}
+.summary-line.profit .v{color:var(--gold)}
+
+.markup-row{margin:14px 0;padding:14px;background:var(--cream);border-radius:12px}
+.markup-row label{display:block;font-size:13px;color:var(--soft);margin-bottom:6px;font-weight:500}
+
+.btn-row{margin-top:18px;display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+.btn{
+  background:transparent;color:var(--dark);border:1px solid var(--line);border-radius:999px;padding:10px 20px;
+  font-family:'Inter',sans-serif;font-size:14px;font-weight:500;cursor:pointer;
+  transition:transform .1s,background .15s,color .15s,border-color .15s;letter-spacing:.02em
+}
+.btn:hover{background:var(--dark);color:#fff;border-color:var(--dark)}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--dark);color:#fff;border-color:var(--dark)}
+.btn.primary:hover{background:var(--terra);border-color:var(--terra)}
+.btn.small{padding:6px 14px;font-size:12px}
+
+.legend{margin-top:14px;font-size:12px;color:var(--soft);line-height:1.6}
+
+.meta{margin-top:34px;text-align:center;font-size:13px;color:var(--soft)}
+
+/* Pantry list */
+.pantry-list{display:flex;flex-direction:column;gap:8px;max-height:400px;overflow-y:auto}
+.pantry-item{
+  display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--cream);
+  border:1px solid var(--line);border-radius:10px;font-size:13px
+}
+.pantry-item .pn{flex:1;font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pantry-item .pp{color:var(--soft);font-variant-numeric:tabular-nums;white-space:nowrap}
+.pantry-item button{background:transparent;border:none;color:var(--soft);cursor:pointer;padding:4px 6px;border-radius:6px;font-size:14px;line-height:1;transition:background .15s,color .15s}
+.pantry-item button:hover{background:var(--dark);color:#fff}
+.pantry-empty{padding:24px 12px;text-align:center;color:var(--soft);font-style:italic;font-size:13px}
+
+.pantry-actions{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}
+
+/* Modal */
+.modal-bg{
+  position:fixed;inset:0;background:rgba(45,42,38,.45);
+  display:flex;align-items:center;justify-content:center;padding:20px;z-index:100;
+  opacity:0;pointer-events:none;transition:opacity .2s
+}
+.modal-bg.show{opacity:1;pointer-events:auto}
+.modal{
+  background:#fff;border-radius:18px;padding:24px;max-width:440px;width:100%;
+  box-shadow:0 20px 60px rgba(45,42,38,.3);
+  transform:translateY(10px);transition:transform .2s
+}
+.modal-bg.show .modal{transform:translateY(0)}
+.modal h3{font-size:20px;font-weight:600;margin-bottom:6px}
+.modal .modal-sub{font-size:13px;color:var(--soft);margin-bottom:16px}
+.modal .field{margin-bottom:12px}
+.modal .field-row input{font-size:15px}
+.modal .modal-row{display:grid;grid-template-columns:1.4fr 1fr;gap:10px}
+.modal .modal-actions{margin-top:18px;display:flex;gap:8px;justify-content:flex-end}
+.modal .price-modes{margin:8px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Сколько обходится одна штука</div>
+    <h1>Себестоимость порции</h1>
+    <div class="divider"></div>
+    <p>Вставьте рецепт, укажите цены — за единицу или упаковкой. Сохраните часто используемые продукты в свой список — в следующих рецептах подтянутся сами.</p>
+  </header>
+
+  <div class="grid">
+    <div>
+      <section class="card">
+        <div class="card-head">
+          <div class="card-title">Рецепт</div>
+          <div class="card-hint">вставьте сюда</div>
+        </div>
+        <textarea id="recipe" spellcheck="false">Печенье овсяное
+
+200 г овсяных хлопьев
+100 г муки
+100 г сахара
+100 г масла сливочного
+1 яйцо
+1 ч.л. разрыхлителя
+горсть изюма</textarea>
+
+        <div class="row-controls">
+          <div class="field">
+            <label for="currency">Валюта</label>
+            <select id="currency" class="select">
+              <option value="₽">₽ рубли</option>
+              <option value="$">$ доллары</option>
+              <option value="€">€ евро</option>
+              <option value="¥">¥ юани</option>
+              <option value="£">£ фунты</option>
+              <option value="₸">₸ тенге</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Считаем</label>
+            <div class="toggle" id="mode-toggle">
+              <button class="active" data-mode="portions">Порции</button>
+              <button data-mode="pieces">Штуки</button>
+            </div>
+          </div>
+          <div class="field">
+            <label for="count" id="count-label">На сколько порций</label>
+            <div class="field-row">
+              <input id="count" type="text" inputmode="decimal" pattern="[0-9.,]*" value="20">
+              <span class="unit" id="count-unit">шт</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <div class="card-title">Ингредиенты и цены</div>
+          <div class="card-hint">впишите цены</div>
+        </div>
+        <div class="ing-list" id="ing-list"></div>
+        <div class="legend">Для ст.л./ч.л./стаканов укажите граммы вручную. Цена — за килограмм/литр/штуку, либо переключите на «упаковкой» и введите её размер и стоимость. Кнопка «➕ в список» сохраняет продукт в ваш справочник.</div>
+      </section>
+    </div>
+
+    <div>
+      <section class="card">
+        <div class="card-head">
+          <div class="card-title">Расчёт</div>
+          <div class="card-hint" id="header-hint">наценка ×1,5</div>
+        </div>
+
+        <div class="summary-line big">
+          <div class="l">Себестоимость рецепта</div>
+          <div class="v" id="total-cost">—</div>
+        </div>
+        <div class="summary-line">
+          <div class="l">На 1 <span class="unit-label">порцию</span></div>
+          <div class="v" id="per-unit-cost">—</div>
+        </div>
+
+        <div class="markup-row">
+          <label for="markup">Наценка</label>
+          <div class="field-row">
+            <input id="markup" type="text" inputmode="decimal" pattern="[0-9.,]*" value="50">
+            <span class="unit">%</span>
+          </div>
+        </div>
+
+        <div class="summary-line">
+          <div class="l">Цена продажи 1 <span class="unit-label">порции</span></div>
+          <div class="v" id="sell-per">—</div>
+        </div>
+        <div class="summary-line">
+          <div class="l">Выручка со всего рецепта</div>
+          <div class="v" id="sell-total">—</div>
+        </div>
+        <div class="summary-line profit">
+          <div class="l">Прибыль</div>
+          <div class="v" id="profit">—</div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn" id="reset">Сбросить</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <div class="card-title">Мой список цен</div>
+          <div class="card-hint" id="pantry-count">пусто</div>
+        </div>
+        <div class="pantry-list" id="pantry-list"></div>
+        <div class="pantry-actions">
+          <button class="btn small" id="pantry-add">➕ Добавить</button>
+          <button class="btn small" id="pantry-export">⬇ Скачать JSON</button>
+          <button class="btn small" id="pantry-import">⬆ Загрузить JSON</button>
+          <input type="file" id="pantry-file" accept="application/json" hidden>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="meta">Калькулятор для xplanet.club · Планета Х</div>
+</div>
+
+<!-- Модалка сохранения -->
+<div class="modal-bg" id="modal-bg">
+  <div class="modal">
+    <h3 id="modal-title">Сохранить в список</h3>
+    <div class="modal-sub" id="modal-sub">Название можно отредактировать — короткое имя удобнее матчится с рецептами.</div>
+
+    <div class="field">
+      <label for="m-name">Название</label>
+      <div class="field-row"><input id="m-name" type="text" placeholder="например, мука"></div>
+    </div>
+
+    <div class="field">
+      <label for="m-unit">Единица</label>
+      <select id="m-unit" class="select">
+        <option value="кг">кг (вес)</option>
+        <option value="л">л (объём)</option>
+        <option value="шт">шт (штучно)</option>
+      </select>
+    </div>
+
+    <div class="price-modes">
+      <div class="toggle" id="m-mode">
+        <button class="active" data-mode="unit">За единицу</button>
+        <button data-mode="pack">Упаковкой</button>
+      </div>
+    </div>
+
+    <div id="m-unit-block">
+      <div class="field">
+        <label for="m-price">Цена за единицу</label>
+        <div class="field-row"><input id="m-price" type="text" inputmode="decimal" pattern="[0-9.,]*" placeholder="—"><span class="unit" id="m-price-unit">₽/кг</span></div>
+      </div>
+    </div>
+
+    <div id="m-pack-block" hidden>
+      <div class="modal-row">
+        <div class="field">
+          <label>Размер упаковки</label>
+          <div class="field-row"><input id="m-pack-amount" type="text" inputmode="decimal" pattern="[0-9.,]*" placeholder="—"><span class="unit" id="m-pack-unit">кг</span></div>
+        </div>
+        <div class="field">
+          <label>Цена упаковки</label>
+          <div class="field-row"><input id="m-pack-price" type="text" inputmode="decimal" pattern="[0-9.,]*" placeholder="—"><span class="unit" id="m-pack-currency">₽</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn" id="m-cancel">Отмена</button>
+      <button class="btn primary" id="m-save">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+// ===========================================================================
+// === ХРАНЕНИЕ ЦЕН — ЗОНА ИНТЕГРАЦИИ С ЛИЧНЫМ КАБИНЕТОМ XPLANET.CLUB ========
+// На проде заменить эти 4 функции на запросы к API:
+//   loadPrices()      → GET    /api/user/prices
+//   savePrice(item)   → POST   /api/user/prices  (обновление, если есть совпадение по name)
+//   removePrice(name) → DELETE /api/user/prices/:name (или ?name=)
+//   replaceAll(items) → PUT    /api/user/prices  (для импорта JSON)
+// Структура item: { name, unit ('кг'|'л'|'шт'), price, pack: { amount, unit, price } | null }
+// ===========================================================================
+  const STORAGE_KEY = 'planetx_pantry_v1';
+  function loadPrices(){
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch(e){ return []; }
+  }
+  function savePrice(item){
+    const list = loadPrices();
+    const i = list.findIndex(x => x.name.toLowerCase() === item.name.toLowerCase());
+    if (i >= 0) list[i] = item; else list.push(item);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+  }
+  function removePrice(name){
+    const list = loadPrices().filter(x => x.name.toLowerCase() !== name.toLowerCase());
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+  }
+  function replaceAll(items){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  }
+// ===========================================================================
+
+  const recipeEl = document.getElementById('recipe');
+  const currencyEl = document.getElementById('currency');
+  const countEl = document.getElementById('count');
+  const countLabel = document.getElementById('count-label');
+  const countUnit = document.getElementById('count-unit');
+  const modeToggle = document.getElementById('mode-toggle');
+  const ingList = document.getElementById('ing-list');
+  const totalCostEl = document.getElementById('total-cost');
+  const perUnitCostEl = document.getElementById('per-unit-cost');
+  const sellPerEl = document.getElementById('sell-per');
+  const sellTotalEl = document.getElementById('sell-total');
+  const profitEl = document.getElementById('profit');
+  const markupEl = document.getElementById('markup');
+  const headerHint = document.getElementById('header-hint');
+  const resetBtn = document.getElementById('reset');
+  const unitLabels = document.querySelectorAll('.unit-label');
+
+  const pantryListEl = document.getElementById('pantry-list');
+  const pantryCountEl = document.getElementById('pantry-count');
+  const pantryAddBtn = document.getElementById('pantry-add');
+  const pantryExportBtn = document.getElementById('pantry-export');
+  const pantryImportBtn = document.getElementById('pantry-import');
+  const pantryFile = document.getElementById('pantry-file');
+
+  const modalBg = document.getElementById('modal-bg');
+  const mName = document.getElementById('m-name');
+  const mUnit = document.getElementById('m-unit');
+  const mModeToggle = document.getElementById('m-mode');
+  const mUnitBlock = document.getElementById('m-unit-block');
+  const mPackBlock = document.getElementById('m-pack-block');
+  const mPrice = document.getElementById('m-price');
+  const mPriceUnit = document.getElementById('m-price-unit');
+  const mPackAmount = document.getElementById('m-pack-amount');
+  const mPackUnit = document.getElementById('m-pack-unit');
+  const mPackPrice = document.getElementById('m-pack-price');
+  const mPackCurrency = document.getElementById('m-pack-currency');
+  const mCancel = document.getElementById('m-cancel');
+  const mSave = document.getElementById('m-save');
+
+  const NUM = '\\d+(?:[.,]\\d+)?';
+  const UNIT_RE = /^\s*(кг|мл|ст\.?\s*л\.?|ч\.?\s*л\.?|шт\.?|стакан\w*|г|л)(?=\s|$|[.,;:!?)])/i;
+
+  let mode = 'portions';
+  // Состояние строк рецепта (по индексу строки): { priceMode: 'unit'|'pack', price, packAmount, packUnit, packPrice, gramsOverride }
+  const rowState = new Map();
+
+  function readNum(v){
+    if (v === '' || v == null) return NaN;
+    return parseFloat(String(v).replace(',', '.'));
+  }
+
+  function fmtMoney(n){
+    if (!isFinite(n)) return '—';
+    const r = Math.round(n * 100) / 100;
+    if (Math.abs(r - Math.round(r)) < 0.005) return Math.round(r).toLocaleString('ru-RU');
+    return r.toFixed(2).replace('.', ',');
+  }
+
+  function fmtNum(n, decimals = 1){
+    if (!isFinite(n)) return '';
+    const r = Math.round(n * Math.pow(10, decimals)) / Math.pow(10, decimals);
+    if (Math.abs(r - Math.round(r)) < 0.005) return String(Math.round(r));
+    return r.toString().replace('.', ',');
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function isHeading(line){
+    const t = line.trim();
+    return t.endsWith(':') && !/\d/.test(t);
+  }
+
+  // нормализация: 'кг' → база, kind, baseUnit ('г'/'мл'/'шт'/др.)
+  function normalizeUnit(amount, unit){
+    const u = unit.toLowerCase().replace(/[\s.]/g, '');
+    if (u === 'кг') return { amount: amount * 1000, unit: 'г', kind: 'mass' };
+    if (u === 'г')  return { amount, unit: 'г', kind: 'mass' };
+    if (u === 'л')  return { amount: amount * 1000, unit: 'мл', kind: 'volume' };
+    if (u === 'мл') return { amount, unit: 'мл', kind: 'volume' };
+    if (u === 'шт' || u === 'штук' || u === 'штука' || u === 'штуки') return { amount, unit: 'шт', kind: 'piece' };
+    return { amount, unit, kind: 'custom' };
+  }
+
+  function parseRecipe(text){
+    const out = [];
+    text.split('\n').forEach((line, i) => {
+      const t = line.trim();
+      if (!t || isHeading(line)) return;
+      if (t.startsWith('(')) return;
+      const m = t.match(new RegExp(`(${NUM})(?:\\s*[–—-]\\s*(${NUM}))?`));
+      let normalized;
+      if (m){
+        const a = parseFloat(m[1].replace(',', '.'));
+        const b = m[2] ? parseFloat(m[2].replace(',', '.')) : null;
+        const baseAmount = b != null ? (a + b) / 2 : a;
+        const afterNum = t.slice(m.index + m[0].length);
+        const um = afterNum.match(UNIT_RE);
+        const rawUnit = um ? um[1].replace(/\s+/g,'') : '';
+        normalized = normalizeUnit(baseAmount, rawUnit);
+      } else {
+        if (/по вкусу|щепотк|на кончике/i.test(t)) return;
+        normalized = { amount: null, unit: '', kind: 'custom' };
+      }
+      const label = t.replace(/\s*\([^)]*\)\s*$/, '').trim();
+      out.push({ label, lineIndex: i, ...normalized });
+    });
+    return out;
+  }
+
+  // Мягкое совпадение из словаря по общему префиксу слов (учитывает падежи)
+  function commonPrefixLen(a, b){
+    let i = 0;
+    while (i < a.length && i < b.length && a[i] === b[i]) i++;
+    return i;
+  }
+  function wordsMatch(a, b){
+    if (a === b) return a.length;
+    const cp = commonPrefixLen(a, b);
+    const minLen = Math.min(a.length, b.length);
+    if (minLen <= 2) return 0;
+    if (minLen === 3) return a === b ? 3 : 0;        // 3-буквенные — только точно
+    if (minLen === 4) return cp >= 3 ? cp : 0;        // 4-буквенные — отличие на 1 (мука/муки)
+    return cp >= 4 ? cp : 0;                           // 5+ букв — общий префикс ≥ 4
+  }
+  function tokenize(s){
+    return (s.toLowerCase().match(/\p{L}+/gu) || []).filter(t => t.length > 1);
+  }
+  function findInPantry(label){
+    const list = loadPrices();
+    if (list.length === 0) return null;
+    const toks = tokenize(label);
+    if (toks.length === 0) return null;
+    let best = null, bestScore = 0;
+    list.forEach(item => {
+      const ntoks = tokenize(item.name);
+      let score = 0;
+      ntoks.forEach(nt => {
+        toks.forEach(rt => {
+          score += wordsMatch(nt, rt);
+        });
+      });
+      if (score > bestScore){ bestScore = score; best = item; }
+    });
+    return best;
+  }
+
+  function priceUnitFor(kind){
+    if (kind === 'mass') return '/кг';
+    if (kind === 'volume') return '/л';
+    if (kind === 'piece') return '/шт';
+    return '/кг';
+  }
+
+  // Возвращает себестоимость строки рецепта в выбранной валюте (число) или NaN
+  function rowCost(item, st){
+    const kind = item.kind;
+    let pricePerUnit; // ₽ за кг / л / шт
+    if (st.priceMode === 'pack'){
+      const pa = readNum(st.packAmount);
+      const pp = readNum(st.packPrice);
+      if (!isFinite(pa) || !isFinite(pp) || pa <= 0) return NaN;
+      // нормализуем размер упаковки в стандартную единицу (кг/л/шт)
+      const pu = (st.packUnit || 'кг').toLowerCase();
+      let amountInBase;
+      if (pu === 'кг' || pu === 'л' || pu === 'шт') amountInBase = pa;
+      else if (pu === 'г') amountInBase = pa / 1000;
+      else if (pu === 'мл') amountInBase = pa / 1000;
+      else amountInBase = pa;
+      pricePerUnit = pp / amountInBase;
+    } else {
+      pricePerUnit = readNum(st.price);
+    }
+    if (!isFinite(pricePerUnit) || pricePerUnit < 0) return NaN;
+
+    if (kind === 'mass')   return (item.amount / 1000) * pricePerUnit;
+    if (kind === 'volume') return (item.amount / 1000) * pricePerUnit;
+    if (kind === 'piece')  return item.amount * pricePerUnit;
+    // custom — нужны граммы вручную
+    const g = readNum(st.gramsOverride);
+    if (!isFinite(g)) return NaN;
+    return (g / 1000) * pricePerUnit;
+  }
+
+  function rowAmountText(item){
+    if (item.kind === 'mass') return `${fmtNum(item.amount, 0)} г в рецепте`;
+    if (item.kind === 'volume') return `${fmtNum(item.amount, 0)} мл в рецепте`;
+    if (item.kind === 'piece') return `${fmtNum(item.amount, 0)} шт в рецепте`;
+    return 'нужны граммы →';
+  }
+
+  function defaultPackUnitFor(kind){
+    if (kind === 'mass') return 'кг';
+    if (kind === 'volume') return 'л';
+    if (kind === 'piece') return 'шт';
+    return 'кг';
+  }
+
+  function packUnitOptionsFor(kind){
+    if (kind === 'mass') return ['г','кг'];
+    if (kind === 'volume') return ['мл','л'];
+    if (kind === 'piece') return ['шт'];
+    return ['г','кг','мл','л','шт'];
+  }
+
+  function applyFromPantry(item, st){
+    if (!item) return st;
+    st.pricePantryName = item.name;
+    if (item.pack){
+      st.priceMode = 'pack';
+      st.packAmount = String(item.pack.amount);
+      st.packUnit = item.pack.unit;
+      st.packPrice = String(item.pack.price);
+    } else if (isFinite(item.price)){
+      st.priceMode = 'unit';
+      st.price = String(item.price);
+    }
+    return st;
+  }
+
+  function getRowState(item){
+    const key = item.lineIndex;
+    if (!rowState.has(key)){
+      const st = {
+        priceMode: 'unit',
+        price: '',
+        packAmount: '',
+        packUnit: defaultPackUnitFor(item.kind),
+        packPrice: '',
+        gramsOverride: '',
+        pricePantryName: null
+      };
+      // авто-подстановка из словаря
+      const matched = findInPantry(item.label);
+      applyFromPantry(matched, st);
+      rowState.set(key, st);
+    }
+    return rowState.get(key);
+  }
+
+  function renderRow(item){
+    const st = getRowState(item);
+    const isCustom = item.kind === 'custom';
+    const priceSuffix = priceUnitFor(item.kind);
+    const currency = currencyEl.value;
+
+    const row = document.createElement('div');
+    row.className = 'ing-row';
+
+    const cost = rowCost(item, st);
+    const matched = !!st.pricePantryName;
+
+    row.innerHTML = `
+      <div class="ing-name">${escapeHtml(item.label)}${matched ? ' <span class="saved-mark">из вашего списка</span>' : ''}<small>${rowAmountText(item)}</small></div>
+      <div class="ing-cost ${isFinite(cost) ? '' : 'empty'}" data-cost>${isFinite(cost) ? fmtMoney(cost) + ' ' + currency : '—'}</div>
+      <div class="ing-controls">
+        ${isCustom ? `<span class="mini-label">граммов в рецепте:</span><input class="mini-input grams-in" type="text" inputmode="decimal" pattern="[0-9.,]*" placeholder="г" value="${escapeHtml(st.gramsOverride)}">` : ''}
+        <div class="mini-toggle price-mode">
+          <button class="${st.priceMode === 'unit' ? 'active' : ''}" data-mode="unit">за единицу</button>
+          <button class="${st.priceMode === 'pack' ? 'active' : ''}" data-mode="pack">упаковкой</button>
+        </div>
+        <span class="mini-input-group unit-mode-fields" ${st.priceMode === 'unit' ? '' : 'hidden'}>
+          <input class="mini-input wide price-in" type="text" inputmode="decimal" pattern="[0-9.,]*" placeholder="—" value="${escapeHtml(st.price)}">
+          <span class="mini-label">${currency}${priceSuffix}</span>
+        </span>
+        <span class="mini-input-group pack-mode-fields" ${st.priceMode === 'pack' ? '' : 'hidden'}>
+          <span class="mini-label">упаковка</span>
+          <input class="mini-input pack-amount" type="text" inputmode="decimal" pattern="[0-9.,]*" placeholder="—" value="${escapeHtml(st.packAmount)}">
+          <select class="mini-select pack-unit">
+            ${packUnitOptionsFor(item.kind).map(u => `<option value="${u}" ${st.packUnit === u ? 'selected' : ''}>${u}</option>`).join('')}
+          </select>
+          <span class="mini-label">за</span>
+          <input class="mini-input pack-price" type="text" inputmode="decimal" pattern="[0-9.,]*" placeholder="—" value="${escapeHtml(st.packPrice)}">
+          <span class="mini-label">${currency}</span>
+        </span>
+        <button class="ing-add ${matched ? 'saved' : ''}" data-add>${matched ? '✓ в списке' : '➕ в список'}</button>
+      </div>
+    `;
+
+    // привязка событий
+    row.querySelectorAll('.price-mode button').forEach(b => {
+      b.addEventListener('click', () => {
+        st.priceMode = b.dataset.mode;
+        renderIngredients();
+      });
+    });
+
+    const gramsIn = row.querySelector('.grams-in');
+    if (gramsIn) gramsIn.addEventListener('input', e => { st.gramsOverride = e.target.value; recalc(); });
+    const priceIn = row.querySelector('.price-in');
+    if (priceIn) priceIn.addEventListener('input', e => { st.price = e.target.value; recalc(); });
+    const packAmount = row.querySelector('.pack-amount');
+    if (packAmount) packAmount.addEventListener('input', e => { st.packAmount = e.target.value; recalc(); });
+    const packPrice = row.querySelector('.pack-price');
+    if (packPrice) packPrice.addEventListener('input', e => { st.packPrice = e.target.value; recalc(); });
+    const packUnit = row.querySelector('.pack-unit');
+    if (packUnit) packUnit.addEventListener('change', e => { st.packUnit = e.target.value; recalc(); });
+
+    row.querySelector('[data-add]').addEventListener('click', () => {
+      openModal({ source: 'recipe', item, st });
+    });
+
+    return row;
+  }
+
+  function renderIngredients(){
+    const items = parseRecipe(recipeEl.value);
+    ingList.innerHTML = '';
+    if (items.length === 0){
+      ingList.innerHTML = '<div class="ing-empty">Вставьте рецепт слева — здесь появятся ингредиенты с полями цен.</div>';
+      updateSummary([]);
+      return;
+    }
+    items.forEach(item => ingList.appendChild(renderRow(item)));
+    updateSummary(items);
+  }
+
+  function recalc(){
+    const items = parseRecipe(recipeEl.value);
+    // обновим стоимости в строках
+    const rows = ingList.querySelectorAll('.ing-row');
+    items.forEach((item, i) => {
+      const st = getRowState(item);
+      const cost = rowCost(item, st);
+      const cell = rows[i] && rows[i].querySelector('[data-cost]');
+      if (cell){
+        if (isFinite(cost)){
+          cell.textContent = `${fmtMoney(cost)} ${currencyEl.value}`;
+          cell.classList.remove('empty');
+        } else {
+          cell.textContent = '—';
+          cell.classList.add('empty');
+        }
+      }
+    });
+    updateSummary(items);
+  }
+
+  function updateSummary(items){
+    const currency = currencyEl.value;
+    let total = 0, anyKnown = false;
+    items.forEach(item => {
+      const cost = rowCost(item, getRowState(item));
+      if (isFinite(cost)){ total += cost; anyKnown = true; }
+    });
+
+    const count = readNum(countEl.value) || 0;
+    const markup = readNum(markupEl.value) || 0;
+    const perUnit = count > 0 ? total / count : NaN;
+    const sellPer = perUnit * (1 + markup / 100);
+    const sellTotal = total * (1 + markup / 100);
+    const profit = sellTotal - total;
+
+    totalCostEl.textContent = anyKnown ? `${fmtMoney(total)} ${currency}` : '—';
+    perUnitCostEl.textContent = (anyKnown && isFinite(perUnit)) ? `${fmtMoney(perUnit)} ${currency}` : '—';
+    sellPerEl.textContent = (anyKnown && isFinite(sellPer)) ? `${fmtMoney(sellPer)} ${currency}` : '—';
+    sellTotalEl.textContent = (anyKnown && isFinite(sellTotal)) ? `${fmtMoney(sellTotal)} ${currency}` : '—';
+    profitEl.textContent = (anyKnown && isFinite(profit)) ? `${fmtMoney(profit)} ${currency}` : '—';
+
+    const k = 1 + markup / 100;
+    headerHint.textContent = `наценка ×${fmtNum(k, 2)}`;
+  }
+
+  // ============ Pantry UI ============
+  function renderPantry(){
+    const list = loadPrices().sort((a, b) => a.name.localeCompare(b.name, 'ru'));
+    pantryListEl.innerHTML = '';
+    if (list.length === 0){
+      pantryListEl.innerHTML = '<div class="pantry-empty">Пусто. Сохраняйте часто используемые продукты — будут подставляться автоматом.</div>';
+      pantryCountEl.textContent = 'пусто';
+      return;
+    }
+    pantryCountEl.textContent = `${list.length} поз.`;
+    list.forEach(item => {
+      const el = document.createElement('div');
+      el.className = 'pantry-item';
+      const priceText = item.pack
+        ? `${fmtNum(item.pack.amount)} ${item.pack.unit} / ${fmtMoney(item.pack.price)} ${currencyEl.value}`
+        : `${fmtMoney(item.price)} ${currencyEl.value}/${item.unit}`;
+      el.innerHTML = `
+        <div class="pn">${escapeHtml(item.name)}</div>
+        <div class="pp">${priceText}</div>
+        <button data-edit title="изменить">✏</button>
+        <button data-del title="удалить">✕</button>
+      `;
+      el.querySelector('[data-edit]').addEventListener('click', () => openModal({ source: 'pantry', existing: item }));
+      el.querySelector('[data-del]').addEventListener('click', () => {
+        if (confirm(`Удалить «${item.name}» из списка?`)){
+          removePrice(item.name);
+          renderPantry();
+          renderIngredients();
+        }
+      });
+      pantryListEl.appendChild(el);
+    });
+  }
+
+  // ============ Modal ============
+  let modalContext = null;
+
+  function openModal(ctx){
+    modalContext = ctx;
+    if (ctx.source === 'recipe'){
+      // префилл из строки рецепта
+      const { item, st } = ctx;
+      mName.value = simplifyName(item.label);
+      const initUnit = item.kind === 'volume' ? 'л' : (item.kind === 'piece' ? 'шт' : 'кг');
+      mUnit.value = initUnit;
+      const wantPack = st.priceMode === 'pack';
+      setMMode(wantPack ? 'pack' : 'unit');
+      mPrice.value = st.price || '';
+      mPackAmount.value = st.packAmount || '';
+      mPackUnit.value = st.packUnit || initUnit;
+      mPackPrice.value = st.packPrice || '';
+    } else if (ctx.source === 'pantry'){
+      const ex = ctx.existing;
+      mName.value = ex.name;
+      mUnit.value = ex.unit;
+      if (ex.pack){
+        setMMode('pack');
+        mPackAmount.value = ex.pack.amount;
+        mPackUnit.value = ex.pack.unit;
+        mPackPrice.value = ex.pack.price;
+        mPrice.value = '';
+      } else {
+        setMMode('unit');
+        mPrice.value = ex.price;
+        mPackAmount.value = '';
+        mPackPrice.value = '';
+      }
+    } else {
+      // новая запись
+      mName.value = '';
+      mUnit.value = 'кг';
+      setMMode('unit');
+      mPrice.value = '';
+      mPackAmount.value = '';
+      mPackUnit.value = 'кг';
+      mPackPrice.value = '';
+    }
+    updateModalUnits();
+    modalBg.classList.add('show');
+    setTimeout(() => mName.focus(), 50);
+  }
+
+  function closeModal(){
+    modalBg.classList.remove('show');
+    modalContext = null;
+  }
+
+  function setMMode(m){
+    mModeToggle.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.mode === m));
+    mUnitBlock.hidden = m !== 'unit';
+    mPackBlock.hidden = m !== 'pack';
+  }
+
+  function getMMode(){
+    return mModeToggle.querySelector('button.active').dataset.mode;
+  }
+
+  function updateModalUnits(){
+    const u = mUnit.value;
+    const c = currencyEl.value;
+    mPriceUnit.textContent = `${c}/${u}`;
+    mPackCurrency.textContent = c;
+    // сбрасываем pack-unit в соответствии (если несовместимо)
+    const opts = u === 'л' ? ['мл','л'] : (u === 'шт' ? ['шт'] : ['г','кг']);
+    mPackUnit.innerHTML = opts.map(o => `<option value="${o}">${o}</option>`).join('');
+    if (!opts.includes(mPackUnit.value)) mPackUnit.value = u;
+  }
+
+  function simplifyName(label){
+    // убираем число и единицу из начала
+    const noNum = label.replace(/^\s*\d+(?:[.,]\d+)?(?:\s*[–—-]\s*\d+(?:[.,]\d+)?)?/, '').trim();
+    const noUnit = noNum.replace(UNIT_RE, '').trim();
+    return noUnit || label;
+  }
+
+  mModeToggle.querySelectorAll('button').forEach(b => {
+    b.addEventListener('click', () => setMMode(b.dataset.mode));
+  });
+  mUnit.addEventListener('change', updateModalUnits);
+  mCancel.addEventListener('click', closeModal);
+  modalBg.addEventListener('click', e => { if (e.target === modalBg) closeModal(); });
+
+  mSave.addEventListener('click', () => {
+    const name = mName.value.trim();
+    if (!name){ alert('Укажите название'); return; }
+    const unit = mUnit.value;
+    const mModeVal = getMMode();
+    const item = { name, unit };
+    if (mModeVal === 'pack'){
+      const pa = readNum(mPackAmount.value);
+      const pp = readNum(mPackPrice.value);
+      const pu = mPackUnit.value;
+      if (!isFinite(pa) || !isFinite(pp) || pa <= 0){ alert('Заполните размер и цену упаковки'); return; }
+      item.pack = { amount: pa, unit: pu, price: pp };
+      item.price = (pu === unit) ? (pp / pa) : (pu === 'г' ? pp / pa * 1000 : pu === 'мл' ? pp / pa * 1000 : pp / pa);
+    } else {
+      const p = readNum(mPrice.value);
+      if (!isFinite(p) || p < 0){ alert('Укажите цену'); return; }
+      item.price = p;
+      item.pack = null;
+    }
+    savePrice(item);
+    closeModal();
+    renderPantry();
+    // авто-подстановить новый/обновлённый item в строки рецепта
+    rowState.clear(); // сбросим, чтобы перематчить из словаря
+    renderIngredients();
+  });
+
+  pantryAddBtn.addEventListener('click', () => openModal({ source: 'new' }));
+
+  pantryExportBtn.addEventListener('click', () => {
+    const data = JSON.stringify(loadPrices(), null, 2);
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `мой-список-цен-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  pantryImportBtn.addEventListener('click', () => pantryFile.click());
+  pantryFile.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const data = JSON.parse(reader.result);
+        if (!Array.isArray(data)) throw new Error('not array');
+        if (confirm(`Загрузить ${data.length} позиций? Текущий список будет заменён.`)){
+          replaceAll(data);
+          renderPantry();
+          rowState.clear();
+          renderIngredients();
+        }
+      } catch(err){
+        alert('Не удалось разобрать файл. Это должен быть JSON-массив с записями {name, unit, price, pack?}');
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  });
+
+  // ============ Mode portions/pieces ============
+  function applyMode(){
+    countLabel.textContent = mode === 'portions' ? 'На сколько порций' : 'Сколько штук';
+    countUnit.textContent = mode === 'portions' ? 'порций' : 'шт';
+    unitLabels.forEach(el => el.textContent = mode === 'portions' ? 'порцию' : 'штуку');
+    modeToggle.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+    recalc();
+  }
+
+  recipeEl.addEventListener('input', () => { rowState.clear(); renderIngredients(); });
+  currencyEl.addEventListener('change', () => { renderIngredients(); renderPantry(); });
+  countEl.addEventListener('input', recalc);
+  markupEl.addEventListener('input', recalc);
+  modeToggle.querySelectorAll('button').forEach(b => {
+    b.addEventListener('click', () => { mode = b.dataset.mode; applyMode(); });
+  });
+
+  resetBtn.addEventListener('click', () => {
+    recipeEl.value = '';
+    countEl.value = '';
+    markupEl.value = '50';
+    rowState.clear();
+    renderIngredients();
+    recipeEl.focus();
+  });
+
+  renderPantry();
+  applyMode();
+  renderIngredients();
+})();
+</script>
+</body>
+</html>
