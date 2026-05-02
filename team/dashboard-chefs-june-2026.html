@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дашборд готовности — Июнь 2026 · Клуб Планета Х</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root {
+  --accent: #E8632F;
+  --accent-dark: #C84F1F;
+  --accent-soft: #FEF3EE;
+  --green: #4CAF50;
+  --yellow: #FFC107;
+  --red: #E53935;
+  --text: #1F2937;
+  --gray-text: #6B7280;
+  --border: #E5E7EB;
+  --bg: #FAFAFA;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  background: white;
+  border-bottom: 1px solid var(--border);
+  padding: 20px 24px;
+  z-index: 100;
+  margin: -24px -24px 24px -24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.5em;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.header-subtitle {
+  font-size: 0.85em;
+  color: var(--gray-text);
+  margin-top: 2px;
+}
+
+.header-link {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 0.8em;
+  color: var(--accent);
+  text-decoration: none;
+}
+.header-link:hover { text-decoration: underline; }
+
+.snapshot-badge {
+  display: none;
+  margin-top: 6px;
+  padding: 3px 10px;
+  font-size: 0.75em;
+  background: #FFF7E6;
+  color: #B8860B;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+body.read-only .snapshot-badge { display: inline-block; }
+
+.header-meta {
+  display: flex;
+  gap: 24px;
+  font-size: 0.85em;
+  flex-wrap: wrap;
+}
+
+.meta-item { display: flex; flex-direction: column; gap: 2px; }
+.meta-key { color: var(--gray-text); font-size: 0.85em; }
+.meta-value { font-weight: 600; color: var(--text); }
+.meta-value.urgent { color: var(--red); }
+
+/* === Таймлайн === */
+.timeline-section {
+  margin-top: 16px;
+  padding: 14px 16px 36px;
+  background: var(--accent-soft);
+  border-radius: 8px;
+}
+
+.timeline-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85em;
+  margin-bottom: 14px;
+}
+
+.timeline-title-text { font-weight: 600; }
+.timeline-overall { font-weight: 700; color: var(--accent); }
+
+.timeline { position: relative; margin: 0 14px; }
+
+.timeline-track {
+  position: relative;
+  height: 6px;
+  background: white;
+  border-radius: 3px;
+}
+
+.timeline-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--accent);
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+.timeline-marker {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9em;
+  z-index: 2;
+}
+
+.timeline-marker.start { border-color: var(--gray-text); }
+.timeline-marker.chefs { border-color: var(--accent); }
+.timeline-marker.lock  { border-color: var(--red); }
+.timeline-marker.launch { border-color: var(--green); background: var(--green); color: white; }
+
+.timeline-marker .label {
+  position: absolute;
+  top: 36px;
+  white-space: nowrap;
+  font-size: 0.7em;
+  color: var(--gray-text);
+  text-align: center;
+  transform: translateX(-50%);
+  left: 50%;
+  font-weight: 500;
+}
+
+.timeline-pointer {
+  position: absolute;
+  top: -2px;
+  transform: translateX(-50%);
+  z-index: 3;
+}
+
+.timeline-pointer-dot {
+  width: 14px;
+  height: 14px;
+  background: var(--text);
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 0 0 2px var(--text);
+}
+
+.timeline-pointer .you-are-here {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.7em;
+  background: var(--text);
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.timeline-pointer .you-are-here::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: var(--text);
+  border-bottom: none;
+}
+
+/* === Карточки шефов === */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.chef-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+
+.chef-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.chef-card.complete {
+  border-color: var(--green);
+  background: linear-gradient(180deg, #F4FBF5 0%, white 100%);
+}
+
+.chef-card.risk { border-color: var(--red); }
+
+.chef-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+  gap: 12px;
+}
+
+.chef-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.chef-name { font-size: 1.05em; font-weight: 600; margin: 0; }
+
+.chef-folder-link {
+  color: var(--gray-text);
+  text-decoration: none;
+  font-size: 0.85em;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  transition: all 0.15s;
+}
+.chef-folder-link:hover { background: var(--accent-soft); color: var(--accent); }
+.chef-folder-link.disabled { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
+
+.chef-theme { font-size: 0.85em; color: var(--accent); margin-top: 2px; }
+.chef-status { font-size: 1.5em; line-height: 1; }
+
+.chef-progress { margin-bottom: 14px; }
+
+.chef-progress-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8em;
+  color: var(--gray-text);
+  margin-bottom: 6px;
+}
+.chef-progress-row .count { font-weight: 600; color: var(--text); }
+
+.progress-bar {
+  height: 8px;
+  background: #F3F4F6;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.checklist { list-style: none; padding: 0; margin: 0; }
+.checklist li {
+  display: flex;
+  align-items: center;
+  padding: 9px 0;
+  border-top: 1px solid var(--border);
+  user-select: none;
+}
+.checklist li:first-child { border-top: none; }
+
+.checkbox-area {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  cursor: pointer;
+  padding-right: 8px;
+  border-radius: 4px;
+  transition: background 0.1s;
+}
+.checkbox-area:hover { background: rgba(232, 99, 47, 0.04); }
+
+body.read-only .checkbox-area { cursor: default; }
+body.read-only .checkbox-area:hover { background: transparent; }
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.15s;
+  background: white;
+}
+.checkbox-area.checked .checkbox {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.checkbox-area.checked .checkbox::after {
+  content: '✓';
+  color: white;
+  font-weight: bold;
+  font-size: 0.85em;
+  line-height: 1;
+}
+
+.checklist-label { flex: 1; font-size: 0.88em; }
+.checkbox-area.checked .checklist-label {
+  color: var(--gray-text);
+  text-decoration: line-through;
+}
+
+.folder-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  color: var(--gray-text);
+  text-decoration: none;
+  font-size: 1em;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.folder-link:hover { background: var(--accent-soft); color: var(--accent); }
+.folder-link.disabled { opacity: 0.25; cursor: not-allowed; pointer-events: none; }
+
+.external-badge {
+  display: inline-block;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.65em;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+  vertical-align: middle;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.risks-section {
+  margin-top: 24px;
+  padding: 16px 20px;
+  background: white;
+  border: 1px solid var(--red);
+  border-left-width: 4px;
+  border-radius: 8px;
+}
+
+.risks-title {
+  font-size: 0.9em;
+  font-weight: 600;
+  margin: 0 0 10px;
+  color: var(--red);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.risks-list { margin: 0; padding-left: 20px; font-size: 0.9em; }
+.risks-list li { margin-bottom: 4px; }
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 32px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: white;
+  cursor: pointer;
+  font-size: 0.88em;
+  transition: all 0.15s;
+  font-family: inherit;
+  color: var(--text);
+}
+.btn:hover { background: #F3F4F6; border-color: #D1D5DB; }
+.btn-primary { background: var(--accent); color: white; border-color: var(--accent); }
+.btn-primary:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+
+body.read-only .hide-in-readonly { display: none; }
+
+.footer-note {
+  margin-top: 16px;
+  font-size: 0.78em;
+  color: var(--gray-text);
+  text-align: center;
+}
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 200;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 20px;
+  overflow-y: auto;
+}
+.modal-overlay.active { display: flex; }
+
+.modal {
+  background: white;
+  border-radius: 12px;
+  max-width: 720px;
+  width: 100%;
+  padding: 24px 28px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.modal h2 { margin: 0; font-size: 1.3em; color: var(--accent); }
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: var(--gray-text);
+  padding: 4px 8px;
+  line-height: 1;
+}
+.modal-close:hover { color: var(--text); }
+
+.modal-subtitle {
+  font-size: 0.85em;
+  color: var(--gray-text);
+  margin-bottom: 20px;
+}
+
+.modal-base-row {
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  background: var(--accent-soft);
+  border-radius: 8px;
+}
+.modal-base-row label {
+  display: block;
+  font-size: 0.85em;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.modal-base-row input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.85em;
+}
+.modal-base-row .hint {
+  font-size: 0.75em;
+  color: var(--gray-text);
+  margin-top: 4px;
+}
+
+.chef-block {
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.chef-block-header {
+  padding: 10px 14px;
+  background: #F9FAFB;
+  font-weight: 600;
+  font-size: 0.95em;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.chef-block-header:hover { background: #F3F4F6; }
+.chef-block-toggle {
+  font-size: 0.8em;
+  color: var(--gray-text);
+  transition: transform 0.2s;
+}
+.chef-block.open .chef-block-toggle { transform: rotate(90deg); }
+.chef-block-body { display: none; padding: 12px 14px; }
+.chef-block.open .chef-block-body { display: block; }
+
+.url-row { margin-bottom: 8px; }
+.url-row label {
+  display: block;
+  font-size: 0.78em;
+  color: var(--gray-text);
+  margin-bottom: 3px;
+}
+.url-row input {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.83em;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 600px) {
+  .header-top { flex-direction: column; }
+  .header-meta { gap: 16px; }
+}
+
+@media print {
+  .actions, .footer-note, .modal-overlay { display: none; }
+  body { background: white; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header class="header">
+    <div class="header-top">
+      <div>
+        <h1>Дашборд готовности — Июнь 2026</h1>
+        <div class="header-subtitle">Клуб Планета Х · Шефы · Фаза подготовки</div>
+        <span class="snapshot-badge">📅 Снимок от <span id="snapshot-date"></span> · только просмотр</span>
+        <a class="header-link hide-in-readonly" href="Дашборд_команды_Июнь_2026.html">→ Дашборд команды</a>
+      </div>
+      <div class="header-meta">
+        <div class="meta-item">
+          <span class="meta-key">Дедлайн шефов</span>
+          <span class="meta-value">19 мая · Д17</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-key">Старт продаж</span>
+          <span class="meta-value">1 июня · Д30</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-key">Сегодня</span>
+          <span class="meta-value" id="today">—</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-key">День цикла</span>
+          <span class="meta-value" id="day-number">—</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-section">
+      <div class="timeline-title">
+        <span class="timeline-title-text">Цикл подготовки запуска · 30 дней</span>
+        <span class="timeline-overall" id="overall-percent">0%</span>
+      </div>
+      <div class="timeline">
+        <div class="timeline-track">
+          <div class="timeline-progress" id="timeline-progress" style="width: 0%"></div>
+          <div class="timeline-marker start" style="left: 0%">
+            <span>Д1</span>
+            <div class="label">Старт работы<br>3 мая</div>
+          </div>
+          <div class="timeline-marker chefs" style="left: 55.17%">
+            <span>🔔</span>
+            <div class="label">Шефы сдают · Д17<br>19 мая</div>
+          </div>
+          <div class="timeline-marker lock" style="left: 79.31%">
+            <span>🔒</span>
+            <div class="label">Невозврат · Д24<br>26 мая</div>
+          </div>
+          <div class="timeline-marker launch" style="left: 100%">
+            <span>🚀</span>
+            <div class="label">Старт · Д30<br>1 июня</div>
+          </div>
+          <div class="timeline-pointer" id="timeline-pointer" style="display:none">
+            <div class="you-are-here" id="pointer-label">Д1</div>
+            <div class="timeline-pointer-dot"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div id="cards-grid" class="cards-grid"></div>
+
+  <div class="risks-section" id="risks-section" style="display:none">
+    <h3 class="risks-title">⚠ Шефы в зоне риска</h3>
+    <ul class="risks-list" id="risks-list"></ul>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-primary" onclick="saveSnapshot()">📸 Снимок PNG</button>
+    <button class="btn hide-in-readonly" onclick="exportTeamCopy()">💾 Скачать копию для команды</button>
+    <button class="btn hide-in-readonly" onclick="openLinksModal()">🔗 Настроить ссылки</button>
+    <button class="btn hide-in-readonly" onclick="exportJSON()">⬇ Экспорт</button>
+    <button class="btn hide-in-readonly" onclick="importJSON()">⬆ Импорт</button>
+    <button class="btn hide-in-readonly" onclick="resetState()">🔄 Сбросить галочки</button>
+  </div>
+
+  <div class="footer-note">
+    Состояние и ссылки сохраняются в этом браузере. Снимок PNG — для шары команде.
+  </div>
+
+</div>
+
+<div class="modal-overlay" id="links-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Ссылки на папки в Yandex.Disk</h2>
+      <button class="modal-close" onclick="closeLinksModal()">×</button>
+    </div>
+    <div class="modal-subtitle">Заполните ссылки один раз — кнопки 📂 рядом с пунктами начнут открывать соответствующие папки.</div>
+
+    <div class="modal-base-row">
+      <label for="base-folder">Корневая папка месяца (опционально)</label>
+      <input type="text" id="base-folder" placeholder="https://disk.yandex.ru/d/..." />
+      <div class="hint">Откроется по клику на иконку рядом с именем шефа, если ссылка для подпапки не задана.</div>
+    </div>
+
+    <div id="chef-blocks"></div>
+
+    <div class="modal-footer">
+      <button class="btn btn-primary" onclick="saveLinks()">Сохранить</button>
+      <button class="btn" onclick="closeLinksModal()">Отмена</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// === Встраиваемые данные (командная копия — read-only) ===
+const EMBEDDED_URLS  = { base: '', chefs: {} };
+const EMBEDDED_STATE = null;
+const EMBEDDED_DATE  = '02 мая 2026';
+// === ===
+
+const STATE_KEY = 'xplanet-dashboard-2026-06';
+const URLS_KEY  = 'xplanet-dashboard-2026-06-urls';
+
+const D1  = new Date('2026-05-03');
+const D30 = new Date('2026-06-01');
+const CHEFS_DEADLINE_DAY = 17;
+
+const CLOUD_BASE = 'https://disk.yandex.ru/client/disk/Планета Х материалы/Синхронизация команды/Клуб Планета Х/2026/06-Июнь';
+
+const FOLDER_NAMES = {
+  program:     '01-Программа',
+  ingredients: '02-Ингредиенты и инвентарь',
+  photos:      '03-Фото готовых блюд',
+  cuts:        '04-Нарезки для прогрева',
+  welcome:     '05-Приветствие',
+  lessons:     '06-Уроки'
+};
+
+function buildCloudUrl(parts) {
+  return CLOUD_BASE + '/' + parts.map(p => encodeURIComponent(p)).join('/');
+}
+
+const chefs = [
+  { id: 'avetisov',   name: 'Аветисов',   theme: 'Стейки и сковорода (С)',     cloudFolder: 'Аветисов — Стейки и сковорода',     external: false },
+  { id: 'travnikova', name: 'Травникова', theme: 'Лето для семьи (С)',         cloudFolder: 'Травникова — Лето для семьи',       external: false },
+  { id: 'andreeva',   name: 'Андреева',   theme: 'Сладкая выпечка (С)',        cloudFolder: 'Андреева — Сладкая выпечка',         external: false },
+  { id: 'buskina',    name: 'Бускина',    theme: 'Холодные мини-десерты (С)',  cloudFolder: 'Бускина — Холодные мини-десерты',   external: false },
+  { id: 'natali_vi',  name: 'Натали Ви',  theme: 'Мороженое (МК)',             cloudFolder: 'Натали Ви — Мороженое',              external: false },
+  { id: 'yasinskaya', name: 'Ясинская',   theme: 'Сыр (Ф)',                     cloudFolder: 'Ясинская (внешний) — Сыр',          external: true  }
+];
+
+function autoUrl(chefId, folderId) {
+  const chef = chefs.find(c => c.id === chefId);
+  if (!chef || !chef.cloudFolder) return '';
+  if (folderId === 'base' || !folderId) {
+    return buildCloudUrl(['00-Шефы', chef.cloudFolder]);
+  }
+  const subfolder = FOLDER_NAMES[folderId];
+  if (!subfolder) return buildCloudUrl(['00-Шефы', chef.cloudFolder]);
+  return buildCloudUrl(['00-Шефы', chef.cloudFolder, subfolder]);
+}
+
+const folders = [
+  { id: 'program',     label: '01 · Программа' },
+  { id: 'ingredients', label: '02 · Ингредиенты и инвентарь' },
+  { id: 'photos',      label: '03 · Фото готовых блюд' },
+  { id: 'cuts',        label: '04 · Нарезки для прогрева' },
+  { id: 'welcome',     label: '05 · Приветствие' },
+  { id: 'lessons',     label: '06 · Уроки (видео + описание + граммовки)' }
+];
+
+function isReadOnly() { return EMBEDDED_URLS !== null; }
+
+let state = loadState();
+let urls  = loadUrls();
+
+function loadState() {
+  if (EMBEDDED_STATE) return EMBEDDED_STATE;
+  try { return JSON.parse(localStorage.getItem(STATE_KEY)) || {}; }
+  catch { return {}; }
+}
+function saveState() {
+  if (isReadOnly()) return;
+  localStorage.setItem(STATE_KEY, JSON.stringify(state));
+}
+
+function loadUrls() {
+  if (EMBEDDED_URLS) return EMBEDDED_URLS;
+  try { return JSON.parse(localStorage.getItem(URLS_KEY)) || { base: '', chefs: {} }; }
+  catch { return { base: '', chefs: {} }; }
+}
+function saveUrls() {
+  if (isReadOnly()) return;
+  localStorage.setItem(URLS_KEY, JSON.stringify(urls));
+}
+
+function getDayNumber() {
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const d1 = new Date(D1);
+  d1.setHours(0,0,0,0);
+  const msPerDay = 1000 * 60 * 60 * 24;
+  return Math.floor((today - d1) / msPerDay) + 1;
+}
+
+function getChefState(chefId) {
+  if (!state[chefId]) state[chefId] = {};
+  return state[chefId];
+}
+
+function getChefProgress(chefId) {
+  const chef = getChefState(chefId);
+  const checked = folders.filter(f => chef[f.id]).length;
+  return { checked, total: folders.length };
+}
+
+function getUrl(chefId, folderId) {
+  const c = (urls.chefs && urls.chefs[chefId]) || {};
+  return c[folderId] || autoUrl(chefId, folderId);
+}
+
+function getChefBaseUrl(chefId) {
+  const c = (urls.chefs && urls.chefs[chefId]) || {};
+  return c.base || autoUrl(chefId, 'base') || urls.base || '';
+}
+
+function statusEmoji(checked, total) {
+  if (checked === 0) return '🔴';
+  if (checked < total / 2) return '🟡';
+  if (checked < total) return '🟠';
+  return '🟢';
+}
+
+function render() {
+  const grid = document.getElementById('cards-grid');
+  grid.innerHTML = '';
+
+  let totalChecked = 0;
+  let totalSlots = 0;
+  const risks = [];
+
+  chefs.forEach(chef => {
+    const { checked, total } = getChefProgress(chef.id);
+    totalChecked += checked;
+    totalSlots += total;
+
+    const percent = Math.round((checked / total) * 100);
+    const status = statusEmoji(checked, total);
+
+    if (checked < total / 2) {
+      risks.push({ name: chef.name, status, checked, total });
+    }
+
+    const chefBase = getChefBaseUrl(chef.id);
+
+    const card = document.createElement('div');
+    card.className = 'chef-card';
+    if (checked === total) card.classList.add('complete');
+    else if (checked < total / 2) card.classList.add('risk');
+
+    card.innerHTML = `
+      <div class="chef-card-header">
+        <div>
+          <div class="chef-name-row">
+            <span class="chef-name">${chef.name}</span>
+            ${chef.external ? '<span class="external-badge">Внешний</span>' : ''}
+            <a class="chef-folder-link ${chefBase ? '' : 'disabled'}"
+               href="${chefBase || '#'}"
+               target="_blank"
+               rel="noopener"
+               title="${chefBase ? 'Открыть папку шефа' : 'Ссылка не задана'}">📂 папка</a>
+          </div>
+          <div class="chef-theme">${chef.theme}</div>
+        </div>
+        <div class="chef-status">${status}</div>
+      </div>
+      <div class="chef-progress">
+        <div class="chef-progress-row">
+          <span>Сдано</span>
+          <span class="count">${checked} из ${total} · ${percent}%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: ${percent}%"></div>
+        </div>
+      </div>
+      <ul class="checklist">
+        ${folders.map(f => {
+          const isChecked = !!getChefState(chef.id)[f.id];
+          const url = getUrl(chef.id, f.id) || chefBase;
+          const linkClass = url ? '' : 'disabled';
+          const title = url ? 'Открыть папку' : 'Ссылка не задана';
+          return `
+            <li>
+              <div class="checkbox-area ${isChecked ? 'checked' : ''}"
+                   data-chef="${chef.id}" data-folder="${f.id}">
+                <div class="checkbox"></div>
+                <div class="checklist-label">${f.label}</div>
+              </div>
+              <a class="folder-link ${linkClass}"
+                 href="${url || '#'}"
+                 target="_blank"
+                 rel="noopener"
+                 title="${title}">📂</a>
+            </li>
+          `;
+        }).join('')}
+      </ul>
+    `;
+    grid.appendChild(card);
+  });
+
+  if (!isReadOnly()) {
+    document.querySelectorAll('.checkbox-area').forEach(area => {
+      area.addEventListener('click', () => {
+        const chefId = area.dataset.chef;
+        const folderId = area.dataset.folder;
+        const chefState = getChefState(chefId);
+        chefState[folderId] = !chefState[folderId];
+        saveState();
+        render();
+      });
+    });
+  }
+
+  const overallPercent = totalSlots > 0 ? Math.round((totalChecked / totalSlots) * 100) : 0;
+  document.getElementById('overall-percent').textContent = overallPercent + '%';
+
+  const risksSection = document.getElementById('risks-section');
+  const risksList = document.getElementById('risks-list');
+  if (risks.length > 0) {
+    risksSection.style.display = 'block';
+    const sorted = risks.sort((a, b) => a.checked - b.checked).slice(0, 3);
+    risksList.innerHTML = sorted.map(r => `<li>${r.status} <strong>${r.name}</strong> — сдано ${r.checked} из ${r.total}</li>`).join('');
+  } else {
+    risksSection.style.display = 'none';
+  }
+}
+
+function renderTimeline() {
+  const dayNum = getDayNumber();
+  const pointer = document.getElementById('timeline-pointer');
+  const pointerLabel = document.getElementById('pointer-label');
+  const progressEl = document.getElementById('timeline-progress');
+
+  if (dayNum >= 1 && dayNum <= 30) {
+    const pos = ((dayNum - 1) / 29) * 100;
+    pointer.style.display = 'block';
+    pointer.style.left = pos + '%';
+    pointerLabel.textContent = 'Д' + dayNum;
+    progressEl.style.width = pos + '%';
+  } else if (dayNum > 30) {
+    pointer.style.display = 'block';
+    pointer.style.left = '100%';
+    pointerLabel.textContent = 'после Д30';
+    progressEl.style.width = '100%';
+  } else {
+    pointer.style.display = 'none';
+    progressEl.style.width = '0%';
+  }
+}
+
+function renderMeta() {
+  const today = new Date();
+  document.getElementById('today').textContent = today.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
+
+  const dayNum = getDayNumber();
+  const el = document.getElementById('day-number');
+  if (dayNum < 1) {
+    el.textContent = 'до Д1: ' + (1 - dayNum) + ' дн.';
+    el.classList.remove('urgent');
+  } else if (dayNum > 30) {
+    el.textContent = 'цикл завершён';
+    el.classList.remove('urgent');
+  } else if (dayNum > CHEFS_DEADLINE_DAY) {
+    el.textContent = 'Д' + dayNum + ' · после дедлайна шефов';
+    el.classList.add('urgent');
+  } else {
+    el.textContent = 'Д' + dayNum;
+    if (dayNum >= CHEFS_DEADLINE_DAY - 3) el.classList.add('urgent');
+    else el.classList.remove('urgent');
+  }
+}
+
+function resetState() {
+  if (confirm('Сбросить все галочки? Действие необратимо.\n\nСсылки на папки сохранятся.')) {
+    state = {};
+    saveState();
+    render();
+  }
+}
+
+function exportJSON() {
+  const payload = { state, urls };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  const today = new Date().toISOString().split('T')[0];
+  a.download = `дашборд-июнь-2026_${today}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importJSON() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'application/json';
+  input.onchange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const payload = JSON.parse(reader.result);
+        if (payload.state) { state = payload.state; saveState(); }
+        if (payload.urls)  { urls  = payload.urls;  saveUrls(); }
+        if (!payload.state && !payload.urls) {
+          state = payload;
+          saveState();
+        }
+        render();
+      } catch {
+        alert('Не удалось прочитать файл — проверьте, что это корректный JSON.');
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+function saveSnapshot() {
+  if (typeof html2canvas === 'undefined') {
+    alert('Не загрузился html2canvas (нужен интернет). Альтернатива: Ctrl+P → сохранить как PDF.');
+    return;
+  }
+  const node = document.querySelector('.container');
+  html2canvas(node, { backgroundColor: '#FAFAFA', scale: 2 }).then(canvas => {
+    const link = document.createElement('a');
+    const today = new Date().toISOString().split('T')[0];
+    link.download = `дашборд-июнь-2026_${today}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+}
+
+function exportTeamCopy() {
+  closeLinksModal();
+  const today = new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  const urlsJson  = JSON.stringify(urls);
+  const stateJson = JSON.stringify(state);
+  const dateJson  = JSON.stringify(today);
+
+  let html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+
+  html = html.replace('const EMBEDDED_URLS  = null;',  'const EMBEDDED_URLS  = ' + urlsJson + ';');
+  html = html.replace('const EMBEDDED_STATE = null;', 'const EMBEDDED_STATE = ' + stateJson + ';');
+  html = html.replace('const EMBEDDED_DATE  = null;', 'const EMBEDDED_DATE  = ' + dateJson + ';');
+
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  const dateStr = new Date().toISOString().split('T')[0];
+  a.download = `Дашборд_шефов_для_команды_${dateStr}.html`;
+  a.click();
+  URL.revokeObjectURL(url);
+
+  alert('Файл скачан. Положите его в Yandex.Disk в папку «Шаблоны и инструкции» — команда сможет открывать оттуда и переходить по ссылкам в нужные папки.');
+}
+
+function openLinksModal() {
+  document.getElementById('base-folder').value = urls.base || '';
+  const wrap = document.getElementById('chef-blocks');
+  wrap.innerHTML = chefs.map(chef => {
+    const c = (urls.chefs && urls.chefs[chef.id]) || {};
+    return `
+      <div class="chef-block">
+        <div class="chef-block-header" onclick="this.parentElement.classList.toggle('open')">
+          <span>${chef.name} — ${chef.theme}</span>
+          <span class="chef-block-toggle">▶</span>
+        </div>
+        <div class="chef-block-body">
+          <div class="url-row">
+            <label>Корневая папка шефа</label>
+            <input type="text" data-chef="${chef.id}" data-folder="base" value="${c.base || ''}" placeholder="https://disk.yandex.ru/d/..." />
+          </div>
+          ${folders.map(f => `
+            <div class="url-row">
+              <label>${f.label}</label>
+              <input type="text" data-chef="${chef.id}" data-folder="${f.id}" value="${c[f.id] || ''}" placeholder="https://disk.yandex.ru/d/..." />
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+  document.getElementById('links-modal').classList.add('active');
+}
+
+function closeLinksModal() {
+  document.getElementById('links-modal').classList.remove('active');
+}
+
+function saveLinks() {
+  urls.base = document.getElementById('base-folder').value.trim();
+  if (!urls.chefs) urls.chefs = {};
+  document.querySelectorAll('#chef-blocks input').forEach(inp => {
+    const chefId = inp.dataset.chef;
+    const folderId = inp.dataset.folder;
+    if (!urls.chefs[chefId]) urls.chefs[chefId] = {};
+    urls.chefs[chefId][folderId] = inp.value.trim();
+  });
+  saveUrls();
+  closeLinksModal();
+  render();
+}
+
+document.getElementById('links-modal').addEventListener('click', e => {
+  if (e.target.id === 'links-modal') closeLinksModal();
+});
+
+// Применяем read-only режим если файл открыт как «копия для команды»
+if (isReadOnly()) {
+  document.body.classList.add('read-only');
+  if (EMBEDDED_DATE) {
+    const el = document.getElementById('snapshot-date');
+    if (el) el.textContent = EMBEDDED_DATE;
+  }
+  // В read-only тоже можно сделать снимок — оставляем кнопку
+  // Остальные кнопки скрыты через CSS .hide-in-readonly
+}
+
+renderMeta();
+renderTimeline();
+render();
+setInterval(() => { renderMeta(); renderTimeline(); }, 60000);
+</script>
+
+</body>
+</html>

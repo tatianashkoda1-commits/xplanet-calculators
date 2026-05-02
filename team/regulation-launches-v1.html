@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Регламент №3 — Запуски и воронки · Клуб Планета Х</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:    #FDF8F3;
+  --terra:    #E85D3A;
+  --terra-d:  #C84E2F;
+  --gold:     #D4A052;
+  --gold-soft:#F5E8D0;
+  --dark:     #2D2A26;
+  --gray:     #6B645C;
+  --gray-l:   #C9C2B8;
+  --border:   #E8E0D5;
+  --green:    #4CAF50;
+  --red:      #E53935;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--dark);
+  background: var(--cream);
+}
+
+.page {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 56px 48px;
+  background: #fff;
+  box-shadow: 0 0 60px rgba(45, 42, 38, 0.06);
+}
+
+/* === Шапка === */
+
+.eyebrow {
+  font-family: 'Caveat', cursive;
+  font-size: 1.5em;
+  color: var(--terra);
+  margin: 0 0 8px;
+  letter-spacing: 0.2px;
+}
+
+h1 {
+  font-size: 2em;
+  margin: 0 0 4px;
+  letter-spacing: -0.5px;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.subtitle {
+  font-size: 0.95em;
+  color: var(--gray);
+  margin-bottom: 32px;
+}
+
+.divider {
+  width: 60px;
+  height: 3px;
+  background: var(--gold);
+  border: none;
+  margin: 0 0 32px;
+}
+
+/* === Содержание === */
+
+.toc {
+  background: var(--cream);
+  border-left: 3px solid var(--gold);
+  padding: 18px 24px;
+  margin-bottom: 40px;
+  border-radius: 4px;
+}
+
+.toc-title {
+  font-size: 0.78em;
+  font-weight: 700;
+  color: var(--gray);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 22px;
+  font-size: 0.92em;
+}
+
+.toc li {
+  padding: 3px 0;
+}
+
+.toc a {
+  color: var(--dark);
+  text-decoration: none;
+}
+
+.toc a:hover {
+  color: var(--terra);
+  text-decoration: underline;
+}
+
+/* === Секции === */
+
+h2 {
+  font-size: 1.4em;
+  margin: 48px 0 12px;
+  color: var(--dark);
+  scroll-margin-top: 20px;
+}
+
+h2 .num {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  background: var(--terra);
+  color: white;
+  border-radius: 50%;
+  font-size: 0.7em;
+  font-weight: 700;
+  margin-right: 12px;
+  vertical-align: 2px;
+}
+
+h3 {
+  font-size: 1.05em;
+  margin: 24px 0 8px;
+  color: var(--dark);
+  font-weight: 600;
+}
+
+p { margin: 0 0 12px; }
+
+strong { font-weight: 600; color: var(--dark); }
+
+/* === Колбасы и блоки === */
+
+.callout {
+  background: var(--gold-soft);
+  border-left: 3px solid var(--gold);
+  padding: 14px 18px;
+  margin: 16px 0;
+  border-radius: 4px;
+  font-size: 0.95em;
+}
+
+.callout.warn {
+  background: #FFF4F2;
+  border-left-color: var(--terra);
+}
+
+.callout.lock {
+  background: #FBEAEA;
+  border-left-color: var(--red);
+}
+
+.callout-label {
+  font-family: 'Caveat', cursive;
+  font-size: 1.2em;
+  color: var(--terra);
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+
+.callout.lock .callout-label { color: var(--red); }
+
+/* === Таблица канвы === */
+
+table.canvas {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.88em;
+}
+
+table.canvas th, table.canvas td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+table.canvas th {
+  background: var(--cream);
+  color: var(--gray);
+  font-weight: 600;
+  font-size: 0.78em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+table.canvas td.day {
+  font-weight: 600;
+  color: var(--terra);
+  white-space: nowrap;
+}
+
+table.canvas tr.lock {
+  background: #FBEAEA;
+}
+table.canvas tr.lock td {
+  font-weight: 600;
+  color: var(--red);
+  text-align: center;
+}
+
+table.canvas tr.start td {
+  font-weight: 600;
+}
+
+/* === Список ролей === */
+
+.roles {
+  list-style: none;
+  margin: 12px 0;
+  padding: 0;
+}
+
+.roles li {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.roles li:last-child { border-bottom: none; }
+
+.roles .role-name {
+  font-weight: 600;
+  color: var(--dark);
+  display: inline-block;
+  min-width: 130px;
+}
+
+/* === Чек-лист === */
+
+.checklist {
+  margin: 16px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checklist li {
+  padding: 8px 0 8px 28px;
+  position: relative;
+  font-size: 0.95em;
+  border-bottom: 1px solid var(--border);
+}
+
+.checklist li:last-child { border-bottom: none; }
+
+.checklist li::before {
+  content: '☐';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  color: var(--gold);
+  font-size: 1.1em;
+}
+
+.checklist-group {
+  font-weight: 600;
+  color: var(--terra);
+  margin: 18px 0 4px;
+  font-size: 0.95em;
+}
+
+/* === Подвал === */
+
+.footer-meta {
+  margin-top: 60px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  font-size: 0.82em;
+  color: var(--gray);
+}
+
+.footer-meta strong { color: var(--dark); }
+
+/* === Псевдо-папка дерева === */
+
+pre.tree {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+  font-size: 0.82em;
+  line-height: 1.5;
+  font-family: 'SF Mono', Menlo, Consolas, monospace;
+  color: var(--dark);
+  overflow-x: auto;
+  margin: 14px 0;
+}
+
+/* === Печать === */
+
+@media print {
+  body { background: white; }
+  .page { box-shadow: none; padding: 0; max-width: none; }
+  h2 { page-break-after: avoid; }
+  table.canvas, .callout { page-break-inside: avoid; }
+}
+
+@media (max-width: 700px) {
+  .page { padding: 32px 20px; }
+  h1 { font-size: 1.6em; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <p class="eyebrow">Клуб Планета Х</p>
+  <h1>Регламент №3</h1>
+  <h1 style="font-weight: 500; color: var(--terra); margin-top: -4px;">Запуски и воронки</h1>
+  <p class="subtitle">Версия 1.0 · 02 мая 2026</p>
+  <hr class="divider">
+
+  <div class="toc">
+    <div class="toc-title">Содержание</div>
+    <ol>
+      <li><a href="#purpose">Зачем существует регламент</a></li>
+      <li><a href="#scope">Когда применяется</a></li>
+      <li><a href="#period">Период подготовки</a></li>
+      <li><a href="#canvas">Канва дедлайнов · Д1 — Д30</a></li>
+      <li><a href="#scenarios">Сценарии запуска А и Б</a></li>
+      <li><a href="#inputs">Артефакты на входе (до Д1)</a></li>
+      <li><a href="#cloud">Облако контента — Yandex.Disk</a></li>
+      <li><a href="#progon">Чек-лист финального прогона</a></li>
+      <li><a href="#review">Разбор запуска</a></li>
+      <li><a href="#versioning">Версионирование</a></li>
+    </ol>
+  </div>
+
+  <h2 id="purpose"><span class="num">1</span>Зачем существует регламент</h2>
+
+  <p>Чтобы запуск любого продукта собирался по понятной канве — без несостыковок на выходе, авральных дедлайнов и потери смыслов между ТЗ и реализацией.</p>
+
+  <p>Регламент — это <strong>технологическая карта запуска</strong>. У повара есть ТК блюда: ингредиенты с граммовкой, порядок шагов, температура, время, выход. У нас — то же самое, только для команды и продукта: что на входе, кто что делает, в каком порядке, к какому сроку, с каким качеством на выходе.</p>
+
+  <p>Регламент — рабочая гипотеза, не догма. После каждого запуска проводится <a href="#review">разбор</a> и при необходимости в документ вносятся правки.</p>
+
+  <h2 id="scope"><span class="num">2</span>Когда применяется</h2>
+
+  <ul class="roles">
+    <li><span class="role-name">Сценарий А</span>Запуск или обновление Клуба (новый сезон, новый формат, новая структура). T0 = открытие продаж = старт обучения. Уроки выходят потоком вт/пт.</li>
+    <li><span class="role-name">Сценарий Б</span>Интенсив, марафон, мастер-класс, флагман — отдельный платный продукт. T0 = открытие продаж, +7 дней до старта обучения.</li>
+  </ul>
+
+  <p>Постоянные продажи подписки Клуба между запусками регламентом не регулируются — это фоновый поток, у него своя логика.</p>
+
+  <h2 id="period"><span class="num">3</span>Период подготовки</h2>
+
+  <p>~30 дней от решения «запускаем» до Д30 (открытие продаж).</p>
+
+  <p>Дальше зависит от сценария:</p>
+  <ul>
+    <li><strong>Сценарий А:</strong> обучение с момента оплаты, уроки потоком вт/пт.</li>
+    <li><strong>Сценарий Б:</strong> +7 дней между Д30 (продажи) и стартом обучения. В это окно — закрытый чат для оплативших, дежурство кураторов, финальная волна продаж.</li>
+  </ul>
+
+  <h2 id="canvas"><span class="num">4</span>Канва дедлайнов · Д1 — Д30</h2>
+
+  <p>Цикл подготовки занимает 30 дней. Д1 — первый день работы над запуском, Д30 — старт продаж. Ниже — кто что делает в каждом окне.</p>
+
+  <h3>Фаза подготовки (общая для обоих сценариев)</h3>
+
+  <table class="canvas">
+    <thead>
+      <tr>
+        <th style="width: 90px">Окно</th>
+        <th>Что происходит</th>
+        <th style="width: 200px">Кто</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="start">
+        <td class="day">Д1 — Д5</td>
+        <td>Концепция продукта + ТЗ воронки + бриф для шефов с темами</td>
+        <td>Шкода + Толкын</td>
+      </tr>
+      <tr>
+        <td class="day">Д5 — Д9</td>
+        <td>Тексты продукта: лендинг, тарифы, welcome-бот</td>
+        <td>Яна</td>
+      </tr>
+      <tr>
+        <td class="day">Д5 — Д9</td>
+        <td>ТЗ шефам отправлено с чёткой датой сдачи (Д17)</td>
+        <td>Толкын</td>
+      </tr>
+      <tr>
+        <td class="day">Д9 — Д17</td>
+        <td>📦 Шефы сдают подготовительный пакет в свои папки в облаке</td>
+        <td>Шефы</td>
+      </tr>
+      <tr style="background: #FFF7E6">
+        <td class="day">🔔 Д17</td>
+        <td>Дедлайн сдачи. Несданное — звонок Толкын в этот же день</td>
+        <td>Толкын</td>
+      </tr>
+      <tr>
+        <td class="day">Д17 — Д23</td>
+        <td>Списки инвентаря и ингредиентов на сайт Клуба</td>
+        <td>Анжелика, Ольга<br>(каждая по своим 4 шефам)</td>
+      </tr>
+      <tr>
+        <td class="day">Д17 — Д23</td>
+        <td>Прогрев в TG, MAX, TikTok</td>
+        <td>Толкын лично</td>
+      </tr>
+      <tr>
+        <td class="day">Д17 — Д23</td>
+        <td>Адаптация прогрева под Instagram, VK Клипы</td>
+        <td>Диана</td>
+      </tr>
+      <tr>
+        <td class="day">Д17 — Д23</td>
+        <td>Email-цепочка прогрева, сценарий бота, тексты страницы оплаты</td>
+        <td>Яна</td>
+      </tr>
+      <tr>
+        <td class="day">Д17 — Д23</td>
+        <td>Юридическая вычитка обещаний (деньги, гарантии, сроки)</td>
+        <td>Катя</td>
+      </tr>
+      <tr>
+        <td class="day">Д17 — Д23</td>
+        <td>Настройка ботов, рассылок, лендинга</td>
+        <td>Лена</td>
+      </tr>
+      <tr class="lock">
+        <td class="day">🔒 Д24</td>
+        <td colspan="2">ТОЧКА НЕВОЗВРАТА. Дальше только мелкие правки. Никаких новых обещаний, тарифов, блоков. Если что-то фундаментально не так — стоп-сигнал и сдвиг Д30.</td>
+      </tr>
+      <tr>
+        <td class="day">Д24 — Д28</td>
+        <td>Финальный прогон по чек-листу → правки → повторный прогон</td>
+        <td>Диана → Яна / Толкын / Лена</td>
+      </tr>
+      <tr>
+        <td class="day">Д28 — Д29</td>
+        <td>Финальное «ОК»: всё связно, обещания совпадают, запускаем</td>
+        <td>Толкын</td>
+      </tr>
+      <tr>
+        <td class="day">Д28 — Д29</td>
+        <td>Запуск волны прогрева во всех 5 сетях</td>
+        <td>Толкын + Диана</td>
+      </tr>
+      <tr style="background: #F4FBF5">
+        <td class="day">🚀 Д30</td>
+        <td colspan="2">СТАРТ ПРОДАЖ</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout lock">
+    <span class="callout-label">🔒 Точка невозврата — Д24</span>
+    После Д24 разрешены только опечатки, ссылки, корректировка расписания. Запрещено: новые обещания, новые тарифы, изменение структуры воронки, перенос дат внутри прогрева. Если фундаментально не сходится — стоп-сигнал и сдвиг Д30.
+  </div>
+
+  <h2 id="scenarios"><span class="num">5</span>Сценарии запуска А и Б</h2>
+
+  <h3>Сценарий А — запуск или обновление Клуба</h3>
+
+  <p>Применяется, когда запускается новый сезон Клуба или обновляется формат подписки.</p>
+
+  <ul class="roles">
+    <li><span class="role-name">Д30</span>Открытие оплаты. Оплатил → доступ к платформе → может начинать смотреть уроки.</li>
+    <li><span class="role-name">Д30+</span>Уроки выходят постоянным потоком — вт и пт по плану месяца.</li>
+    <li><span class="role-name">Д31 — Д44</span>Мониторинг: количество регистраций, оплат, отказов. Оперативные правки если что-то ломается.</li>
+    <li><span class="role-name">Д44</span>Разбор запуска (15–30 минут командой).</li>
+  </ul>
+
+  <h3>Сценарий Б — интенсив, марафон, мастер-класс, флагман</h3>
+
+  <p>Применяется для отдельных платных продуктов с фиксированным стартом обучения.</p>
+
+  <ul class="roles">
+    <li><span class="role-name">Д30</span>Открытие продаж. Оплатившие попадают в <strong>закрытый чат</strong>. В закрепе — списки инвентаря и ингредиентов.</li>
+    <li><span class="role-name">Д30 — Д35</span>Кураторы (Анжелика и Ольга по своим шефам) дежурят в чате — отвечают на адаптационные вопросы. Шефы — на тематические.</li>
+    <li><span class="role-name">Д35 — Д37</span>Усиление коммуникации в чате («через 2 дня старт») + финальная волна продаж в публичных каналах.</li>
+    <li><span class="role-name">Д37</span>Старт обучения.</li>
+    <li><span class="role-name">Д38 — Д51</span>Обучение, поддержка в чате идёт.</li>
+    <li><span class="role-name">Д51</span>Разбор запуска.</li>
+  </ul>
+
+  <h2 id="inputs"><span class="num">6</span>Артефакты на входе (до Д1)</h2>
+
+  <p>До старта цикла должны быть готовы:</p>
+
+  <ul class="checklist">
+    <li>Решение Шкоды и Толкын о запуске продукта</li>
+    <li>Концепция продукта: что продаём, кому, какое обещание</li>
+    <li>Цена и тарифы (предварительно, может корректироваться к Д5)</li>
+    <li>Темы уроков по каждому шефу (известны заранее по годовому плану)</li>
+  </ul>
+
+  <h2 id="cloud"><span class="num">7</span>Облако контента — Yandex.Disk</h2>
+
+  <p><strong>Корневая папка:</strong> Клуб Планета Х. <strong>Владелец:</strong> Шкода. <strong>Администратор:</strong> Катя.</p>
+
+  <h3>Структура папок</h3>
+
+  <pre class="tree">Клуб Планета Х/
+├── 2026/
+│   ├── 05-Май/
+│   │   ├── 00-Шефы/
+│   │   │   ├── Аветисов — Казан и классика/
+│   │   │   │   ├── 01-Программа/
+│   │   │   │   ├── 02-Ингредиенты и инвентарь/
+│   │   │   │   ├── 03-Фото готовых блюд/
+│   │   │   │   ├── 04-Нарезки для прогрева/
+│   │   │   │   ├── 05-Приветствие/
+│   │   │   │   └── 06-Уроки/
+│   │   │   ├── Травникова — База детского меню/
+│   │   │   └── ...
+│   │   ├── 01-Прогрев/
+│   │   │   ├── TG/  MAX/  TikTok/  Instagram/  VK Клипы/
+│   │   ├── 02-Лендинг и тексты продукта/
+│   │   ├── 03-Email-цепочка/
+│   │   ├── 04-Бот welcome/
+│   │   └── 05-Юр-документы/
+│   ├── 06-Июнь/
+│   └── ...
+├── 99-Личные черновики/
+│   ├── Толкын/  Яна/  Диана/  ...
+├── Шаблоны и инструкции/
+└── Архив запусков/</pre>
+
+  <h3>Правила использования</h3>
+
+  <ul class="checklist">
+    <li><strong>Шеф кладёт файлы в свою папку.</strong> Не в личку и не в чат.</li>
+    <li><strong>«Нет в облаке = не сдано».</strong> Если шеф пишет «отправил в Telegram» — Толкын просит переложить в облако.</li>
+    <li>Именование: <strong>ГГГГ-ММ-ДД_тип-урок-название.расширение</strong>. Пример: <code>2026-06-12_фото-плова.jpg</code></li>
+    <li>Удалять чужие файлы запрещено. Только Катя архивирует.</li>
+    <li>Структуру на новый месяц создаёт Катя за 5 дней до Д1 нового цикла.</li>
+    <li>Личные черновики — личная зона, никто кроме владельца не лезет.</li>
+  </ul>
+
+  <h3>Доступы</h3>
+
+  <ul class="roles">
+    <li><span class="role-name">Шкода</span>Все права на всё</li>
+    <li><span class="role-name">Катя</span>Администратор. Все права. Создаёт структуру каждый месяц, архивирует</li>
+    <li><span class="role-name">Толкын</span>Чтение и запись всё, кроме чужих личных черновиков</li>
+    <li><span class="role-name">Яна</span>Запись в 02-Лендинг, 03-Email, 04-Бот. Чтение шефов. Свои черновики</li>
+    <li><span class="role-name">Диана</span>Запись в 01-Прогрев/Instagram и VK Клипы. Чтение всех прогревов и шефов. Свои черновики</li>
+    <li><span class="role-name">Лена</span>Чтение всё. Запись в 04-Бот welcome если использует общие материалы</li>
+    <li><span class="role-name">Анжелика</span>Только чтение 00-Шефы своих 4 шефов. Без прав записи</li>
+    <li><span class="role-name">Ольга</span>Только чтение 00-Шефы своих 4 шефов. Без прав записи</li>
+    <li><span class="role-name">Шефы</span>Запись только в свою папку текущего месяца. Чтение «Шаблоны и инструкции». Не видят других шефов</li>
+  </ul>
+
+  <h2 id="progon"><span class="num">8</span>Чек-лист финального прогона</h2>
+
+  <p>Применяется в окне <strong>Д24 — Д28</strong>. Делает Диана: проходит воронку как клиент — подписался → бот → email → лендинг → оплата. На каждом шаге сверяет.</p>
+
+  <p class="checklist-group">Связность обещаний</p>
+  <ul class="checklist">
+    <li>Цены везде совпадают (лендинг, бот, email, страница оплаты)</li>
+    <li>Сроки и даты везде совпадают (старт, длительность, окна доступа)</li>
+    <li>Состав продукта одинаков (количество уроков, что входит в тариф)</li>
+    <li>Тарифы (Стандарт / ПРО) везде описаны одинаково</li>
+    <li>Эксперты и регалии — те же, в том же составе</li>
+  </ul>
+
+  <p class="checklist-group">Технические проверки</p>
+  <ul class="checklist">
+    <li>Все ссылки кликабельны и ведут куда заявлено</li>
+    <li>Кнопки работают</li>
+    <li>Бот идёт по сценарию без обрывов</li>
+    <li>Email-цепочка приходит в правильном порядке и в нужные дни</li>
+    <li>Тестовый платёж проходит до конца</li>
+  </ul>
+
+  <p class="checklist-group">Тон и оформление</p>
+  <ul class="checklist">
+    <li>Обращение единообразно — «вы» / «ты»</li>
+    <li>Имена и регалии экспертов написаны одинаково</li>
+    <li>Брендинг (лого, цвета) одинаковый везде</li>
+    <li>Опечаток нет</li>
+  </ul>
+
+  <p class="checklist-group">Логика воронки</p>
+  <ul class="checklist">
+    <li>Путь клиента не прерывается, нет тупиков</li>
+    <li>CTA понятен на каждом шаге</li>
+    <li>Логика реактивации не оплативших продумана</li>
+  </ul>
+
+  <p>После прогона — список найденных несостыковок передаётся Яне (тексты), Толкын (стратегические), Лене (настройка). Повторный прогон после правок. Финальное «ОК» — Толкын.</p>
+
+  <h2 id="review"><span class="num">9</span>Разбор запуска</h2>
+
+  <ul class="roles">
+    <li><span class="role-name">Когда</span>Д44 для Сценария А. Д51 для Сценария Б.</li>
+    <li><span class="role-name">Длительность</span>15–30 минут командой</li>
+    <li><span class="role-name">Записывает</span>Катя — как держатель документации проекта</li>
+  </ul>
+
+  <h3>Три вопроса</h3>
+
+  <ol>
+    <li><strong>Что сработало?</strong> Что повторим в следующий раз.</li>
+    <li><strong>Что не сработало?</strong> Что не повторим или меняем.</li>
+    <li><strong>Что меняем в регламенте?</strong> Правки фиксируются сразу в документ — иначе забудутся.</li>
+  </ol>
+
+  <h3>Метрики для разбора</h3>
+
+  <ul class="checklist">
+    <li>Сколько вошло в воронку?</li>
+    <li>Сколько дошло до оплаты?</li>
+    <li>Сколько оплатило?</li>
+    <li>Какой пост / какой шаг дал больше всего регистраций?</li>
+    <li>Сколько отказов, на каком шаге, почему?</li>
+  </ul>
+
+  <div class="callout">
+    <span class="callout-label">Без разбора регламент мёртв</span>
+    Любой регламент через 2–3 запуска без обновления превращается в мёртвую бумажку. Проект меняется быстрее, чем правила. Поэтому разбор — обязательная часть регламента, не опция.
+  </div>
+
+  <h2 id="versioning"><span class="num">10</span>Версионирование</h2>
+
+  <p>Любые правки регламента вносятся <strong>после разбора запуска</strong> или по решению Шкоды. Версия и дата фиксируются в шапке документа.</p>
+
+  <p>История изменений ведётся отдельно — в файле <code>Регламент_03_changelog.txt</code> в той же папке. Каждое изменение: дата, версия, что изменилось, кто внёс.</p>
+
+  <div class="footer-meta">
+    <p><strong>Регламент №3 · Запуски и воронки</strong><br>
+    Клуб Планета Х · Версия 1.0 · 02 мая 2026</p>
+    <p>Это <strong>рабочая гипотеза</strong>. Первый запуск проверит её на практике. После разбора — обновляем.</p>
+  </div>
+
+</div>
+
+</body>
+</html>
