@@ -86,6 +86,26 @@ h1 {
   border-color: var(--terra);
 }
 
+.card.disabled {
+  opacity: 0.55;
+  pointer-events: none;
+  cursor: default;
+  position: relative;
+}
+
+.card .soon {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 2px 10px;
+  background: var(--gold);
+  color: white;
+  border-radius: 12px;
+  font-size: 0.72em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 .card-icon {
   font-size: 2em;
   margin-bottom: 8px;
@@ -145,17 +165,19 @@ h1 {
       <div class="card-desc">Готовность пакетов от шефов. Кликабельные иконки 📂 ведут в нужные папки облака.</div>
     </a>
 
-    <a class="card" href="regulation-launches-v1.html">
+    <div class="card disabled">
       <div class="card-icon">📘</div>
       <div class="card-title">Регламент №3 · Запуски и воронки</div>
       <div class="card-desc">Канва 30 дней, роли, дедлайны, чек-лист прогона, разбор запуска.</div>
-    </a>
+      <div class="soon">Скоро</div>
+    </div>
 
-    <a class="card" href="chef-checklist-v1.html">
+    <div class="card disabled">
       <div class="card-icon">📋</div>
       <div class="card-title">Чек-лист шефа</div>
       <div class="card-desc">Что и когда сдать на запуск месяца. Для отправки шефам.</div>
-    </a>
+      <div class="soon">Скоро</div>
+    </div>
 
   </div>
 
