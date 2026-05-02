@@ -398,18 +398,18 @@ const D30 = new Date('2026-06-01');
 const TEAM_DEADLINE_DAY = 24;
 
 const networks = [
-  { id: 'tg',        icon: '✈️', name: 'Telegram',     owner: 'Толкын',  path: ['01-Прогрев', 'TG'] },
-  { id: 'max',       icon: '🟦', name: 'MAX',          owner: 'Толкын',  path: ['01-Прогрев', 'MAX'] },
-  { id: 'tiktok',    icon: '🎵', name: 'TikTok',       owner: 'Толкын',  path: ['01-Прогрев', 'TikTok'] },
-  { id: 'instagram', icon: '📷', name: 'Instagram',    owner: 'Диана',   path: ['01-Прогрев', 'Instagram'] },
-  { id: 'vk_clips',  icon: '📹', name: 'VK Клипы',     owner: 'Диана',   path: ['01-Прогрев', 'VK Клипы'] }
+  { id: 'tg',        name: 'Telegram',     owner: 'Толкын',  path: ['01-Прогрев', 'TG'] },
+  { id: 'max',       name: 'MAX',          owner: 'Толкын',  path: ['01-Прогрев', 'MAX'] },
+  { id: 'tiktok',    name: 'TikTok',       owner: 'Толкын',  path: ['01-Прогрев', 'TikTok'] },
+  { id: 'instagram', name: 'Instagram',    owner: 'Диана',   path: ['01-Прогрев', 'Instagram'] },
+  { id: 'vk_clips',  name: 'VK Клипы',     owner: 'Диана',   path: ['01-Прогрев', 'VK Клипы'] }
 ];
 
 const product = [
-  { id: 'landing', icon: '🌐', name: 'Лендинг и тексты продукта', owner: 'Яна',           path: ['02-Лендинг и тексты продукта'] },
-  { id: 'email',   icon: '📧', name: 'Email-цепочка',              owner: 'Яна',           path: ['03-Email-цепочка'] },
-  { id: 'bot',     icon: '🤖', name: 'Бот welcome',                owner: 'Яна + Лена',    path: ['04-Бот welcome'] },
-  { id: 'legal',   icon: '⚖️', name: 'Юр-документы',                owner: 'Катя',          path: ['05-Юр-документы'] }
+  { id: 'landing', name: 'Лендинг и тексты продукта', owner: 'Яна',           path: ['02-Лендинг и тексты продукта'] },
+  { id: 'email',   name: 'Email-цепочка',              owner: 'Яна',           path: ['03-Email-цепочка'] },
+  { id: 'bot',     name: 'Бот welcome',                owner: 'Яна + Лена',    path: ['04-Бот welcome'] },
+  { id: 'legal',   name: 'Юр-документы',                owner: 'Катя',          path: ['05-Юр-документы'] }
 ];
 
 function buildUrl(parts) {
@@ -424,13 +424,12 @@ function renderCards(items, gridId) {
     return `
       <a class="content-card" href="${url}" target="_blank" rel="noopener">
         <div class="card-top">
-          <span class="card-icon">${item.icon}</span>
           <div style="flex:1">
             <h3 class="card-title">${item.name}</h3>
             <p class="card-owner">${item.owner}</p>
           </div>
         </div>
-        <div class="card-folder">📂 ${folderPath}</div>
+        <div class="card-folder">${folderPath}</div>
         <div class="card-action">Открыть папку →</div>
       </a>
     `;
