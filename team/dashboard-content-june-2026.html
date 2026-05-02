@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дашборд контента — Июнь 2026 · Клуб Планета Х</title>
+<style>
+:root {
+  --accent: #E8632F;
+  --accent-dark: #C84F1F;
+  --accent-soft: #FEF3EE;
+  --green: #4CAF50;
+  --red: #E53935;
+  --text: #1F2937;
+  --gray-text: #6B7280;
+  --border: #E5E7EB;
+  --bg: #FAFAFA;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  background: white;
+  border-bottom: 1px solid var(--border);
+  padding: 20px 24px;
+  z-index: 100;
+  margin: -24px -24px 24px -24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.5em;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.header-subtitle {
+  font-size: 0.85em;
+  color: var(--gray-text);
+  margin-top: 2px;
+}
+
+.header-link {
+  display: inline-block;
+  margin-top: 6px;
+  margin-right: 12px;
+  font-size: 0.8em;
+  color: var(--accent);
+  text-decoration: none;
+}
+.header-link:hover { text-decoration: underline; }
+
+.header-meta {
+  display: flex;
+  gap: 24px;
+  font-size: 0.85em;
+  flex-wrap: wrap;
+}
+
+.meta-item { display: flex; flex-direction: column; gap: 2px; }
+.meta-key { color: var(--gray-text); font-size: 0.85em; }
+.meta-value { font-weight: 600; color: var(--text); }
+.meta-value.urgent { color: var(--red); }
+
+/* Таймлайн */
+.timeline-section {
+  margin-top: 16px;
+  padding: 14px 16px 36px;
+  background: var(--accent-soft);
+  border-radius: 8px;
+}
+
+.timeline-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85em;
+  margin-bottom: 14px;
+}
+
+.timeline-title-text { font-weight: 600; }
+
+.timeline { position: relative; margin: 0 14px; }
+
+.timeline-track {
+  position: relative;
+  height: 6px;
+  background: white;
+  border-radius: 3px;
+}
+
+.timeline-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--accent);
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+.timeline-marker {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9em;
+  z-index: 2;
+}
+
+.timeline-marker.start { border-color: var(--gray-text); }
+.timeline-marker.chefs { border-color: var(--accent); }
+.timeline-marker.lock  { border-color: var(--red); }
+.timeline-marker.launch { border-color: var(--green); background: var(--green); color: white; }
+
+.timeline-marker .label {
+  position: absolute;
+  top: 36px;
+  white-space: nowrap;
+  font-size: 0.7em;
+  color: var(--gray-text);
+  text-align: center;
+  transform: translateX(-50%);
+  left: 50%;
+  font-weight: 500;
+}
+
+.timeline-pointer {
+  position: absolute;
+  top: -2px;
+  transform: translateX(-50%);
+  z-index: 3;
+}
+
+.timeline-pointer-dot {
+  width: 14px;
+  height: 14px;
+  background: var(--text);
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 0 0 2px var(--text);
+}
+
+.timeline-pointer .you-are-here {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.7em;
+  background: var(--text);
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.timeline-pointer .you-are-here::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: var(--text);
+  border-bottom: none;
+}
+
+/* Группы и карточки */
+.group {
+  margin-top: 28px;
+}
+
+.group-title {
+  font-size: 0.78em;
+  font-weight: 700;
+  color: var(--gray-text);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 0 12px;
+  padding-left: 4px;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.content-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  text-decoration: none;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+  cursor: pointer;
+}
+
+.content-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+  border-color: var(--accent);
+}
+
+.content-card.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.card-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card-icon {
+  font-size: 1.6em;
+  line-height: 1;
+}
+
+.card-title {
+  font-size: 1em;
+  font-weight: 600;
+  margin: 0;
+  flex: 1;
+}
+
+.card-owner {
+  font-size: 0.8em;
+  color: var(--accent);
+  margin: 0;
+}
+
+.card-folder {
+  font-size: 0.72em;
+  color: var(--gray-text);
+  font-family: 'SF Mono', Menlo, Consolas, monospace;
+  background: var(--bg);
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin: 0;
+  word-break: break-all;
+}
+
+.card-action {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82em;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.footer-note {
+  margin-top: 32px;
+  padding: 16px 20px;
+  background: white;
+  border-left: 3px solid var(--accent);
+  border-radius: 4px;
+  font-size: 0.88em;
+}
+
+.footer-note strong { color: var(--accent); }
+
+@media (max-width: 600px) {
+  .header-top { flex-direction: column; }
+  .header-meta { gap: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header class="header">
+    <div class="header-top">
+      <div>
+        <h1>Дашборд контента — Июнь 2026</h1>
+        <div class="header-subtitle">Клуб Планета Х · Навигатор по материалам прогрева и продаж</div>
+        <div>
+          <a class="header-link" href="dashboard-chefs-june-2026.html">→ Дашборд шефов</a>
+          <a class="header-link" href="index.html">↑ Хаб команды</a>
+        </div>
+      </div>
+      <div class="header-meta">
+        <div class="meta-item">
+          <span class="meta-key">Точка невозврата</span>
+          <span class="meta-value">26 мая · Д24</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-key">Старт продаж</span>
+          <span class="meta-value">1 июня · Д30</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-key">Сегодня</span>
+          <span class="meta-value" id="today">—</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-key">День цикла</span>
+          <span class="meta-value" id="day-number">—</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-section">
+      <div class="timeline-title">
+        <span class="timeline-title-text">Цикл подготовки запуска · 30 дней</span>
+      </div>
+      <div class="timeline">
+        <div class="timeline-track">
+          <div class="timeline-progress" id="timeline-progress" style="width: 0%"></div>
+          <div class="timeline-marker start" style="left: 0%">
+            <span>Д1</span>
+            <div class="label">Старт работы<br>3 мая</div>
+          </div>
+          <div class="timeline-marker chefs" style="left: 55.17%">
+            <span>🔔</span>
+            <div class="label">Шефы сдают · Д17<br>19 мая</div>
+          </div>
+          <div class="timeline-marker lock" style="left: 79.31%">
+            <span>🔒</span>
+            <div class="label">Невозврат · Д24<br>26 мая</div>
+          </div>
+          <div class="timeline-marker launch" style="left: 100%">
+            <span>🚀</span>
+            <div class="label">Старт · Д30<br>1 июня</div>
+          </div>
+          <div class="timeline-pointer" id="timeline-pointer" style="display:none">
+            <div class="you-are-here" id="pointer-label">Д1</div>
+            <div class="timeline-pointer-dot"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="group">
+    <h2 class="group-title">Прогрев в соцсетях</h2>
+    <div class="cards-grid" id="grid-progrev"></div>
+  </div>
+
+  <div class="group">
+    <h2 class="group-title">Продукт и продажа</h2>
+    <div class="cards-grid" id="grid-product"></div>
+  </div>
+
+  <div class="footer-note">
+    <strong>Как пользоваться:</strong> кликните по карточке — попадёте в соответствующую папку Я.Диска. Если папка не открывается, попросите Шкоду или Катю расшарить её Вам по email.
+  </div>
+
+</div>
+
+<script>
+const CLOUD_BASE = 'https://disk.yandex.ru/client/disk/Планета Х материалы/Синхронизация команды/Клуб Планета Х/2026/06-Июнь';
+
+const D1  = new Date('2026-05-03');
+const D30 = new Date('2026-06-01');
+const TEAM_DEADLINE_DAY = 24;
+
+const networks = [
+  { id: 'tg',        icon: '✈️', name: 'Telegram',     owner: 'Толкын',  path: ['01-Прогрев', 'TG'] },
+  { id: 'max',       icon: '🟦', name: 'MAX',          owner: 'Толкын',  path: ['01-Прогрев', 'MAX'] },
+  { id: 'tiktok',    icon: '🎵', name: 'TikTok',       owner: 'Толкын',  path: ['01-Прогрев', 'TikTok'] },
+  { id: 'instagram', icon: '📷', name: 'Instagram',    owner: 'Диана',   path: ['01-Прогрев', 'Instagram'] },
+  { id: 'vk_clips',  icon: '📹', name: 'VK Клипы',     owner: 'Диана',   path: ['01-Прогрев', 'VK Клипы'] }
+];
+
+const product = [
+  { id: 'landing', icon: '🌐', name: 'Лендинг и тексты продукта', owner: 'Яна',           path: ['02-Лендинг и тексты продукта'] },
+  { id: 'email',   icon: '📧', name: 'Email-цепочка',              owner: 'Яна',           path: ['03-Email-цепочка'] },
+  { id: 'bot',     icon: '🤖', name: 'Бот welcome',                owner: 'Яна + Лена',    path: ['04-Бот welcome'] },
+  { id: 'legal',   icon: '⚖️', name: 'Юр-документы',                owner: 'Катя',          path: ['05-Юр-документы'] }
+];
+
+function buildUrl(parts) {
+  return CLOUD_BASE + '/' + parts.map(p => encodeURIComponent(p)).join('/');
+}
+
+function renderCards(items, gridId) {
+  const grid = document.getElementById(gridId);
+  grid.innerHTML = items.map(item => {
+    const url = buildUrl(item.path);
+    const folderPath = item.path.join(' / ');
+    return `
+      <a class="content-card" href="${url}" target="_blank" rel="noopener">
+        <div class="card-top">
+          <span class="card-icon">${item.icon}</span>
+          <div style="flex:1">
+            <h3 class="card-title">${item.name}</h3>
+            <p class="card-owner">${item.owner}</p>
+          </div>
+        </div>
+        <div class="card-folder">📂 ${folderPath}</div>
+        <div class="card-action">Открыть папку →</div>
+      </a>
+    `;
+  }).join('');
+}
+
+function getDayNumber() {
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const d1 = new Date(D1);
+  d1.setHours(0,0,0,0);
+  const msPerDay = 1000 * 60 * 60 * 24;
+  return Math.floor((today - d1) / msPerDay) + 1;
+}
+
+function renderTimeline() {
+  const dayNum = getDayNumber();
+  const pointer = document.getElementById('timeline-pointer');
+  const pointerLabel = document.getElementById('pointer-label');
+  const progressEl = document.getElementById('timeline-progress');
+
+  if (dayNum >= 1 && dayNum <= 30) {
+    const pos = ((dayNum - 1) / 29) * 100;
+    pointer.style.display = 'block';
+    pointer.style.left = pos + '%';
+    pointerLabel.textContent = 'Д' + dayNum;
+    progressEl.style.width = pos + '%';
+  } else if (dayNum > 30) {
+    pointer.style.display = 'block';
+    pointer.style.left = '100%';
+    pointerLabel.textContent = 'после Д30';
+    progressEl.style.width = '100%';
+  } else {
+    pointer.style.display = 'none';
+    progressEl.style.width = '0%';
+  }
+}
+
+function renderMeta() {
+  const today = new Date();
+  document.getElementById('today').textContent = today.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
+
+  const dayNum = getDayNumber();
+  const el = document.getElementById('day-number');
+  if (dayNum < 1) {
+    el.textContent = 'до Д1: ' + (1 - dayNum) + ' дн.';
+    el.classList.remove('urgent');
+  } else if (dayNum > 30) {
+    el.textContent = 'цикл завершён';
+    el.classList.remove('urgent');
+  } else if (dayNum > TEAM_DEADLINE_DAY) {
+    el.textContent = 'Д' + dayNum + ' · после точки невозврата';
+    el.classList.add('urgent');
+  } else {
+    el.textContent = 'Д' + dayNum;
+    if (dayNum >= TEAM_DEADLINE_DAY - 3) el.classList.add('urgent');
+    else el.classList.remove('urgent');
+  }
+}
+
+renderCards(networks, 'grid-progrev');
+renderCards(product,  'grid-product');
+renderMeta();
+renderTimeline();
+setInterval(() => { renderMeta(); renderTimeline(); }, 60000);
+</script>
+
+</body>
+</html>
