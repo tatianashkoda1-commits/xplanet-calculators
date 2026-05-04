@@ -1,0 +1,771 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Командный фотобанк · Клуб Планета Х</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #FDF8F3;
+  --terra: #E85D3A;
+  --terra-d: #C84E2F;
+  --gold: #D4A052;
+  --dark: #2D2A26;
+  --gray: #6B645C;
+  --border: #E8E0D5;
+  --hover: #F5EDE0;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--cream);
+  color: var(--dark);
+  font-size: 14px;
+  line-height: 1.4;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* === Sidebar === */
+.sidebar {
+  width: 280px;
+  background: white;
+  border-right: 1px solid var(--border);
+  padding: 20px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+.sidebar .eyebrow { font-family: 'Caveat', cursive; font-size: 1.4em; color: var(--terra); margin: 0 0 4px; }
+.sidebar h1 { font-size: 18px; margin: 0 0 4px; color: var(--dark); }
+.sidebar .subtitle { color: var(--gray); font-size: 12px; margin: 0 0 16px; }
+.sidebar .stats {
+  background: var(--cream);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  font-size: 12px;
+  border: 1px solid var(--border);
+}
+.sidebar .stats div { margin: 2px 0; }
+
+.search-box {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  margin-bottom: 12px;
+  background: white;
+}
+.search-box:focus { outline: none; border-color: var(--terra); }
+
+.filter-block { margin-bottom: 16px; }
+.filter-block h3 {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--terra);
+  margin: 0 0 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+.filter-block h3 .toggle { font-size: 14px; color: var(--gray); }
+.filter-block .options {
+  max-height: 220px;
+  overflow-y: auto;
+  font-size: 13px;
+}
+.filter-block.collapsed .options { display: none; }
+.filter-block label {
+  display: flex;
+  align-items: center;
+  padding: 4px 6px;
+  cursor: pointer;
+  border-radius: 4px;
+  gap: 6px;
+}
+.filter-block label:hover { background: var(--hover); }
+.filter-block label input { margin: 0; }
+.filter-block label .count {
+  margin-left: auto;
+  color: var(--gray);
+  font-size: 11px;
+}
+
+.btn {
+  width: 100%;
+  padding: 9px;
+  border: 1px solid var(--border);
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: inherit;
+  margin-bottom: 6px;
+  color: var(--dark);
+  transition: all 0.15s;
+}
+.btn:hover { background: var(--hover); border-color: var(--gold); }
+.btn.primary { background: var(--terra); color: white; border-color: var(--terra); }
+.btn.primary:hover { background: var(--terra-d); border-color: var(--terra-d); }
+
+/* === Main === */
+.main {
+  flex: 1;
+  padding: 20px;
+  min-width: 0;
+}
+.toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.toolbar select {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  background: white;
+  cursor: pointer;
+}
+.toolbar .count-info {
+  color: var(--gray);
+  font-size: 13px;
+  margin-left: auto;
+}
+
+/* === Grid === */
+.cat-section { margin-bottom: 28px; }
+.cat-heading {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--gold);
+  color: var(--terra);
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.cat-count {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--gray);
+  background: var(--cream);
+  padding: 1px 9px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
+}
+.card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(45, 42, 38, 0.08);
+  border-color: var(--terra);
+}
+.card .thumb {
+  width: 100%;
+  aspect-ratio: 1;
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.card .thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.card .info {
+  padding: 8px 10px;
+  font-size: 11px;
+}
+.card .info .name {
+  font-weight: 500;
+  color: var(--dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+.card .info .meta {
+  display: flex;
+  justify-content: space-between;
+  color: var(--gray);
+  font-size: 10px;
+}
+.card .fav {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: white;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+.card .my-tags-indicator {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: var(--gold);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* === Modal === */
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(45, 42, 38, 0.75);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-backdrop.open { display: flex; }
+.modal {
+  background: white;
+  border-radius: 14px;
+  max-width: 1100px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  overflow: hidden;
+}
+.modal .preview {
+  flex: 1;
+  background: var(--dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  min-width: 0;
+  position: relative;
+}
+.modal .preview img {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+}
+.modal .preview .copied-toast {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--terra);
+  color: white;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 10;
+}
+.modal .preview .copied-toast.show { opacity: 1; }
+.modal .details {
+  width: 360px;
+  flex-shrink: 0;
+  padding: 24px;
+  overflow-y: auto;
+  max-height: 90vh;
+}
+.modal .details h2 {
+  font-size: 14px;
+  margin: 0 0 14px;
+  font-family: ui-monospace, monospace;
+  word-break: break-all;
+}
+.field { margin-bottom: 14px; }
+.field-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--terra);
+  margin-bottom: 4px;
+}
+.field-value {
+  font-size: 13px;
+  color: var(--dark);
+}
+.tag-chip {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  margin: 2px 3px 2px 0;
+  background: var(--cream);
+  border: 1px solid var(--border);
+  color: var(--dark);
+}
+.tag-chip.auto { background: var(--cream); color: var(--gray); }
+input[type="text"], textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 13px;
+  background: white;
+}
+input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--terra); }
+textarea { min-height: 60px; resize: vertical; }
+
+.actions { display: flex; gap: 8px; margin-top: 12px; }
+.actions .btn { margin: 0; }
+
+.empty {
+  text-align: center;
+  color: var(--gray);
+  padding: 60px 20px;
+  font-size: 14px;
+}
+.empty .big { font-size: 24px; margin-bottom: 8px; }
+
+/* === Mobile === */
+@media (max-width: 720px) {
+  body { flex-direction: column; }
+  .sidebar { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid var(--border); }
+  .modal { flex-direction: column; max-height: 95vh; }
+  .modal .preview { padding: 16px; }
+  .modal .preview img { max-height: 50vh; }
+  .modal .details { width: 100%; max-height: 45vh; }
+  .cat-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <p class="eyebrow">Клуб Планета Х</p>
+  <h1>Командный фотобанк</h1>
+  <p class="subtitle">Лого, шефы, hero, промо — всё в одном месте</p>
+
+  <div class="stats" id="stats">Загрузка…</div>
+
+  <input type="text" class="search-box" id="search" placeholder="🔍 поиск по имени или тэгам">
+
+  <div class="toolbar" style="margin-bottom: 12px;">
+    <select id="sort" style="width:100%">
+      <option value="newest">Новые сверху</option>
+      <option value="oldest">Старые сверху</option>
+      <option value="name">По алфавиту</option>
+      <option value="size">По размеру</option>
+    </select>
+  </div>
+
+  <div class="filter-block" id="fb-category">
+    <h3>Категория <span class="toggle">▾</span></h3>
+    <div class="options" id="filter-category"></div>
+  </div>
+
+  <div class="filter-block" id="fb-ratio">
+    <h3>Формат <span class="toggle">▾</span></h3>
+    <div class="options" id="filter-ratio"></div>
+  </div>
+
+  <div class="filter-block" id="fb-special">
+    <h3>Свои отметки <span class="toggle">▾</span></h3>
+    <div class="options">
+      <label><input type="checkbox" id="filter-fav"> ❤️ Избранное <span class="count" id="cnt-fav">0</span></label>
+      <label><input type="checkbox" id="filter-mytags"> 🏷️ С моими тэгами <span class="count" id="cnt-mytags">0</span></label>
+    </div>
+  </div>
+
+  <button class="btn" onclick="resetFilters()">↺ сбросить фильтры</button>
+  <button class="btn" onclick="exportTags()">📥 экспорт моих тэгов</button>
+  <button class="btn" onclick="document.getElementById('import-file').click()">📤 импорт тэгов</button>
+  <input type="file" id="import-file" accept=".json" style="display:none" onchange="importTags(event)">
+</aside>
+
+<main class="main">
+  <div class="toolbar">
+    <span class="count-info" id="count-info"></span>
+  </div>
+
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" style="display:none">
+    <div class="big">🔍</div>
+    <div>Ничего не нашлось. Попробуй сбросить фильтры или поменять запрос.</div>
+  </div>
+</main>
+
+<!-- Modal -->
+<div class="modal-backdrop" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="preview">
+      <img id="modal-img" alt="" title="клик — скопировать ссылку Я.Диска">
+      <div class="copied-toast" id="copied-toast">✓ ссылка скопирована</div>
+    </div>
+    <div class="details" id="modal-details"></div>
+  </div>
+</div>
+
+<script>
+// === Индекс встраивается скриптом сборки ===
+window.__INDEX_DATA__ = /*###INDEX###*/{"generated":"2026-05-04T19:52:57.2650163+07:00","total_files":19,"newly":0,"reused":19,"files":[{"id":"0DDD5BC4A9DB90FA","name":"chef-bust.png","path":"disk:/Синхронизация команды/Клуб Планета Х/Командный фотобанк/01 · Лого/chef-bust.png","category":"01 · Лого","size":55094,"size_kb":53.8,"mime":"image/png","modified":"2026-05-04T12:05:30+00:00","sha256":"0ddd5bc4a9db90fa6ee410137e02c2057f38770b13eb993d56413b99646010f2","thumb":"_thumbs/0DDD5BC4A9DB90FA.jpg","public_url":"https://yadi.sk/i/BtzZulF_fdoENw","width":321,"height":374,"ratio":"vertical"},{"id":"62B1ACB933BE8708","name":"logo.png","path":"disk:/Синхронизация команды/Клуб Планета Х/Командный фотобанк/01 · Лого/logo.png","category":"01 · Лого","size":132451,"size_kb":129.3,"mime":"image/png","modified":"2026-05-04T12:05:27+00:00","sha256":"62b1acb933be8708090405a9663c2d5f90abaad0639b9b6a48387e4531384967","thumb":"_thumbs/62B1ACB933BE8708.jpg","public_url":"https://yadi.sk/i/y4iZJ0b9XXYALA","width":500,"height":273,"ratio":"horizontal"},{"id":"1CA2A2ED68D54C20","name":"andreeva.jpg","path":"disk:/Синхронизация команды/Клуб Планета Х/Командный фотобанк/02 · Шефы и портреты/andreeva.jpg","category":"02 · Шефы и портреты","size":94423,"size_kb":92.2,"mime":"image/jpeg","modified":"2026-05-04T12:05:36+00:00","sha256":"1ca2a2ed68d54c200e91b0684d1900e8fcaa9973e9284b5b6084512ff1ebdde8","thumb":"_thumbs/1CA2A2ED68D54C20.jpg","public_url":"https://yadi.sk/i/142B7vldNuNcGQ","width":400,"height":500,"ratio":"vertical"},{"id":"520D9214DB0BEEF8","name":"avetisov.jpg","path":"disk:/Синхронизация команды/Клуб Планета Х/Командный фотобанк/02 · Шефы и портреты/avetisov.jpg","category":"02 · Шефы и портреты","size":131472,"size_kb":128.4,"mime":"image/jpeg","modified":"2026-05-04T12:05:39+00:00","sha256":"520d9214db0beef8f5c9961328e441b091921a4813d4bf9eeacb888700f8af2f","thumb":"_thumbs/520D9214DB0BEEF8.jpg","public_url":"https://yadi.sk/i/oB1KI8Fg7023WA","width":400,"height":500,"ratio":"vertical"},{"id":"1A90531104A1A04A","name":"buskina.jpg","path":"disk:/Синхронизация команды/Клуб Планета Х/Командный фотобанк/02 · Шефы и портреты/buskina.jpg","category":"02 · Шефы и портреты","size":111803,"size_kb":109.2,"mime":"image/jpeg","modified":"2026-05-04T12:05:41+00:00","sha256":"1a90531104a1a04a8064d24df20d2c49ef6a7df565489c2aaae4f7c6aa031f9c","thumb":"_thumbs/1A90531104A1A04A.jpg","public_url":"https://yadi.sk/i/LYP6m8O4knmV9A","width":400,"height":500,"ratio":"vertical"},{"id":"2B06A0D113E09991","name":"semenyuk.jpg","path":"disk:/Синхронизация команды/Клуб Планета Х/Командный фотобанк/02 · Шефы и портреты/semenyuk.jpg","category":"02 · Шефы и портреты","size":91161,"size_kb":89,"mime":"image/jpeg","modified":"2026-05-04T12:05:44+00:00","sha256":"2b06a0d113e099916cb8f15be7271a568c8f76f94b5b0c75dafe9560fe64009c","thumb":"_thumbs/2B06A0D113E09991.jpg","public_url":"https://yadi.sk/i/fPkUDLXA26Pb0g","width":400,"height":500,"ratio":"vertical"},{"id":"CF72F96F95170A09","name":"travnikova.jpg","path":"disk:/Синхронизация команды/Клуб Планета Х/Командный фотобанк/02 · Шефы и портреты/travnikova.jpg","category":"02 · Шефы и портреты","size":103051,"size_kb":100.6,"mime":"image/jpeg","modified":"2026-05-04T12:05:49+00:00","sha256":"cf72f96f95170a093d444c4d1b7aebd50ec14ffab1a93be8c239a91846f6b3e3","thumb":"_thumbs/CF72F96F95170A09.jpg","public_url":"https://yadi.sk/i/uSiPLWB6q5G2jA","width":400,"height":500,"ratio":"vertical"},{"id":"E91126B99628C7EF","name":"vi.jpg","path":"disk:/Синхронизация команды/Клуб Планета Х/Командный фотобанк/02 · Шефы и портреты/vi.jpg","category":"02 · Шефы и портреты","size":91423,"size_kb":89.3,"mime":"image/jpeg","modified":"2026-05-04T12:05:52+00:00","sha256":"e91126b99628c7ef299b4f83a082c860d2482a15d5671feb217a1ac154ad8ddc","thumb":"_thumbs/E91126B99628C7EF.jpg","public_url":"https://yadi.sk/i/k_OhmQag9YI0dA","width":400,"height":500,"ratio":"vertical"},{"id":"0C9B499733372E0B","name":"volkova.jpg","path":"disk:/Синхронизация команды/Клуб Планета Х/Командный фотобанк/02 · Шефы и портреты/volkova.jpg","category":"02 · Шефы и портреты","size":95771,"size_kb":93.5,"mime":"image/jpeg","modified":"2026-05-04T12:05:55+00:00","sha256":"0c9b499733372e0b27300b0c732a355bcf9397b47f1e097b655672e7dfc8d0f2","thumb":"_thumbs/0C9B499733372E0B.jpg","public_url":"https://yadi.sk/i/ZrzIfn1vQBClsA","width":400,"height":500,"ratio":"vertical"},{"id":"BD0BA81FB04A4D20","name":"zharkov.jpg","path":"disk:/Синхронизация команды/Клуб Планета Х/Командный фотобанк/02 · Шефы и портреты/zharkov.jpg","category":"02 · Шефы и портреты","size":109002,"size_kb":106.4,"mime":"image/jpeg","modified":"2026-05-04T12:05:58+00:00","sha256":"bd0ba81fb04a4d209cb08f28ec5c7d72694d2c7f73a443e88b788f5e889dd8b0","thumb":"_thumbs/BD0BA81FB04A4D20.jpg","public_url":"https://yadi.sk/i/GcQ8A3-wrsjnfQ","width":400,"height":500,"ratio":"vertical"},{"id":"2EB3C03D14F94AB5","name":"татьяна.jpg","path":"disk:/Синхронизация команды/Клуб Планета Х/Командный фотобанк/02 · Шефы и портреты/татьяна.jpg","category":"02 · Шефы и портреты","size":945388,"size_kb":923.2,"mime":"image/png","modified":"2026-05-04T12:05:24+00:00","sha256":"2eb3c03d14f94ab5ae91c1a941e263f3221181c612db0a478d77770bdf569951","thumb":"_thumbs/2EB3C03D14F94AB5.jpg","public_url":"https://yadi.sk/i/m8naKQbbd0LSzg","width":403,"height":500,"ratio":"vertical"},{"id":"CCE9B1998312031F","name":"я и колбаса.jpg","path":"disk:/Синхронизация команды/Клуб Планета Х/Командный фотобанк/02 · Шефы и портреты/я и колбаса.jpg","category":"02 · Шефы и портреты","size":79772,"size_kb":77.9,"mime":"image/jpeg","modified":"2026-05-04T12:05:09+00:00","sha256":"cce9b1998312031f5e25bef547954844b56c17c38a940e277916dfea8d5ca8d8","thumb":"_thumbs/CCE9B1998312031F.jpg","public_url":"https://yadi.sk/i/zPMqJZ-C6Jg6sw","width":281,"height":500,"ratio":"vertical"},{"id":"1298B58042712455","name":"hero.png","path":"disk:/Синхронизация команды/Клуб Планета Х/Командный фотобанк/03 · Hero-обложки/hero.png","category":"03 · Hero-обложки","size":1794718,"size_kb":1752.7,"mime":"image/png","modified":"2026-05-04T12:05:14+00:00","sha256":"1298b580427124550318a27e366dde9d4a935345ebb453b3429691cb4dbb944f","thumb":"_thumbs/1298B58042712455.jpg","public_url":"https://yadi.sk/i/LZ188EXOxLkosw","width":335,"height":500,"ratio":"vertical"},{"id":"1A9BDD9F5810FF7E","name":"03-krekery.png","path":"disk:/Синхронизация команды/Клуб Планета Х/Командный фотобанк/04 · Промо и баннеры/03-krekery.png","category":"04 · Промо и баннеры","size":1747577,"size_kb":1706.6,"mime":"image/png","modified":"2026-05-04T12:06:23+00:00","sha256":"1a9bdd9f5810ff7e721cfc5b90e94ec285f6139cfbe21e3121a3305037561c72","thumb":"_thumbs/1A9BDD9F5810FF7E.jpg","public_url":"https://yadi.sk/i/NEx3ZFT7fBDzhw","width":500,"height":500,"ratio":"square"},{"id":"6D6A627D74DB0B51","name":"06-lukoviy-pirog.jpg","path":"disk:/Синхронизация команды/Клуб Планета Х/Командный фотобанк/04 · Промо и баннеры/06-lukoviy-pirog.jpg","category":"04 · Промо и баннеры","size":1719678,"size_kb":1679.4,"mime":"image/png","modified":"2026-05-04T12:06:18+00:00","sha256":"6d6a627d74db0b51a37c3cb36fc8d55187c8caa7cebb5455c381a9659be7f3de","thumb":"_thumbs/6D6A627D74DB0B51.jpg","public_url":"https://yadi.sk/i/BKJWSg3btKYLBA","width":500,"height":500,"ratio":"square"},{"id":"352822F63A2B5681","name":"01-hashlama.jpg","path":"disk:/Синхронизация команды/Клуб Планета Х/Командный фотобанк/05 · Заставки/01-hashlama.jpg","category":"05 · Заставки","size":1777966,"size_kb":1736.3,"mime":"image/png","modified":"2026-05-04T12:06:13+00:00","sha256":"352822f63a2b5681ff15cbae4066b88301e5e7d26c41229a8c670c107252946e","thumb":"_thumbs/352822F63A2B5681.jpg","public_url":"https://yadi.sk/i/uThESkI0LNvRaw","width":500,"height":500,"ratio":"square"},{"id":"D741FC5B5DA9D083","name":"foto-19-podliva-tomatnaya.png","path":"disk:/Синхронизация команды/Клуб Планета Х/Командный фотобанк/05 · Заставки/foto-19-podliva-tomatnaya.png","category":"05 · Заставки","size":6676431,"size_kb":6520,"mime":"image/png","modified":"2026-05-04T12:06:07+00:00","sha256":"d741fc5b5da9d08340421baac017c99459678f29e864c7ebaa469d6df4ab975d","thumb":"_thumbs/D741FC5B5DA9D083.jpg","public_url":"https://yadi.sk/i/VgFMY_rNOS33Kw","width":500,"height":500,"ratio":"square"},{"id":"23B350ABB02076F4","name":"shashlyk-8-churrasco.png","path":"disk:/Синхронизация команды/Клуб Планета Х/Командный фотобанк/05 · Заставки/shashlyk-8-churrasco.png","category":"05 · Заставки","size":2169885,"size_kb":2119,"mime":"image/png","modified":"2026-05-04T12:05:20+00:00","sha256":"23b350abb02076f477d63c54b36e197c5a02019e2c54a4fceadd55fee496bc08","thumb":"_thumbs/23B350ABB02076F4.jpg","public_url":"https://yadi.sk/i/b_w7VTpaBlDINw","width":500,"height":373,"ratio":"horizontal"},{"id":"347F7A2FC8668044","name":"logo-transparent.png","path":"disk:/Синхронизация команды/Клуб Планета Х/Командный фотобанк/06 · Сертификаты/logo-transparent.png","category":"06 · Сертификаты","size":104950,"size_kb":102.5,"mime":"image/png","modified":"2026-05-04T12:05:33+00:00","sha256":"347f7a2fc8668044de455bd10ec39c63e4e6e04522f3579d47e09ad47261f85e","thumb":"_thumbs/347F7A2FC8668044.jpg","public_url":"https://yadi.sk/i/KgMIncXVEgx6jQ","width":500,"height":273,"ratio":"horizontal"}]}/*###END###*/;
+
+let DATA = { files: [] };
+let TAGS = {};
+let FILTERED = [];
+let CURRENT_MODAL = null;
+
+const TAGS_KEY = 'photobank_team_tags_v1';
+
+function loadIndex() {
+  if (!window.__INDEX_DATA__) {
+    document.getElementById('grid').innerHTML = '<div class="empty"><div class="big">📭</div><div>Индекс ещё не собран. Запусти скрипт <code>Обновить-командный-фотобанк.ps1</code>.</div></div>';
+    document.getElementById('stats').textContent = 'Нет данных';
+    return;
+  }
+  DATA = window.__INDEX_DATA__;
+  TAGS = JSON.parse(localStorage.getItem(TAGS_KEY) || '{}');
+  buildFilters();
+  bindEvents();
+  applyFilters();
+  updateStats();
+}
+
+function escapeHtml(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function formatDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (isNaN(d)) return iso;
+  return d.toLocaleDateString('ru-RU', { day:'2-digit', month:'2-digit', year:'numeric' });
+}
+
+function getEntry(id) { return TAGS[id] || { tags: [], note: '', favorite: false }; }
+function saveTags() { localStorage.setItem(TAGS_KEY, JSON.stringify(TAGS)); }
+
+function updateStats() {
+  const total = DATA.files.length;
+  const favCount = Object.values(TAGS).filter(t => t.favorite).length;
+  const myTagsCount = Object.values(TAGS).filter(t => (t.tags && t.tags.length) || (t.note && t.note.length)).length;
+  const generated = DATA.generated ? formatDate(DATA.generated) : '';
+  document.getElementById('stats').innerHTML = `
+    <div>Всего: <b>${total}</b></div>
+    <div>В избранном: <b>${favCount}</b></div>
+    <div>С моими тэгами: <b>${myTagsCount}</b></div>
+    ${generated ? `<div style="margin-top:6px;color:var(--gray);font-size:11px">обновлено ${generated}</div>` : ''}
+  `;
+  document.getElementById('cnt-fav').textContent = favCount;
+  document.getElementById('cnt-mytags').textContent = myTagsCount;
+}
+
+function buildFilters() {
+  // Категории
+  const byCat = {};
+  DATA.files.forEach(f => { byCat[f.category] = (byCat[f.category] || 0) + 1; });
+  const catEl = document.getElementById('filter-category');
+  catEl.innerHTML = Object.keys(byCat).sort().map(c => `
+    <label><input type="checkbox" data-filter="category" value="${escapeHtml(c)}"> ${escapeHtml(c)} <span class="count">${byCat[c]}</span></label>
+  `).join('');
+
+  // Соотношения
+  const byR = {};
+  DATA.files.forEach(f => { byR[f.ratio || 'unknown'] = (byR[f.ratio || 'unknown'] || 0) + 1; });
+  const labels = { horizontal: '🔲 Горизонтальный', vertical: '🔲 Вертикальный', square: '⬛ Квадратный', unknown: '? Неизвестно' };
+  const rEl = document.getElementById('filter-ratio');
+  rEl.innerHTML = Object.keys(byR).sort().map(r => `
+    <label><input type="checkbox" data-filter="ratio" value="${escapeHtml(r)}"> ${labels[r] || r} <span class="count">${byR[r]}</span></label>
+  `).join('');
+}
+
+function applyFilters() {
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  const sort = document.getElementById('sort').value;
+  const favOnly = document.getElementById('filter-fav').checked;
+  const myTagsOnly = document.getElementById('filter-mytags').checked;
+  const catFilters = Array.from(document.querySelectorAll('input[data-filter="category"]:checked')).map(el => el.value);
+  const rFilters = Array.from(document.querySelectorAll('input[data-filter="ratio"]:checked')).map(el => el.value);
+
+  FILTERED = DATA.files.filter(f => {
+    const t = TAGS[f.id] || {};
+    if (catFilters.length && !catFilters.includes(f.category)) return false;
+    if (rFilters.length && !rFilters.includes(f.ratio || 'unknown')) return false;
+    if (favOnly && !t.favorite) return false;
+    if (myTagsOnly && !((t.tags && t.tags.length) || (t.note && t.note.length))) return false;
+    if (q) {
+      const hay = (f.name + ' ' + f.category + ' ' + (t.tags||[]).join(' ') + ' ' + (t.note||'')).toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+
+  if (sort === 'newest') FILTERED.sort((a,b) => (b.modified||'').localeCompare(a.modified||''));
+  else if (sort === 'oldest') FILTERED.sort((a,b) => (a.modified||'').localeCompare(b.modified||''));
+  else if (sort === 'name') FILTERED.sort((a,b) => (a.name||'').localeCompare(b.name||''));
+  else if (sort === 'size') FILTERED.sort((a,b) => (b.size||0) - (a.size||0));
+
+  renderGrid();
+}
+
+function renderGrid() {
+  const grid = document.getElementById('grid');
+  const empty = document.getElementById('empty');
+  document.getElementById('count-info').textContent = `${FILTERED.length} из ${DATA.files.length}`;
+
+  if (FILTERED.length === 0) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  const limit = 500;
+  const slice = FILTERED.slice(0, limit);
+
+  // Группируем по категории — порядок групп по алфавиту (01 · ... 07 · ...)
+  const groups = {};
+  for (const f of slice) {
+    const cat = f.category || '— без категории —';
+    if (!groups[cat]) groups[cat] = [];
+    groups[cat].push(f);
+  }
+  const sortedCats = Object.keys(groups).sort();
+
+  function renderCard(f) {
+    const t = TAGS[f.id] || {};
+    const fav = t.favorite ? '<div class="fav">❤️</div>' : '';
+    const myTags = (t.tags||[]).length > 0 || (t.note||'').length > 0 ? '<div class="my-tags-indicator">мои</div>' : '';
+    return `
+      <div class="card" data-id="${f.id}">
+        <div class="thumb"><img src="./${f.thumb}" loading="lazy" onerror="this.parentElement.innerHTML='⚠️'"></div>
+        <div class="info">
+          <div class="name" title="${escapeHtml(f.name)}">${escapeHtml(f.name)}</div>
+          <div class="meta">
+            <span>${f.size_kb < 1024 ? f.size_kb+' KB' : (f.size_kb/1024).toFixed(1)+' МБ'}</span>
+            <span>${escapeHtml(f.ratio || '')}</span>
+          </div>
+        </div>
+        ${fav}${myTags}
+      </div>
+    `;
+  }
+
+  grid.innerHTML = sortedCats.map(cat => `
+    <div class="cat-section">
+      <h2 class="cat-heading">${escapeHtml(cat)} <span class="cat-count">${groups[cat].length}</span></h2>
+      <div class="cat-grid">${groups[cat].map(renderCard).join('')}</div>
+    </div>
+  `).join('');
+
+  if (FILTERED.length > limit) {
+    grid.innerHTML += `<div style="text-align:center;padding:20px;color:var(--gray);">+ ещё ${FILTERED.length - limit}. Уточни фильтр для удобства.</div>`;
+  }
+}
+
+// === Modal ===
+function openModal(id) {
+  const f = DATA.files.find(x => x.id === id);
+  if (!f) return;
+  CURRENT_MODAL = f;
+  const t = getEntry(id);
+
+  const img = document.getElementById('modal-img');
+  img.src = './' + f.thumb;
+  img.onclick = () => copyPublicUrl();
+
+  document.getElementById('modal-details').innerHTML = `
+    <h2>${escapeHtml(f.name)}</h2>
+
+    <div class="field">
+      <div class="field-label">Категория</div>
+      <div>
+        <span class="tag-chip auto">📁 ${escapeHtml(f.category)}</span>
+        <span class="tag-chip auto">📐 ${escapeHtml(f.ratio || '—')}</span>
+        <span class="tag-chip auto">${f.width}×${f.height}</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-label">Размер · дата</div>
+      <div class="field-value">${f.size_kb < 1024 ? f.size_kb+' KB' : (f.size_kb/1024).toFixed(1)+' МБ'} · ${formatDate(f.modified)}</div>
+    </div>
+
+    <div class="field">
+      <div class="field-label">Мои тэги (через запятую, видны только тебе)</div>
+      <input type="text" id="my-tags-input" value="${escapeHtml((t.tags||[]).join(', '))}" placeholder="например: для лендинга мая">
+    </div>
+
+    <div class="field">
+      <div class="field-label">Заметка (только для тебя)</div>
+      <textarea id="my-note-input" placeholder="что-то о фото для себя">${escapeHtml(t.note || '')}</textarea>
+    </div>
+
+    <div class="actions">
+      <button class="btn ${t.favorite ? 'primary' : ''}" id="fav-btn" onclick="toggleFav()">${t.favorite ? '❤️ в избранном' : '🤍 в избранное'}</button>
+      <button class="btn primary" onclick="saveModalTags()">💾 сохранить</button>
+    </div>
+    <div class="actions">
+      <a class="btn" href="${escapeHtml(f.public_url)}" target="_blank" rel="noopener" style="text-align:center;text-decoration:none">📥 скачать с Я.Диска</a>
+    </div>
+    <div class="actions">
+      <button class="btn" onclick="copyPublicUrl()">🔗 скопировать ссылку</button>
+    </div>
+  `;
+
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  CURRENT_MODAL = null;
+}
+
+function toggleFav() {
+  if (!CURRENT_MODAL) return;
+  const id = CURRENT_MODAL.id;
+  if (!TAGS[id]) TAGS[id] = { tags: [], note: '', favorite: false };
+  TAGS[id].favorite = !TAGS[id].favorite;
+  saveTags();
+  const btn = document.getElementById('fav-btn');
+  if (TAGS[id].favorite) {
+    btn.textContent = '❤️ в избранном';
+    btn.classList.add('primary');
+  } else {
+    btn.textContent = '🤍 в избранное';
+    btn.classList.remove('primary');
+  }
+  updateStats();
+  renderGrid();
+}
+
+function saveModalTags() {
+  if (!CURRENT_MODAL) return;
+  const id = CURRENT_MODAL.id;
+  if (!TAGS[id]) TAGS[id] = { tags: [], note: '', favorite: false };
+  TAGS[id].tags = document.getElementById('my-tags-input').value.split(',').map(s => s.trim()).filter(Boolean);
+  TAGS[id].note = document.getElementById('my-note-input').value;
+  saveTags();
+  updateStats();
+  renderGrid();
+  // Маленький фидбек
+  const toast = document.getElementById('copied-toast');
+  toast.textContent = '✓ сохранено';
+  toast.classList.add('show');
+  setTimeout(() => { toast.classList.remove('show'); toast.textContent = '✓ ссылка скопирована'; }, 800);
+}
+
+function copyPublicUrl() {
+  if (!CURRENT_MODAL) return;
+  navigator.clipboard.writeText(CURRENT_MODAL.public_url).then(() => {
+    const toast = document.getElementById('copied-toast');
+    toast.textContent = '✓ ссылка скопирована';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 1000);
+  });
+}
+
+// === Управление ===
+function bindEvents() {
+  document.getElementById('search').addEventListener('input', debounce(applyFilters, 200));
+  document.getElementById('sort').addEventListener('change', applyFilters);
+  document.querySelectorAll('input[type="checkbox"]').forEach(el => {
+    el.addEventListener('change', applyFilters);
+  });
+  document.querySelectorAll('.filter-block h3').forEach(h => {
+    h.addEventListener('click', () => h.parentElement.classList.toggle('collapsed'));
+  });
+  document.getElementById('grid').addEventListener('click', e => {
+    const card = e.target.closest('.card');
+    if (!card) return;
+    openModal(card.dataset.id);
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+}
+
+function debounce(fn, ms) {
+  let t;
+  return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
+}
+
+function resetFilters() {
+  document.getElementById('search').value = '';
+  document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
+  applyFilters();
+}
+
+function exportTags() {
+  const blob = new Blob([JSON.stringify(TAGS, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `фотобанк-теги-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importTags(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    try {
+      const obj = JSON.parse(ev.target.result);
+      if (Object.keys(TAGS).length && !confirm('У тебя уже есть свои тэги. Заменить их этим импортом?')) return;
+      TAGS = obj;
+      saveTags();
+      updateStats();
+      renderGrid();
+      alert('Тэги импортированы');
+    } catch (err) {
+      alert('Не удалось прочитать файл: ' + err.message);
+    }
+  };
+  r.readAsText(file);
+}
+
+// === Старт ===
+loadIndex();
+</script>
+
+</body>
+</html>
