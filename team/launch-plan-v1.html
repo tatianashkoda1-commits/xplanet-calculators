@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Пошаговый план запуска · Клуб Планета Х</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:    #FDF8F3;
+  --terra:    #E85D3A;
+  --terra-d:  #C84E2F;
+  --gold:     #D4A052;
+  --gold-soft:#F5E8D0;
+  --dark:     #2D2A26;
+  --gray:     #6B645C;
+  --gray-l:   #C9C2B8;
+  --border:   #E8E0D5;
+  --green:    #4CAF50;
+  --red:      #E53935;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--dark);
+  background: var(--cream);
+}
+
+.page {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 56px 48px;
+  background: #fff;
+  box-shadow: 0 0 60px rgba(45, 42, 38, 0.06);
+}
+
+.eyebrow {
+  font-family: 'Caveat', cursive;
+  font-size: 1.5em;
+  color: var(--terra);
+  margin: 0 0 8px;
+}
+
+h1 {
+  font-size: 2em;
+  margin: 0 0 4px;
+  letter-spacing: -0.5px;
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 0.95em;
+  color: var(--gray);
+  margin-bottom: 32px;
+}
+
+.divider {
+  width: 60px;
+  height: 3px;
+  background: var(--gold);
+  border: none;
+  margin: 0 0 32px;
+}
+
+h2 {
+  font-size: 1.45em;
+  margin: 56px 0 4px;
+  color: var(--dark);
+  font-weight: 700;
+}
+
+h2 .phase-num {
+  font-family: 'Caveat', cursive;
+  color: var(--terra);
+  font-weight: 700;
+  margin-right: 8px;
+}
+
+.phase-range {
+  display: block;
+  font-size: 0.75em;
+  font-weight: 500;
+  color: var(--gray);
+  margin-top: 2px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.phase-intro {
+  margin: 12px 0 24px;
+  font-size: 0.95em;
+  color: var(--gray);
+}
+
+.day {
+  margin: 16px 0;
+  padding: 14px 18px;
+  border-left: 3px solid var(--gold);
+  background: var(--cream);
+  border-radius: 4px;
+}
+
+.day-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.day-num {
+  font-weight: 700;
+  color: var(--terra);
+  font-size: 1.05em;
+  white-space: nowrap;
+}
+
+.day-title {
+  font-weight: 600;
+  font-size: 1em;
+}
+
+.day ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+  font-size: 0.94em;
+}
+
+.day ul li {
+  padding: 2px 0;
+}
+
+.day ul li strong {
+  color: var(--terra-d);
+  font-weight: 600;
+}
+
+.artefact {
+  margin-top: 6px;
+  font-size: 0.85em;
+  color: var(--gray);
+  font-style: italic;
+}
+
+.artefact::before {
+  content: '→ ';
+  font-weight: 700;
+  color: var(--gold);
+  font-style: normal;
+}
+
+.callout {
+  background: var(--gold-soft);
+  border-left: 3px solid var(--gold);
+  padding: 14px 18px;
+  margin: 18px 0;
+  border-radius: 4px;
+  font-size: 0.95em;
+}
+
+.callout.warn {
+  background: #FFF4F2;
+  border-left-color: var(--terra);
+}
+
+.callout.lock {
+  background: #FBEAEA;
+  border-left-color: var(--red);
+}
+
+.callout.launch {
+  background: #F4FBF5;
+  border-left-color: var(--green);
+}
+
+.callout-label {
+  font-family: 'Caveat', cursive;
+  font-size: 1.2em;
+  color: var(--terra);
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+
+.callout.lock .callout-label { color: var(--red); }
+.callout.launch .callout-label { color: var(--green); }
+
+table.roles {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0 24px;
+  font-size: 0.92em;
+}
+
+table.roles th, table.roles td {
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+table.roles th {
+  background: var(--cream);
+  color: var(--gray);
+  font-weight: 600;
+  font-size: 0.78em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+table.roles td:first-child {
+  font-weight: 600;
+  color: var(--terra);
+  white-space: nowrap;
+  width: 200px;
+}
+
+.summary {
+  margin: 32px 0 0;
+  padding: 20px 24px;
+  background: var(--cream);
+  border-radius: 8px;
+  font-size: 0.92em;
+}
+
+.summary h3 {
+  margin: 0 0 8px;
+  font-size: 1em;
+  color: var(--terra);
+}
+
+.summary ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.summary ul li {
+  padding: 3px 0;
+}
+
+.footer-meta {
+  margin-top: 60px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  font-size: 0.82em;
+  color: var(--gray);
+}
+
+@media print {
+  body { background: white; }
+  .page { box-shadow: none; padding: 0; max-width: none; }
+  h2 { page-break-after: avoid; }
+  .day, .callout { page-break-inside: avoid; }
+}
+
+@media (max-width: 700px) {
+  .page { padding: 32px 20px; }
+  h1 { font-size: 1.6em; }
+  table.roles td:first-child { width: auto; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <p class="eyebrow">Клуб Планета Х</p>
+  <h1>Пошаговый план запуска</h1>
+  <p class="subtitle">30 дней до старта продаж · Сценарий А (запуск месяца Клуба) · Версия 1.0 · 02 мая 2026</p>
+  <hr class="divider">
+
+  <p>Документ описывает <strong>идеальный месяц подготовки запуска</strong> по дням. Применяется к любому месяцу Клуба — даты Д1…Д30 пересчитываются от даты старта продаж. Для интенсивов/марафонов/МК (Сценарий Б) к плану добавляются Д30…Д37 — окно «удержание оплативших».</p>
+
+  <h2>Роли в команде (без имён)</h2>
+
+  <table class="roles">
+    <thead>
+      <tr><th>Роль</th><th>Что отвечает за запуск</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Лидер запуска</td>
+        <td>Стратегические решения по продукту, цены, обещание клиенту, финальное ОК на ключевых точках</td>
+      </tr>
+      <tr>
+        <td>Контент-менеджер</td>
+        <td>Связующее звено. Бриф, ТЗ воронки, ТЗ шефам, контент-план и прогрев в TG/MAX/TikTok, координация запуска. Финальное ОК перед стартом</td>
+      </tr>
+      <tr>
+        <td>Копирайтер</td>
+        <td>Тексты продукта: лендинг, тарифы, welcome-бот, email-цепочка, страница оплаты</td>
+      </tr>
+      <tr>
+        <td>SMM Instagram + прогон</td>
+        <td>Адаптация контент-плана и публикация прогрева в Instagram и VK Клипы. Финальный прогон воронки по чек-листу</td>
+      </tr>
+      <tr>
+        <td>Настройщик</td>
+        <td>Сборка бота, рассылок (TG/ВК/email), лендинга. Тестовый платёж</td>
+      </tr>
+      <tr>
+        <td>Юрист / техник</td>
+        <td>Юридическая вычитка обещаний, оферта, ПД. Платежные системы. Поддержка платформы</td>
+      </tr>
+      <tr>
+        <td>Кураторы шефов</td>
+        <td>Получают подготовительные пакеты от своих шефов и размещают списки инвентаря/ингредиентов на сайте Клуба</td>
+      </tr>
+      <tr>
+        <td>Шефы</td>
+        <td>Сдают подготовительные пакеты в свои папки облака к Д17 (программа, ингредиенты, фото, нарезки, приветствие)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ФАЗА 1 -->
+
+  <h2><span class="phase-num">I.</span> Концепция и ТЗ <span class="phase-range">Д1 — Д9</span></h2>
+
+  <p class="phase-intro">Первая декада. Решаются стратегические вопросы продукта и формируются все ТЗ — для команды и для шефов. Ошибки на этом этапе обходятся дорого позже, поэтому декада не торопится.</p>
+
+  <div class="day">
+    <div class="day-head"><span class="day-num">Д1</span><span class="day-title">Тема, аудитория, обещание</span></div>
+    <ul>
+      <li><strong>Лидер + контент-менеджер</strong> — формулируют тему месяца, целевую аудиторию, ключевое обещание</li>
+      <li><strong>Контент-менеджер</strong> — предварительный список уроков по каждому шефу (на базе годового плана)</li>
+    </ul>
+    <div class="artefact">Бриф продукта — заполнена основа: тема, ЦА, обещание, состав, шефы предварительно (см. Бриф_продукта_v1.0.html)</div>
+  </div>
+
+  <div class="day">
+    <div class="day-head"><span class="day-num">Д2</span><span class="day-title">ТЗ воронки</span></div>
+    <ul>
+      <li><strong>Контент-менеджер</strong> — каркас воронки: лид-магнит → прогрев → продажа → удержание</li>
+      <li>Расписан путь клиента: где видит первое касание, что получает на каждом шаге, где принимает решение</li>
+    </ul>
+    <div class="artefact">ТЗ воронки (1 стр)</div>
+  </div>
+
+  <div class="day">
+    <div class="day-head"><span class="day-num">Д3</span><span class="day-title">ТЗ шефам</span></div>
+    <ul>
+      <li><strong>Контент-менеджер</strong> — индивидуальные ТЗ каждому шефу: тема, формат, дедлайн Д17, ссылка на папку в облаке</li>
+      <li>К ТЗ прикладывается чек-лист шефа — что должен сдать</li>
+    </ul>
+    <div class="artefact">7–8 писем шефам отправлено</div>
+  </div>
+
+  <div class="day">
+    <div class="day-head"><span class="day-num">Д4</span><span class="day-title">Стартовый прогрев — анонс</span></div>
+    <ul>
+      <li><strong>Контент-менеджер</strong> — первый тизер-анонс в TG/MAX («скоро запуск», без конкретики)</li>
+      <li><strong>SMM Instagram</strong> — адаптация анонса под Stories и Reels</li>
+    </ul>
+    <div class="artefact">1–3 поста в TG/Instagram — «скоро»</div>
+  </div>
+
+  <div class="day">
+    <div class="day-head"><span class="day-num">Д5</span><span class="day-title">Финализация концепции и цен</span></div>
+    <ul>
+      <li><strong>Лидер + контент-менеджер</strong> — дозаполняем бриф: цены, тарифы, длительность подписки</li>
+      <li>После Д5 концепция и цены не правятся — только оформление</li>
+    </ul>
+    <div class="artefact">🔒 Бриф продукта (заморожен) — все секции дозаполнены</div>
+  </div>
+
+  <div class="day">
+    <div class="day-head"><span class="day-num">Д6</span><span class="day-title">Лендинг — черновик</span></div>
+    <ul>
+      <li><strong>Копирайтер</strong> — заголовок, оффер, описание тарифов, кнопки CTA</li>
+    </ul>
+    <div class="artefact">Текст лендинга в облаке (черновик)</div>
+  </div>
+
+  <div class="day">
+    <div class="day-head"><span class="day-num">Д7</span><span class="day-title">Тарифы и страница оплаты</span></div>
+    <ul>
+      <li><strong>Копирайтер</strong> — чёткие описания тарифов, что входит, ограничения, аргументы выбора</li>
+    </ul>
+    <div class="artefact">Тексты тарифов и страницы оплаты</div>
+  </div>
+
+  <div class="day">
+    <div class="day-head"><span class="day-num">Д8</span><span class="day-title">Welcome-бот</span></div>
+    <ul>
+      <li><strong>Копирайтер</strong> — сценарий приветственного бота для оплативших: первые шаги, доступы, чат поддержки</li>
+    </ul>
+    <div class="artefact">Тексты бота</div>
+  </div>
+
+  <div class="day">
+    <div class="day-head"><span class="day-num">Д9</span><span class="day-title">Email-цепочка прогрева</span></div>
+    <ul>
+      <li><strong>Копирайтер</strong> — 5–7 писем с привязкой к датам: ожидание, тизеры, бесплатный контент, дожим</li>
+    </ul>
+    <div class="artefact">Email-цепочка готова</div>
+  </div>
+
+  <!-- ФАЗА 2 -->
+
+  <h2><span class="phase-num">II.</span> Подготовка контента <span class="phase-range">Д10 — Д17</span></h2>
+
+  <p class="phase-intro">Вторая декада. Шефы записывают, команда параллельно собирает прогрев и техническую часть. К концу декады материалы должны быть в облаке.</p>
+
+  <div class="day">
+    <div class="day-head"><span class="day-num">Д10</span><span class="day-title">Календарь прогрева</span></div>
+    <ul>
+      <li><strong>Контент-менеджер</strong> — расписание постов по сетям с привязкой к датам (когда выходит анонс эксперта, тизер, бесплатный рецепт, продажа)</li>
+    </ul>
+    <div class="artefact">Календарь прогрева на 20 дней до старта</div>
+  </div>
+
+  <div class="day">
+    <div class="day-head"><span class="day-num">Д11–Д13</span><span class="day-title">Банк постов прогрева</span></div>
+    <ul>
+      <li><strong>Контент-менеджер</strong> — пишет посты для TG/MAX/TikTok по календарю</li>
+      <li><strong>SMM Instagram</strong> — адаптация под Instagram (Reels, Stories, посты) и VK Клипы</li>
+    </ul>
+    <div class="artefact">Банк готовых постов в папках сетей</div>
+  </div>
+
+  <div class="day">
+    <div class="day-head"><span class="day-num">Д14–Д15</span><span class="day-title">Юр-вычитка</span></div>
+    <ul>
+      <li><strong>Юрист / техник</strong> — проверка лендинга, тарифов, оферты, текстов рассылок: корректность обещаний, риск, соответствие законодательству</li>
+    </ul>
+    <div class="artefact">Подписанная вычитка, замечания исправлены</div>
+  </div>
+
+  <div class="day">
+    <div class="day-head"><span class="day-num">Д16</span><span class="day-title">Сборка лендинга</span></div>
+    <ul>
+      <li><strong>Настройщик</strong> — лендинг собран и работает</li>
+      <li>Тестовые платежи проходят</li>
+    </ul>
+    <div class="artefact">Рабочий лендинг с оплатой</div>
+  </div>
+
+  <div class="callout warn">
+    <span class="callout-label">🔔 Д17 — Дедлайн пакетов от шефов</span>
+    Все пакеты должны быть в облаке к концу дня: программа, ингредиенты, фото, нарезки, приветствие.
+    Несданное → срочный звонок контент-менеджера в этот же день. Если шеф пропустил — вступает план Б (запасной материал, перенос темы, замена шефа на этот месяц).
+  </div>
+
+  <!-- ФАЗА 3 -->
+
+  <h2><span class="phase-num">III.</span> Прогрев и сборка <span class="phase-range">Д18 — Д23</span></h2>
+
+  <p class="phase-intro">Третья декада начинается. Пакеты от шефов раскладываются по местам, прогрев в соцсетях идёт активной фазой, бот и рассылки настраиваются.</p>
+
+  <div class="day">
+    <div class="day-head"><span class="day-num">Д18</span><span class="day-title">Размещение материалов от шефов</span></div>
+    <ul>
+      <li><strong>Кураторы шефов</strong> — списки инвентаря/ингредиентов на сайт Клуба (по своим шефам)</li>
+      <li><strong>Контент-менеджер</strong> — фото и нарезки от шефов в общую папку прогрева, доступны команде</li>
+    </ul>
+    <div class="artefact">Сайт Клуба обновлён, материалы в облаке</div>
+  </div>
+
+  <div class="day">
+    <div class="day-head"><span class="day-num">Д19</span><span class="day-title">Финализация постов с фото</span></div>
+    <ul>
+      <li><strong>Контент-менеджер + SMM Instagram</strong> — посты прогрева пополняются реальными фото и нарезками от шефов</li>
+    </ul>
+    <div class="artefact">Финальные посты с медиа в банке</div>
+  </div>
+
+  <div class="day">
+    <div class="day-head"><span class="day-num">Д20–Д22</span><span class="day-title">Активная фаза прогрева</span></div>
+    <ul>
+      <li><strong>Контент-менеджер</strong> — посты в TG/MAX/TikTok по календарю</li>
+      <li><strong>SMM Instagram</strong> — Stories, Reels, посты в Instagram</li>
+      <li><strong>Email</strong> — первая волна писем по цепочке</li>
+    </ul>
+    <div class="artefact">Аудитория видит активность во всех каналах</div>
+  </div>
+
+  <div class="day">
+    <div class="day-head"><span class="day-num">Д23</span><span class="day-title">Сборка бота и рассылок</span></div>
+    <ul>
+      <li><strong>Настройщик</strong> — бот настроен по сценарию, рассылки запланированы по датам</li>
+    </ul>
+    <div class="artefact">Инфраструктура готова</div>
+  </div>
+
+  <!-- ФАЗА 4 -->
+
+  <h2><span class="phase-num">IV.</span> Прогон и финал <span class="phase-range">Д24 — Д30</span></h2>
+
+  <p class="phase-intro">Финальная неделя. Воронка проходится прогоном целиком, правки доводятся, и команда выходит на старт продаж.</p>
+
+  <div class="callout lock">
+    <span class="callout-label">🔒 Д24 — Точка невозврата</span>
+    После Д24 разрешены только мелкие правки: опечатки, ссылки, корректировка расписания. <strong>Запрещено:</strong> новые обещания, новые тарифы, изменение структуры воронки, перенос дат внутри прогрева. Если что-то фундаментально не сходится — стоп-сигнал и сдвиг Д30.
+  </div>
+
+  <div class="day">
+    <div class="day-head"><span class="day-num">Д24</span><span class="day-title">Финальный прогон по чек-листу</span></div>
+    <ul>
+      <li><strong>SMM Instagram</strong> — проходит воронку как клиент: подписался → бот → email → лендинг → оплата</li>
+      <li>На каждом шаге сверяет связность обещаний, технику, тон, логику</li>
+    </ul>
+    <div class="artefact">Чек-лист с найденными несостыковками</div>
+  </div>
+
+  <div class="day">
+    <div class="day-head"><span class="day-num">Д25–Д26</span><span class="day-title">Правки</span></div>
+    <ul>
+      <li><strong>Копирайтер</strong> — текстовые правки</li>
+      <li><strong>Контент-менеджер</strong> — стратегические/смысловые правки</li>
+      <li><strong>Настройщик</strong> — технические правки в боте, рассылках, лендинге</li>
+    </ul>
+    <div class="artefact">Все замечания закрыты</div>
+  </div>
+
+  <div class="day">
+    <div class="day-head"><span class="day-num">Д27</span><span class="day-title">Повторный прогон</span></div>
+    <ul>
+      <li><strong>SMM Instagram</strong> — повторный проход по чек-листу после правок</li>
+      <li>Если найдены новые проблемы — снова правки. Если нет — переход к ОК</li>
+    </ul>
+    <div class="artefact">Чек-лист подписан, всё связно</div>
+  </div>
+
+  <div class="day">
+    <div class="day-head"><span class="day-num">Д28</span><span class="day-title">Финальное ОК</span></div>
+    <ul>
+      <li><strong>Контент-менеджер</strong> — финальное «ОК» на запуск: всё связно, обещания совпадают, инфраструктура работает</li>
+    </ul>
+    <div class="artefact">Документ-разрешение на запуск</div>
+  </div>
+
+  <div class="day">
+    <div class="day-head"><span class="day-num">Д29</span><span class="day-title">Финальная волна прогрева</span></div>
+    <ul>
+      <li><strong>Контент-менеджер + SMM Instagram</strong> — финальные посты «завтра старт» во всех 5 сетях</li>
+      <li><strong>Email</strong> — последнее письмо «через 24 часа открываем»</li>
+    </ul>
+    <div class="artefact">Аудитория ожидает старт</div>
+  </div>
+
+  <div class="callout launch">
+    <span class="callout-label">🚀 Д30 — Старт продаж</span>
+    <ul style="margin: 6px 0 0; padding-left: 20px;">
+      <li><strong>Лидер + контент-менеджер</strong> — открытие оплаты в назначенное время (обычно с утра)</li>
+      <li><strong>Команда</strong> — дежурство в чатах, ответы на вопросы оплативших и сомневающихся</li>
+      <li><strong>Контент-менеджер</strong> — посты «мы в воздухе» во всех сетях</li>
+    </ul>
+  </div>
+
+  <!-- ФАЗА 5 -->
+
+  <h2><span class="phase-num">V.</span> Старт и наблюдение <span class="phase-range">Д31 — Д44</span></h2>
+
+  <p class="phase-intro">Две недели после старта. Уроки выходят по плану месяца (вт/пт), команда наблюдает за метриками и оперативно реагирует.</p>
+
+  <div class="day">
+    <div class="day-head"><span class="day-num">Д31–Д37</span><span class="day-title">Первая неделя продаж</span></div>
+    <ul>
+      <li><strong>Лидер + контент-менеджер</strong> — ежедневный мониторинг: регистрации, оплаты, отказы</li>
+      <li><strong>Контент-менеджер</strong> — оперативные правки если что-то ломается (битые ссылки, кривые тексты, баги бота)</li>
+      <li><strong>Кураторы</strong> — поддержка участников в чатах</li>
+      <li>Уроки выходят по плану — вт/пт</li>
+    </ul>
+    <div class="artefact">Стабильная работа продаж и обучения</div>
+  </div>
+
+  <div class="day">
+    <div class="day-head"><span class="day-num">Д38–Д43</span><span class="day-title">Вторая неделя продаж</span></div>
+    <ul>
+      <li>Активные подразделы воронки (бот для не оплативших, реактивация)</li>
+      <li>Обратная связь от участников собирается для разбора</li>
+    </ul>
+    <div class="artefact">Кейсы и отзывы для следующего запуска</div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Д44 — Разбор запуска</span>
+    Командная встреча 15–30 минут. <strong>Три вопроса:</strong>
+    <ol style="margin: 6px 0 0; padding-left: 20px;">
+      <li>Что сработало? — повторим</li>
+      <li>Что не сработало? — не повторим или меняем</li>
+      <li>Что меняем в регламенте? — правки фиксируются сразу</li>
+    </ol>
+    Без разбора регламент через 2–3 запуска становится мёртвой бумажкой.
+  </div>
+
+  <div class="summary">
+    <h3>Контрольные точки коротко</h3>
+    <ul>
+      <li><strong>Д5</strong> — концепция и цены зафиксированы</li>
+      <li><strong>Д9</strong> — все тексты продукта в облаке</li>
+      <li><strong>Д17</strong> — пакеты от шефов в облаке (🔔)</li>
+      <li><strong>Д23</strong> — инфраструктура работает (бот, рассылки, лендинг)</li>
+      <li><strong>Д24</strong> — точка невозврата, прогон Дианы (🔒)</li>
+      <li><strong>Д28</strong> — финальное ОК</li>
+      <li><strong>Д30</strong> — старт продаж (🚀)</li>
+      <li><strong>Д44</strong> — разбор запуска</li>
+    </ul>
+  </div>
+
+  <div class="footer-meta">
+    <p><strong>Пошаговый план запуска · Сценарий А</strong><br>
+    Клуб Планета Х · Версия 1.0 · 02 мая 2026</p>
+    <p>План — рабочая гипотеза. Первый запуск проверит на практике. После разбора — обновляем под реальность команды.</p>
+  </div>
+
+</div>
+
+<!-- ===================== EDITOR BUNDLE ===================== -->
+<style id="ed-bundle-style">
+.editor-toolbar {
+  position: fixed; top: 16px; right: 16px;
+  background: rgba(255,255,255,0.96);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  border: 1px solid #E8E0D5; border-radius: 8px;
+  padding: 8px; display: flex; gap: 6px; z-index: 9999;
+  box-shadow: 0 4px 16px rgba(45,42,38,0.08);
+  font-family: 'Inter', -apple-system, sans-serif; font-size: 14px;
+  align-items: center;
+}
+.editor-toolbar button {
+  background: white; border: 1px solid #E8E0D5; border-radius: 4px;
+  padding: 6px 12px; cursor: pointer; font-family: inherit; font-size: 13px;
+  font-weight: 500; transition: all 0.15s; white-space: nowrap;
+}
+.editor-toolbar button:hover { background: #FDF8F3; border-color: #E85D3A; color: #E85D3A; }
+.editor-toolbar button.primary { background: #E85D3A; color: white; border-color: #E85D3A; }
+.editor-toolbar button.primary:hover { background: #C84E2F; color: white; }
+.editor-toolbar button:disabled { opacity: 0.4; cursor: not-allowed; }
+.editor-toolbar .toolbar-status {
+  font-family: 'Caveat', cursive; font-size: 16px; color: #E85D3A;
+  margin-left: 4px; min-width: 90px;
+}
+body.editor-on [contenteditable=true]:hover {
+  outline: 1px dashed #D4A052; outline-offset: 2px;
+  background: rgba(245, 232, 208, 0.25);
+}
+body.editor-on [contenteditable=true]:focus {
+  outline: 2px solid #E85D3A; outline-offset: 2px;
+  background: #FFFCF5;
+}
+@media print {
+  .editor-toolbar { display: none; }
+}
+@media (max-width: 700px) {
+  .editor-toolbar { top: auto; bottom: 12px; right: 12px; left: 12px; flex-wrap: wrap; }
+  .editor-toolbar .toolbar-status { width: 100%; text-align: center; }
+}
+</style>
+
+<div class="editor-toolbar" id="ed-toolbar">
+  <button id="ed-toggle">✏️ Включить редактирование</button>
+  <button id="ed-save" class="primary" disabled>📥 Сохранить как HTML</button>
+  <span class="toolbar-status" id="ed-status"></span>
+</div>
+
+<script id="ed-bundle-script">
+(function() {
+  let editing = false;
+  const SELECTORS = '.page p, .page h1, .page h2, .page h3, .page h4, .page li, .page td, .page th, .page blockquote, .page figcaption, .page dt, .page dd, .page span';
+  const toggleBtn = document.getElementById('ed-toggle');
+  const saveBtn = document.getElementById('ed-save');
+  const statusEl = document.getElementById('ed-status');
+
+  function pickEditable() {
+    return Array.from(document.querySelectorAll(SELECTORS)).filter(el => {
+      if (el.closest('.editor-toolbar, .toc')) return false;
+      if (el.querySelector('a[href^="#"]')) return false;
+      if (el.matches('span') && el.children.length > 0) return false;
+      return true;
+    });
+  }
+
+  function setEditing(on) {
+    editing = on;
+    document.body.classList.toggle('editor-on', on);
+    pickEditable().forEach(el => {
+      if (on) el.contentEditable = 'true';
+      else el.removeAttribute('contenteditable');
+    });
+    toggleBtn.textContent = on ? '🔒 Выключить' : '✏️ Включить редактирование';
+    saveBtn.disabled = !on;
+    statusEl.textContent = on ? 'Кликни в текст' : '';
+  }
+
+  function saveHtml() {
+    document.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+    document.body.classList.remove('editor-on');
+
+    const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    const blob = new Blob([html], {type: 'text/html;charset=utf-8'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    const safe = (document.title || 'document').replace(/[\\/:*?"<>|]/g, '_');
+    a.download = safe + '.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(a.href);
+
+    setEditing(true);
+    statusEl.textContent = '✓ Сохранено';
+    setTimeout(() => statusEl.textContent = editing ? 'Кликни в текст' : '', 2500);
+  }
+
+  toggleBtn.addEventListener('click', () => setEditing(!editing));
+  saveBtn.addEventListener('click', saveHtml);
+})();
+</script>
+<!-- =================== /EDITOR BUNDLE ====================== -->
+
+</body>
+</html>

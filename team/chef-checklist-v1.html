@@ -430,5 +430,108 @@ code {
 
 </div>
 
+<!-- ===================== EDITOR BUNDLE ===================== -->
+<style id="ed-bundle-style">
+.editor-toolbar {
+  position: fixed; top: 16px; right: 16px;
+  background: rgba(255,255,255,0.96);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  border: 1px solid #E8E0D5; border-radius: 8px;
+  padding: 8px; display: flex; gap: 6px; z-index: 9999;
+  box-shadow: 0 4px 16px rgba(45,42,38,0.08);
+  font-family: 'Inter', -apple-system, sans-serif; font-size: 14px;
+  align-items: center;
+}
+.editor-toolbar button {
+  background: white; border: 1px solid #E8E0D5; border-radius: 4px;
+  padding: 6px 12px; cursor: pointer; font-family: inherit; font-size: 13px;
+  font-weight: 500; transition: all 0.15s; white-space: nowrap;
+}
+.editor-toolbar button:hover { background: #FDF8F3; border-color: #E85D3A; color: #E85D3A; }
+.editor-toolbar button.primary { background: #E85D3A; color: white; border-color: #E85D3A; }
+.editor-toolbar button.primary:hover { background: #C84E2F; color: white; }
+.editor-toolbar button:disabled { opacity: 0.4; cursor: not-allowed; }
+.editor-toolbar .toolbar-status {
+  font-family: 'Caveat', cursive; font-size: 16px; color: #E85D3A;
+  margin-left: 4px; min-width: 90px;
+}
+body.editor-on [contenteditable=true]:hover {
+  outline: 1px dashed #D4A052; outline-offset: 2px;
+  background: rgba(245, 232, 208, 0.25);
+}
+body.editor-on [contenteditable=true]:focus {
+  outline: 2px solid #E85D3A; outline-offset: 2px;
+  background: #FFFCF5;
+}
+@media print {
+  .editor-toolbar { display: none; }
+}
+@media (max-width: 700px) {
+  .editor-toolbar { top: auto; bottom: 12px; right: 12px; left: 12px; flex-wrap: wrap; }
+  .editor-toolbar .toolbar-status { width: 100%; text-align: center; }
+}
+</style>
+
+<div class="editor-toolbar" id="ed-toolbar">
+  <button id="ed-toggle">✏️ Включить редактирование</button>
+  <button id="ed-save" class="primary" disabled>📥 Сохранить как HTML</button>
+  <span class="toolbar-status" id="ed-status"></span>
+</div>
+
+<script id="ed-bundle-script">
+(function() {
+  let editing = false;
+  const SELECTORS = '.page p, .page h1, .page h2, .page h3, .page h4, .page li, .page td, .page th, .page blockquote, .page figcaption, .page dt, .page dd, .page span';
+  const toggleBtn = document.getElementById('ed-toggle');
+  const saveBtn = document.getElementById('ed-save');
+  const statusEl = document.getElementById('ed-status');
+
+  function pickEditable() {
+    return Array.from(document.querySelectorAll(SELECTORS)).filter(el => {
+      if (el.closest('.editor-toolbar, .toc')) return false;
+      if (el.querySelector('a[href^="#"]')) return false;
+      if (el.matches('span') && el.children.length > 0) return false;
+      return true;
+    });
+  }
+
+  function setEditing(on) {
+    editing = on;
+    document.body.classList.toggle('editor-on', on);
+    pickEditable().forEach(el => {
+      if (on) el.contentEditable = 'true';
+      else el.removeAttribute('contenteditable');
+    });
+    toggleBtn.textContent = on ? '🔒 Выключить' : '✏️ Включить редактирование';
+    saveBtn.disabled = !on;
+    statusEl.textContent = on ? 'Кликни в текст' : '';
+  }
+
+  function saveHtml() {
+    document.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+    document.body.classList.remove('editor-on');
+
+    const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    const blob = new Blob([html], {type: 'text/html;charset=utf-8'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    const safe = (document.title || 'document').replace(/[\\/:*?"<>|]/g, '_');
+    a.download = safe + '.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(a.href);
+
+    setEditing(true);
+    statusEl.textContent = '✓ Сохранено';
+    setTimeout(() => statusEl.textContent = editing ? 'Кликни в текст' : '', 2500);
+  }
+
+  toggleBtn.addEventListener('click', () => setEditing(!editing));
+  saveBtn.addEventListener('click', saveHtml);
+})();
+</script>
+<!-- =================== /EDITOR BUNDLE ====================== -->
+
 </body>
 </html>
