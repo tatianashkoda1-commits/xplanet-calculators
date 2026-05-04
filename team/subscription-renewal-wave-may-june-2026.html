@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Волна продления подписок · май–июнь 2026 · Клуб Планета Х</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:    #FDF8F3;
+  --terra:    #E85D3A;
+  --terra-d:  #C84E2F;
+  --gold:     #D4A052;
+  --gold-soft:#F5E8D0;
+  --dark:     #2D2A26;
+  --gray:     #6B645C;
+  --gray-l:   #C9C2B8;
+  --border:   #E8E0D5;
+  --green:    #4CAF50;
+  --red:      #E53935;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--dark);
+  background: var(--cream);
+}
+
+.page {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 56px 48px;
+  background: #fff;
+  box-shadow: 0 0 60px rgba(45, 42, 38, 0.06);
+}
+
+.eyebrow {
+  font-family: 'Caveat', cursive;
+  font-size: 1.5em;
+  color: var(--terra);
+  margin: 0 0 8px;
+  letter-spacing: 0.2px;
+}
+
+h1 {
+  font-size: 2em;
+  margin: 0 0 4px;
+  letter-spacing: -0.5px;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.subtitle {
+  font-size: 0.95em;
+  color: var(--gray);
+  margin-bottom: 32px;
+}
+
+.divider {
+  width: 60px;
+  height: 3px;
+  background: var(--gold);
+  border: none;
+  margin: 0 0 32px;
+}
+
+.toc {
+  background: var(--cream);
+  border-left: 3px solid var(--gold);
+  padding: 18px 24px;
+  margin-bottom: 40px;
+  border-radius: 4px;
+}
+
+.toc-title {
+  font-size: 0.78em;
+  font-weight: 700;
+  color: var(--gray);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 22px;
+  font-size: 0.92em;
+}
+
+.toc li {
+  padding: 3px 0;
+}
+
+.toc a {
+  color: var(--dark);
+  text-decoration: none;
+}
+
+.toc a:hover {
+  color: var(--terra);
+  text-decoration: underline;
+}
+
+h2 {
+  font-size: 1.4em;
+  margin: 48px 0 12px;
+  color: var(--dark);
+  scroll-margin-top: 20px;
+}
+
+h2 .num {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  background: var(--terra);
+  color: white;
+  border-radius: 50%;
+  font-size: 0.7em;
+  font-weight: 700;
+  margin-right: 12px;
+  vertical-align: 2px;
+}
+
+h3 {
+  font-size: 1.05em;
+  margin: 24px 0 8px;
+  color: var(--dark);
+  font-weight: 600;
+}
+
+p { margin: 0 0 12px; }
+
+strong { font-weight: 600; color: var(--dark); }
+
+.callout {
+  background: var(--gold-soft);
+  border-left: 3px solid var(--gold);
+  padding: 14px 18px;
+  margin: 16px 0;
+  border-radius: 4px;
+  font-size: 0.95em;
+}
+
+.callout.warn {
+  background: #FFF4F2;
+  border-left-color: var(--terra);
+}
+
+.callout.lock {
+  background: #FBEAEA;
+  border-left-color: var(--red);
+}
+
+.callout-label {
+  font-family: 'Caveat', cursive;
+  font-size: 1.2em;
+  color: var(--terra);
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+
+.callout.lock .callout-label { color: var(--red); }
+
+table.canvas {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.88em;
+}
+
+table.canvas th, table.canvas td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+table.canvas th {
+  background: var(--cream);
+  color: var(--gray);
+  font-weight: 600;
+  font-size: 0.78em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+table.canvas td.day {
+  font-weight: 600;
+  color: var(--terra);
+  white-space: nowrap;
+}
+
+table.canvas tr.start td {
+  background: #F4FBF5;
+  font-weight: 600;
+}
+
+table.canvas tr.peak td {
+  background: #FFF4F2;
+  font-weight: 600;
+}
+
+table.canvas tr.final td {
+  background: #FBEAEA;
+  font-weight: 600;
+  color: var(--red);
+}
+
+.roles {
+  list-style: none;
+  margin: 12px 0;
+  padding: 0;
+}
+
+.roles li {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.roles li:last-child { border-bottom: none; }
+
+.roles .role-name {
+  font-weight: 600;
+  color: var(--dark);
+  display: inline-block;
+  min-width: 130px;
+}
+
+.checklist {
+  margin: 16px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checklist li {
+  padding: 8px 0 8px 28px;
+  position: relative;
+  font-size: 0.95em;
+  border-bottom: 1px solid var(--border);
+}
+
+.checklist li:last-child { border-bottom: none; }
+
+.checklist li::before {
+  content: '☐';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  color: var(--gold);
+  font-size: 1.1em;
+}
+
+.checklist-group {
+  font-weight: 600;
+  color: var(--terra);
+  margin: 18px 0 4px;
+  font-size: 0.95em;
+}
+
+.footer-meta {
+  margin-top: 60px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  font-size: 0.82em;
+  color: var(--gray);
+}
+
+.footer-meta strong { color: var(--dark); }
+
+@media print {
+  body { background: white; }
+  .page { box-shadow: none; padding: 0; max-width: none; }
+  h2 { page-break-after: avoid; }
+  table.canvas, .callout { page-break-inside: avoid; }
+  #edit-panel { display: none !important; }
+}
+
+@media (max-width: 700px) {
+  .page { padding: 32px 20px; }
+  h1 { font-size: 1.6em; }
+}
+
+/* === Панель редактирования === */
+
+#edit-panel {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 6px 24px rgba(45, 42, 38, 0.15);
+  z-index: 1000;
+  display: flex;
+  gap: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9em;
+}
+
+#edit-panel button {
+  font-family: inherit;
+  font-size: inherit;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+#edit-panel button.btn-edit {
+  background: var(--gold);
+  color: white;
+}
+#edit-panel button.btn-edit:hover { background: #C0904A; }
+#edit-panel button.btn-edit.active {
+  background: var(--green);
+}
+
+#edit-panel button.btn-save {
+  background: var(--terra);
+  color: white;
+}
+#edit-panel button.btn-save:hover { background: var(--terra-d); }
+#edit-panel button.btn-save:disabled {
+  background: var(--gray-l);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+#edit-hint {
+  font-size: 0.78em;
+  color: var(--gray);
+  margin-top: 6px;
+  text-align: center;
+  display: none;
+}
+
+[contenteditable="true"] {
+  border-radius: 3px;
+  transition: background 0.15s, outline 0.15s;
+}
+[contenteditable="true"]:hover {
+  background: #FAF6F0;
+}
+[contenteditable="true"]:focus {
+  outline: 2px solid var(--terra);
+  outline-offset: 2px;
+  background: #FFFCF8;
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <p class="eyebrow">Клуб Планета Х</p>
+  <h1>Волна продления подписок</h1>
+  <h1 style="font-weight: 500; color: var(--terra); margin-top: -4px;">Май — июнь 2026</h1>
+  <p class="subtitle">Версия 1.0 · 05 мая 2026 · разовая операция</p>
+  <hr class="divider">
+
+  <div class="callout">
+    <span class="callout-label">Зачем эта памятка</span>
+    <p style="margin: 0 0 10px;">Это <strong>разовый план</strong> на май–июнь 2026 года, не часть Регламента. Его нельзя «применять» к будущим месяцам автоматически.</p>
+    <p style="margin: 0 0 12px;">Контекст: с 1 мая в новую подписочную систему Клуба зашла основная масса участников. Их месячная подписка истекает <strong>1 июня</strong> синхронно. Если ничего не делать — 1 июня случится массовый отток. Задача волны — напомнить, убедить и дать удобно продлить <strong>до 1 июня</strong>. После того, как участники привыкнут к новому формату подписки, они будут продлевать сами, без массовых волн.</p>
+    <p style="margin: 0;"><strong>ВАЖНО!</strong> Придерживаться плана. Количество активностей, касаний — рекомендательное. Окончательное решение принимает Толкын.</p>
+  </div>
+
+  <div class="toc">
+    <div class="toc-title">Содержание</div>
+    <ol>
+      <li><a href="#purpose">Контекст и цель</a></li>
+      <li><a href="#metrics">Цели волны и метрики</a></li>
+      <li><a href="#canvas">Канва дней · 6 мая — 1 июня</a></li>
+      <li><a href="#roles">Кто что делает</a></li>
+      <li><a href="#message">Сообщение для аудитории</a></li>
+      <li><a href="#channels">Каналы коммуникации</a></li>
+      <li><a href="#ready">Чек-лист готовности к 25 мая</a></li>
+      <li><a href="#after">После 1 июня</a></li>
+    </ol>
+  </div>
+
+  <h2 id="purpose"><span class="num">1</span>Контекст и цель</h2>
+
+  <p>1 мая 2026 года Клуб перешёл на новую подписочную систему. Основная масса действующих участников оформила подписку именно в этот день. У всех у них период действия закончится <strong>1 июня</strong> в один день.</p>
+
+  <p>В обычном режиме продление подписки — это фоновый поток: каждый участник продлевает в свою дату. Регламент №3 такой режим не описывает специально, потому что он не требует волновой работы.</p>
+
+  <p>В мае 2026-го ситуация нетипичная: даты сошлись. Поэтому на семь дней до 1 июня включаем волну удержания — серию контактов, которая напомнит, объяснит ценность и доведёт до кнопки продления.</p>
+
+  <div class="callout warn">
+    <span class="callout-label">Это разовая операция</span>
+    После того, как участники привыкнут к новому формату подписки, они будут продлевать сами. Массовая волна — только в этот раз; дальше работает фоновый поток продлений.
+  </div>
+
+  <h2 id="metrics"><span class="num">2</span>Цели волны и метрики</h2>
+
+  <h3>Главная цель</h3>
+  <p>Удержать максимум участников майского потока в подписке на июнь.</p>
+
+  <h3>Что считаем</h3>
+  <ul class="checklist">
+    <li><strong>База на старте:</strong> сколько подписок истекает 1 июня (Катя — выгрузка из системы 11 мая)</li>
+    <li><strong>Продлились до волны</strong> (продлились в период 1–24 мая фоном, без пинков)</li>
+    <li><strong>Продлились во время волны</strong> (25–31 мая, по реакциям на коммуникацию)</li>
+    <li><strong>Вылетели 1 июня</strong> (не продлились ни до волны, ни во время)</li>
+    <li><strong>Какой контент сработал лучше всего</strong> (email / TG / эфир / Reels / личное напоминание куратора)</li>
+  </ul>
+
+  <h3>Минимальная планка</h3>
+  <p>Конкретный процент удержания фиксируем после выгрузки 11 мая, когда станет известна абсолютная база. До этого — без цифры.</p>
+
+  <h2 id="canvas"><span class="num">3</span>Канва дней · 6 мая — 1 июня</h2>
+
+  <p>Окно работы — 27 дней. Подготовка с 6 мая (Д1, среда) по 24 мая (Д19), активная фаза волны 25–31 мая, разбор 1–2 июня. Полный цикл из Регламента №3 ужат с 30 дней до 20 за счёт того, что мы не запускаем новый продукт — программа июня уже сформирована, нужны только материалы под удержание.</p>
+
+  <h3>Фаза подготовки (Д1 — Д20, 6 — 25 мая)</h3>
+
+  <table class="canvas">
+    <thead>
+      <tr>
+        <th style="width: 110px">Дата · Д</th>
+        <th>Что происходит</th>
+        <th style="width: 180px">Кто</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="start">
+        <td class="day">6 мая · Д1<br><span style="font-weight:400;color:var(--terra-d);font-size:0.85em">среда</span></td>
+        <td>Старт работы. Бриф волны: главная мысль, аргументы, эмоциональный посыл, ключевые тарифы продления</td>
+        <td>Шкода + Толкын</td>
+      </tr>
+      <tr>
+        <td class="day">6 — 8 мая<br>Д1 — Д3</td>
+        <td>ТЗ для команды: каналы, форматы, дедлайны. Рассылка по чату команды</td>
+        <td>Толкын</td>
+      </tr>
+      <tr>
+        <td class="day">8 — 10 мая<br>Д3 — Д5</td>
+        <td>Запрос у 4 шефов: видео-обращение «увидимся в июне», контент, программы уроков, списки инвентаря и ингредиентов. Дедлайн сдачи — 17 мая</td>
+        <td>Толкын</td>
+      </tr>
+      <tr>
+        <td class="day">11 мая · Д6<br><span style="font-weight:400;color:var(--gray);font-size:0.85em">понедельник</span></td>
+        <td>Выгрузка списка истекающих подписок из системы. Сегментация: старички / новички</td>
+        <td>Катя</td>
+      </tr>
+      <tr>
+        <td class="day">11 — 17 мая<br>Д6 — Д12</td>
+        <td>Тексты 3 email-цепочки (за 7 / за 3 / последний день) + посты в TG-канал и канал ВК на каждый день волны</td>
+        <td>Яна</td>
+      </tr>
+      <tr>
+        <td class="day">11 — 17 мая<br>Д6 — Д12</td>
+        <td>Адаптация контент-плана под Instagram и VK Клипы — фокус «не потеряй доступ» + «что в июне»</td>
+        <td>Диана</td>
+      </tr>
+      <tr>
+        <td class="day">11 — 17 мая<br>Д6 — Д12</td>
+        <td>Контент-план по дням 25–31 мая во всех 5 сетях</td>
+        <td>Толкын</td>
+      </tr>
+      <tr style="background: #FFF7E6">
+        <td class="day">🔔 17 мая · Д12<br><span style="font-weight:400;color:var(--gray);font-size:0.85em">воскресенье</span></td>
+        <td>Дедлайн подачи всего контента от шефов: обращения, программы, списки инвентаря и ингредиентов. Кураторы заводят списки в уроки на платформе</td>
+        <td>Анжелика, Ольга</td>
+      </tr>
+      <tr>
+        <td class="day">18 — 20 мая<br>Д13 — Д15</td>
+        <td>Юридическая вычитка обещаний (что обещаем за продление, какие гарантии, корректность сроков)</td>
+        <td>Катя</td>
+      </tr>
+      <tr>
+        <td class="day">18 — 20 мая<br>Д13 — Д15</td>
+        <td>Постановка email-цепочки в систему рассылок. Триггеры в БотХелп («оплатил продление → благодарность», «не оплатил → последнее напоминание»). UTM-метки на исходящих ссылках</td>
+        <td>Лена</td>
+      </tr>
+      <tr>
+        <td class="day">18 — 20 мая<br>Д13 — Д15</td>
+        <td>Тестовое продление от начала до конца + проверка триггеров оплаты</td>
+        <td>Катя</td>
+      </tr>
+      <tr class="final">
+        <td class="day">🔒 21 мая · Д16<br><span style="font-weight:400;color:var(--red);font-size:0.85em">четверг</span></td>
+        <td colspan="2">ТОЧКА НЕВОЗВРАТА. Дальше только опечатки и ссылки. Никаких новых обещаний и тарифов</td>
+      </tr>
+      <tr>
+        <td class="day">21 — 22 мая<br>Д16 — Д17</td>
+        <td>Финальный прогон по чек-листу (см. §7): Диана идёт как клиент. Несостыковки → Яне / Толкын / Лене на правки → повторный прогон</td>
+        <td>Диана → Яна / Толкын / Лена</td>
+      </tr>
+      <tr>
+        <td class="day">23 мая · Д18<br><span style="font-weight:400;color:var(--gray);font-size:0.85em">суббота</span></td>
+        <td>Финальное «ОК»: всё связно, обещания совпадают, запускаем</td>
+        <td>Толкын</td>
+      </tr>
+      <tr>
+        <td class="day">23 — 24 мая<br>Д18 — Д19</td>
+        <td>Прогрев во всех 5 сетях — анонс окна продления («послезавтра — 25 мая — открываем продление до 1 июня»)</td>
+        <td>Толкын + Диана</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Фаза волны (25 мая — 1 июня)</h3>
+
+  <table class="canvas">
+    <thead>
+      <tr>
+        <th style="width: 110px">Дата</th>
+        <th>Что происходит</th>
+        <th style="width: 180px">Кто</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="start">
+        <td class="day">🚀 25 мая · Д20<br><span style="font-weight:400;color:var(--terra-d);font-size:0.85em">понедельник</span></td>
+        <td>СТАРТ ВОЛНЫ. Email №1 «до окончания подписки 7 дней». Первый пост в TG. Первое Reels</td>
+        <td>Толкын координирует</td>
+      </tr>
+      <tr>
+        <td class="day">26 — 27 мая<br><span style="font-weight:400;color:var(--gray);font-size:0.85em">вт — ср</span></td>
+        <td>Поддерживающий контент: видео-обращения шефов (по одному в день), отзывы участников из чата, истории в Instagram</td>
+        <td>Толкын + Диана</td>
+      </tr>
+      <tr>
+        <td class="day">28 мая<br><span style="font-weight:400;color:var(--gray);font-size:0.85em">четверг</span></td>
+        <td>Email №2 «осталось 3 дня». Усиление в каналах. Анжелика и Ольга — личные сообщения участникам в чате (тёплое напоминание, не давление)</td>
+        <td>Лена · Анжелика · Ольга</td>
+      </tr>
+      <tr class="peak">
+        <td class="day">30 мая<br><span style="font-weight:400;color:var(--terra-d);font-size:0.85em">суббота</span></td>
+        <td>Презентация программы июня: программа месяца, шефы, бонусы для продливших. Формат — прямой эфир или запись видео (на выбор). Пиковая точка волны</td>
+        <td>Шкода + Катя<br>(тех. поддержка)</td>
+      </tr>
+      <tr>
+        <td class="day">31 мая<br><span style="font-weight:400;color:var(--gray);font-size:0.85em">воскресенье</span></td>
+        <td>Email №3 «последний день». Серия историй в Instagram «осталось N часов». Дежурство в чате</td>
+        <td>Лена · Анжелика · Ольга · Диана</td>
+      </tr>
+      <tr class="final">
+        <td class="day">🔒 1 июня<br><span style="font-weight:400;color:var(--red);font-size:0.85em">понедельник · 00:00</span></td>
+        <td colspan="2">Подписки истекают. Доступ закрывается у тех, кто не продлил</td>
+      </tr>
+      <tr>
+        <td class="day">1 июня (день)<br><span style="font-weight:400;color:var(--gray);font-size:0.85em">понедельник</span></td>
+        <td>Дежурство по техническим и платёжным сбоям. Выгрузка финальных цифр: продлилось / вылетело</td>
+        <td>Катя</td>
+      </tr>
+      <tr>
+        <td class="day">1 — 2 июня</td>
+        <td>Разбор волны: что сработало, что нет, что меняем (15–30 мин командой)</td>
+        <td>Команда<br>(записывает Катя)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout warn">
+    <span class="callout-label">Ритм волны — серия мягких касаний</span>
+    Главное правило волны удержания: <strong>не один большой удар, а серия мягких касаний</strong>. Email №1 → видео шефа → Email №2 → личное сообщение куратора → презентация Шкоды → Email №3 → истории «последний день». Каждый контакт сам по себе ненавязчив, но сумма за 7 дней даёт результат.
+  </div>
+
+  <h2 id="roles"><span class="num">4</span>Кто что делает</h2>
+
+  <ul class="roles">
+    <li><span class="role-name">Шкода</span>Сценарий волны (главная мысль, аргументы) совместно с Толкын. Презентация программы июня 30 мая. Голос обращений</li>
+    <li><span class="role-name">Толкын</span>Координация волны, контент-план по дням, согласование текстов</li>
+    <li><span class="role-name">Яна</span>3 email + посты в TG-канал и канал ВК + тексты для историй. Тон — тёплый, не давящий</li>
+    <li><span class="role-name">Диана</span>Сценарии и монтаж Reels / VK Клипы. Истории «осталось N часов» в финальные дни. Адаптация контент-плана под визуальные форматы</li>
+    <li><span class="role-name">Катя</span>Выгрузка списка истекающих подписок 11 мая. Настройка оплат и тестовое продление в чек-листе 21–22 мая. Тех. поддержка презентации Шкоды 30 мая. Дежурство 1 июня по платёжным сбоям. Финальная статистика для разбора</li>
+    <li><span class="role-name">Лена</span>Постановка email-цепочки в систему рассылок. Триггеры в БотХелп: «оплатил продление → благодарность», «не оплатил → последнее напоминание». Отправка по расписанию</li>
+    <li><span class="role-name">Анжелика, Ольга</span>Заведение списков инвентаря и ингредиентов в уроки на платформе. Личные тёплые сообщения участникам 28 мая в чате (не массово)</li>
+    <li><span class="role-name">Шефы</span>До 17 мая: 30-секундное обращение «увидимся в июне» (видео или голос), контент, программы. До 28 мая: уроки</li>
+  </ul>
+
+  <h2 id="message"><span class="num">5</span>Сообщение для аудитории</h2>
+
+  <h3>Что говорим</h3>
+  <ul class="checklist">
+    <li>Что в июне в Клубе нового: программа месяца, какие шефы, какие темы</li>
+    <li>Что участник теряет, если не продлит: доступ к закрытому чату, новым урокам, прямым эфирам, материалам</li>
+    <li>Простой путь к продлению: одна кнопка, понятная цена, нет подвохов</li>
+    <li>Соцдок: реальные отзывы из чата (СММ подберёт под публикацию из живой переписки апреля–мая, не сочинять)</li>
+  </ul>
+
+  <h3>Чего не делаем</h3>
+  <ul class="checklist">
+    <li>Не давим, не пугаем, не используем дедлайн как угрозу</li>
+    <li>Не упоминаем болезни, потери, травмы как мотивацию (это запретная зона)</li>
+    <li>Не используем выдуманные отзывы — только реальные из архива</li>
+    <li>Не обещаем того, чего не будет в июне (юр.вычитка обещаний — Катя)</li>
+  </ul>
+
+  <h3>Тональность</h3>
+  <p>Партнёрская, тёплая. В этой волне — мягче обычного: это разговор со «своими», которые уже пришли. Задача не агитировать, а напомнить и поблагодарить.</p>
+
+  <h2 id="channels"><span class="num">6</span>Каналы коммуникации</h2>
+
+  <ul class="roles">
+    <li><span class="role-name">Email</span>3 письма: 25 мая · 28 мая · 31 мая. Базовый канал — даёт самые высокие конверсии у тех, кто уже в подписке</li>
+    <li><span class="role-name">TG-канал Клуба</span>Ежедневные посты во время волны (25–31 мая). Видео-обращения шефов, отзывы, программа июня</li>
+    <li><span class="role-name">Канал ВК</span>То же, что в TG, адаптировано под формат ВК (длиннее текст, посты с фото)</li>
+    <li><span class="role-name">Instagram</span>Истории + 2–3 Reels за неделю. В финальный день 31 мая — серия историй «осталось N часов»</li>
+    <li><span class="role-name">VK Клипы / TikTok</span>2–3 коротких видео за неделю с темами июня</li>
+    <li><span class="role-name">Эфир / презентация</span>30 мая, Шкода. Формат — прямой эфир или запись видео (на выбор). Тема: программа июня, новые шефы, бонусы для продливших</li>
+    <li><span class="role-name">Закрытый чат участников</span>Личные тёплые напоминания от Анжелики и Ольги 28 мая. Не массово</li>
+  </ul>
+
+  <h2 id="ready"><span class="num">7</span>Чек-лист готовности к 25 мая</h2>
+
+  <p>Делает <strong>Диана</strong> 21–22 мая (Д16–Д17, четверг–пятница). Если что-то не готово — звонок ответственному в этот же день, правки в субботу 23 мая до финального «ОК» Толкын.</p>
+
+  <p class="checklist-group">Списки и сегментация</p>
+  <ul class="checklist">
+    <li>Список истекающих подписок выгружен (Катя)</li>
+    <li>Сегменты: старички / новички — размечены</li>
+    <li>Список «своих» участников у Анжелики и Ольги — на руках у каждой (можно отправлять приглашения лично)</li>
+  </ul>
+
+  <p class="checklist-group">Контент готов</p>
+  <ul class="checklist">
+    <li>3 email написаны, вычитаны, поставлены в очередь рассылки</li>
+    <li>Посты для TG-канала и канала ВК на каждый день волны — готовы</li>
+    <li>Сценарии Reels и историй — готовы</li>
+    <li>Видео-обращения 4 шефов — собраны (или есть план как добрать недостающие)</li>
+    <li>Анонс презентации на 30 мая — оформлен, баннер готов</li>
+    <li>Сценарий презентации Шкоды — есть</li>
+  </ul>
+
+  <p class="checklist-group">Техника</p>
+  <ul class="checklist">
+    <li>Тестовое продление подписки прошло до конца — Катя</li>
+    <li>Триггеры в БотХелп («оплатил продление → благодарность») настроены и проверены</li>
+    <li>Кнопки продления на сайте Клуба ведут куда заявлено — проверено</li>
+    <li>UTM на ссылках в email и постах проставлены (чтобы в разборе понять, какой канал сработал) — Лена</li>
+  </ul>
+
+  <p class="checklist-group">Координация</p>
+  <ul class="checklist">
+    <li>Контент-план по дням 25–31 мая разослан команде — Толкын</li>
+    <li>Команда знает: кто, что, к какому часу выкладывает</li>
+    <li>В чате команды зафиксированы дежурные на 1 июня (полночь и утро)</li>
+  </ul>
+
+  <h2 id="after"><span class="num">8</span>После 1 июня</h2>
+
+  <h3>Разбор волны (1–2 июня)</h3>
+  <p>15–30 минут командой. Три вопроса:</p>
+  <ol>
+    <li><strong>Что сработало?</strong> Какой канал, какое письмо, какой контент дал больше всего продлений</li>
+    <li><strong>Что не сработало?</strong> Что игнорировали, на что не реагировали</li>
+    <li><strong>Что меняем для следующих волн?</strong> Если такая ситуация повторится в будущем — что делаем иначе</li>
+  </ol>
+
+  <h3>Возврат тех, кто не продлил <span style="font-weight:400;color:var(--gray);font-size:0.92em">(формат и предложения обсудим отдельно)</span></h3>
+  <p>Не сразу 1 июня (выглядит как давление), а через 3 дня. Короткая мини-кампания: «вернись с возвращательной скидкой / бонусом».</p>
+
+  <h3>Что после волны</h3>
+  <p>Возвращаемся к фоновому потоку продлений. После того, как участники привыкнут к новому формату, они будут продлевать сами — без массовой работы команды.</p>
+
+  <div class="footer-meta">
+    <p><strong>Волна продления подписок · май–июнь 2026</strong><br>
+    Клуб Планета Х · Версия 1.0 · 05 мая 2026</p>
+    <p>Это <strong>разовый план</strong>, не часть Регламента №3. После разбора 1–2 июня — итоги фиксируем в отдельной короткой записке (что получилось, что не получилось, что взять на будущее).</p>
+  </div>
+
+</div>
+
+<div id="edit-panel">
+  <div style="display:flex; flex-direction:column; align-items:center;">
+    <div style="display:flex; gap:8px;">
+      <button class="btn-edit" id="btn-edit" title="Включить редактирование текстов">✏️ Редактировать</button>
+      <button class="btn-save" id="btn-save" disabled title="Скачать обновлённый HTML">📥 Сохранить</button>
+    </div>
+    <div id="edit-hint">Кликни по любому тексту и правь. Когда закончишь — нажми «Сохранить»</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const btnEdit = document.getElementById('btn-edit');
+  const btnSave = document.getElementById('btn-save');
+  const hint = document.getElementById('edit-hint');
+  let editing = false;
+
+  const editableSelectors = [
+    '.page > p',
+    '.callout p',
+    'h2',
+    'h3',
+    'table.canvas td',
+    'ul.roles li',
+    'ul.checklist li',
+    'p.checklist-group',
+    '.toc li',
+    'ol li'
+  ].join(', ');
+
+  function setEditable(on){
+    document.querySelectorAll(editableSelectors).forEach(el => {
+      if (on) el.setAttribute('contenteditable', 'true');
+      else el.removeAttribute('contenteditable');
+    });
+  }
+
+  btnEdit.addEventListener('click', () => {
+    editing = !editing;
+    setEditable(editing);
+    if (editing) {
+      btnEdit.textContent = '✓ Готово';
+      btnEdit.classList.add('active');
+      btnSave.disabled = false;
+      hint.style.display = 'block';
+    } else {
+      btnEdit.textContent = '✏️ Редактировать';
+      btnEdit.classList.remove('active');
+      hint.style.display = 'none';
+    }
+  });
+
+  btnSave.addEventListener('click', () => {
+    const wasEditing = editing;
+    if (wasEditing) setEditable(false);
+
+    const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+
+    if (wasEditing) setEditable(true);
+
+    const blob = new Blob([html], {type: 'text/html;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Волна_продления_подписок_май-июнь_2026_v1.0.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+})();
+</script>
+
+</body>
+</html>

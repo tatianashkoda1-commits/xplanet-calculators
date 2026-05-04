@@ -327,8 +327,14 @@ pre.tree {
   <p class="eyebrow">Клуб Планета Х</p>
   <h1>Регламент №3</h1>
   <h1 style="font-weight: 500; color: var(--terra); margin-top: -4px;">Запуски и воронки</h1>
-  <p class="subtitle">Версия 1.0 · 02 мая 2026</p>
+  <p class="subtitle">Версия 1.1 · 05 мая 2026</p>
   <hr class="divider">
+
+  <div class="callout">
+    <span class="callout-label">Как читать этот регламент</span>
+    <p style="margin: 0 0 10px;">Регламент — это технологическая карта запуска. Как и любая ТК блюда, она перечисляет ингредиенты, шаги, время и выход — но не пишет, что нож надо помыть после нарезки или что плиту нельзя оставлять без присмотра. Это часть профессии.</p>
+    <p style="margin: 0;">Здесь — основные потоки и контрольные точки. Если задача очевидно попадает в твою зону, но не записана — делаем и фиксируем для следующей версии. Регламент будет дополняться после первых запусков, и это нормально.</p>
+  </div>
 
   <div class="toc">
     <div class="toc-title">Содержание</div>
@@ -430,7 +436,7 @@ pre.tree {
       </tr>
       <tr>
         <td class="day">Д17 — Д23</td>
-        <td>Email-цепочка прогрева, сценарий бота, тексты страницы оплаты</td>
+        <td>Email-цепочка прогрева, сценарий бота, тексты для постов ВК и канала ВК</td>
         <td>Яна</td>
       </tr>
       <tr>
@@ -440,8 +446,18 @@ pre.tree {
       </tr>
       <tr>
         <td class="day">Д17 — Д23</td>
-        <td>Настройка ботов, рассылок, лендинга</td>
+        <td>Email-рассылки, цепочки прогрева, welcome-бот, UTM-метки в исходящих ссылках</td>
         <td>Лена</td>
+      </tr>
+      <tr>
+        <td class="day">Д17 — Д23</td>
+        <td>Платёжные тарифы и кнопки оплаты; триггеры в БотХелп по оплате/отписке; техническая сборка лендинга на сайте Клуба</td>
+        <td>Катя / Лена</td>
+      </tr>
+      <tr>
+        <td class="day">Д22 — Д24</td>
+        <td>Тестовый платёж от начала до конца + проверка триггеров оплаты в БотХелп → платежи закрыты к 🔒</td>
+        <td>Катя</td>
       </tr>
       <tr class="lock">
         <td class="day">🔒 Д24</td>
@@ -466,6 +482,11 @@ pre.tree {
         <td class="day">🚀 Д30</td>
         <td colspan="2">СТАРТ ПРОДАЖ</td>
       </tr>
+      <tr>
+        <td class="day">Д30</td>
+        <td>Дежурство по техническим и платёжным сбоям в день старта; экстренные правки</td>
+        <td>Катя</td>
+      </tr>
     </tbody>
   </table>
 
@@ -482,6 +503,7 @@ pre.tree {
 
   <ul class="roles">
     <li><span class="role-name">Д30</span>Открытие оплаты. Оплатил → доступ к платформе → может начинать смотреть уроки.</li>
+    <li><span class="role-name">Д30 (тех.)</span>Катя дежурит по техническим и платёжным сбоям. Экстренные правки — только через неё, чтобы не было разрозненных правок «на лету».</li>
     <li><span class="role-name">Д30+</span>Уроки выходят постоянным потоком — вт и пт по плану месяца.</li>
     <li><span class="role-name">Д31 — Д44</span>Мониторинг: количество регистраций, оплат, отказов. Оперативные правки если что-то ломается.</li>
     <li><span class="role-name">Д44</span>Разбор запуска (15–30 минут командой).</li>
@@ -493,6 +515,7 @@ pre.tree {
 
   <ul class="roles">
     <li><span class="role-name">Д30</span>Открытие продаж. Оплатившие попадают в <strong>закрытый чат</strong>. В закрепе — списки инвентаря и ингредиентов.</li>
+    <li><span class="role-name">Д30 (тех.)</span>Катя дежурит по техническим и платёжным сбоям. Экстренные правки — только через неё, чтобы не было разрозненных правок «на лету».</li>
     <li><span class="role-name">Д30 — Д35</span>Кураторы (Анжелика и Ольга по своим шефам) дежурят в чате — отвечают на адаптационные вопросы. Шефы — на тематические.</li>
     <li><span class="role-name">Д35 — Д37</span>Усиление коммуникации в чате («через 2 дня старт») + финальная волна продаж в публичных каналах.</li>
     <li><span class="role-name">Д37</span>Старт обучения.</li>
@@ -567,6 +590,23 @@ pre.tree {
     <li><span class="role-name">Ольга</span>Только чтение 00-Шефы своих 4 шефов. Без прав записи</li>
     <li><span class="role-name">Шефы</span>Запись только в свою папку текущего месяца. Чтение «Шаблоны и инструкции». Не видят других шефов</li>
   </ul>
+
+  <h3>Командный фотобанк</h3>
+
+  <p>Отдельная подпапка <code>Клуб Планета Х/Командный фотобанк/</code>. Внутри 7 категорий: Лого, Шефы и портреты, Hero-обложки, Промо и баннеры, Заставки, Сертификаты, Из чата шефов. Над структурой — витрина на сайте: <a href="https://tatianashkoda1-commits.github.io/xplanet-calculators/team/photobank/">tatianashkoda1-commits.github.io/xplanet-calculators/team/photobank/</a>. Команда использует витрину для поиска и скачивания, в саму папку Я.Диска заходит только если нужно.</p>
+
+  <ul class="roles">
+    <li><span class="role-name">Шкода</span>Все права (владелец)</li>
+    <li><span class="role-name">Катя</span>Запись · <code>Birina.kate@yandex.ru</code></li>
+    <li><span class="role-name">Толкын</span>Запись · <code>omarovy94@yandex.ru</code></li>
+    <li><span class="role-name">Яна</span>Просмотр · <code>yana-yulina@mail.ru</code></li>
+    <li><span class="role-name">Диана</span>Просмотр · <code>didorichenko@gmail.com</code></li>
+    <li><span class="role-name">Лена</span>Просмотр · <code>vlena1461@gmail.com</code></li>
+    <li><span class="role-name">Анжелика</span>Просмотр · <code>Angelik.mur@gmail.com</code></li>
+    <li><span class="role-name">Ольга</span>Просмотр · <code>chakirov@mail.ru</code></li>
+  </ul>
+
+  <p style="font-size:0.92em;color:var(--gray)">Расшаривает Шкода через web Я.Диска: правый клик на папке <code>Командный фотобанк</code> → «Поделиться» → «Настроить доступ по приглашению» → email участника → роль «Просмотр» (или «Полный доступ» для Кати и Толкын).</p>
 
   <h2 id="progon"><span class="num">8</span>Чек-лист финального прогона</h2>
 
@@ -651,113 +691,6 @@ pre.tree {
   </div>
 
 </div>
-
-<!-- ===================== EDITOR BUNDLE ===================== -->
-<style id="ed-bundle-style">
-.editor-toolbar {
-  position: fixed; top: 16px; right: 16px;
-  background: rgba(255,255,255,0.96);
-  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
-  border: 1px solid #E8E0D5; border-radius: 8px;
-  padding: 8px; display: flex; gap: 6px; z-index: 9999;
-  box-shadow: 0 4px 16px rgba(45,42,38,0.08);
-  font-family: 'Inter', -apple-system, sans-serif; font-size: 14px;
-  align-items: center;
-}
-.editor-toolbar button {
-  background: white; border: 1px solid #E8E0D5; border-radius: 4px;
-  padding: 6px 12px; cursor: pointer; font-family: inherit; font-size: 13px;
-  font-weight: 500; transition: all 0.15s; white-space: nowrap;
-}
-.editor-toolbar button:hover { background: #FDF8F3; border-color: #E85D3A; color: #E85D3A; }
-.editor-toolbar button.primary { background: #E85D3A; color: white; border-color: #E85D3A; }
-.editor-toolbar button.primary:hover { background: #C84E2F; color: white; }
-.editor-toolbar button:disabled { opacity: 0.4; cursor: not-allowed; }
-.editor-toolbar .toolbar-status {
-  font-family: 'Caveat', cursive; font-size: 16px; color: #E85D3A;
-  margin-left: 4px; min-width: 90px;
-}
-body.editor-on [contenteditable=true]:hover {
-  outline: 1px dashed #D4A052; outline-offset: 2px;
-  background: rgba(245, 232, 208, 0.25);
-}
-body.editor-on [contenteditable=true]:focus {
-  outline: 2px solid #E85D3A; outline-offset: 2px;
-  background: #FFFCF5;
-}
-@media print {
-  .editor-toolbar { display: none; }
-}
-@media (max-width: 700px) {
-  .editor-toolbar { top: auto; bottom: 12px; right: 12px; left: 12px; flex-wrap: wrap; }
-  .editor-toolbar .toolbar-status { width: 100%; text-align: center; }
-}
-</style>
-
-<div class="editor-toolbar" id="ed-toolbar">
-  <button id="ed-toggle">✏️ Включить редактирование</button>
-  <button id="ed-save" class="primary" disabled>📥 Сохранить как HTML</button>
-  <span class="toolbar-status" id="ed-status"></span>
-</div>
-
-<script id="ed-bundle-script">
-(function() {
-  let editing = false;
-  const SELECTORS = '.page p, .page h1, .page h2, .page h3, .page h4, .page li, .page td, .page th, .page blockquote, .page figcaption, .page dt, .page dd, .page span';
-  const toggleBtn = document.getElementById('ed-toggle');
-  const saveBtn = document.getElementById('ed-save');
-  const statusEl = document.getElementById('ed-status');
-
-  function pickEditable() {
-    return Array.from(document.querySelectorAll(SELECTORS)).filter(el => {
-      // не редактируем элементы с интерактивами
-      if (el.closest('.editor-toolbar, .toc')) return false;
-      if (el.querySelector('a[href^="#"]')) return false;
-      if (el.matches('span') && el.children.length > 0) return false;
-      return true;
-    });
-  }
-
-  function setEditing(on) {
-    editing = on;
-    document.body.classList.toggle('editor-on', on);
-    pickEditable().forEach(el => {
-      if (on) el.contentEditable = 'true';
-      else el.removeAttribute('contenteditable');
-    });
-    toggleBtn.textContent = on ? '🔒 Выключить' : '✏️ Включить редактирование';
-    saveBtn.disabled = !on;
-    statusEl.textContent = on ? 'Кликни в текст' : '';
-  }
-
-  function saveHtml() {
-    // снимаем редактируемость перед экспортом
-    document.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
-    document.body.classList.remove('editor-on');
-
-    const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-    const blob = new Blob([html], {type: 'text/html;charset=utf-8'});
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    // имя файла из <title>
-    const safe = (document.title || 'document').replace(/[\\/:*?"<>|]/g, '_');
-    a.download = safe + '.html';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(a.href);
-
-    // возвращаем редактирование
-    setEditing(true);
-    statusEl.textContent = '✓ Сохранено';
-    setTimeout(() => statusEl.textContent = editing ? 'Кликни в текст' : '', 2500);
-  }
-
-  toggleBtn.addEventListener('click', () => setEditing(!editing));
-  saveBtn.addEventListener('click', saveHtml);
-})();
-</script>
-<!-- =================== /EDITOR BUNDLE ====================== -->
 
 </body>
 </html>
