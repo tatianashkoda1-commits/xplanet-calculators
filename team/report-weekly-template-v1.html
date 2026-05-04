@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Отчёт недели · Команда Клуба Планета Х</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:    #FDF8F3;
+  --terra:    #E85D3A;
+  --terra-d:  #C84E2F;
+  --gold:     #D4A052;
+  --gold-soft:#F5E8D0;
+  --dark:     #2D2A26;
+  --gray:     #6B645C;
+  --gray-l:   #C9C2B8;
+  --border:   #E8E0D5;
+  --green:    #4CAF50;
+  --red:      #E53935;
+  --blue:     #4A7BA8;
+  --blue-soft:#E8F0F8;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--dark);
+  background: var(--cream);
+}
+
+.page {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 56px 48px;
+  background: #fff;
+  box-shadow: 0 0 60px rgba(45, 42, 38, 0.06);
+}
+
+.eyebrow {
+  font-family: 'Caveat', cursive;
+  font-size: 1.5em;
+  color: var(--terra);
+  margin: 0 0 8px;
+  letter-spacing: 0.2px;
+}
+
+h1 {
+  font-size: 2em;
+  margin: 0 0 4px;
+  letter-spacing: -0.5px;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.subtitle {
+  font-size: 0.95em;
+  color: var(--gray);
+  margin-bottom: 24px;
+}
+
+.divider {
+  width: 60px;
+  height: 3px;
+  background: var(--gold);
+  border: none;
+  margin: 0 0 28px;
+}
+
+.intro {
+  background: var(--gold-soft);
+  border-left: 3px solid var(--gold);
+  padding: 16px 20px;
+  margin: 0 0 32px;
+  border-radius: 4px;
+  font-size: 0.95em;
+}
+
+.intro strong { color: var(--terra-d); }
+.intro p { margin: 0 0 8px; }
+.intro p:last-child { margin-bottom: 0; }
+
+.intro ul { margin: 6px 0 0; padding-left: 22px; }
+.intro li { padding: 2px 0; }
+
+h2 {
+  font-size: 1.4em;
+  margin: 44px 0 4px;
+  color: var(--dark);
+  scroll-margin-top: 20px;
+}
+
+h2 .num {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  background: var(--terra);
+  color: white;
+  border-radius: 50%;
+  font-size: 0.7em;
+  font-weight: 700;
+  margin-right: 12px;
+  vertical-align: 2px;
+}
+
+.section-sub {
+  font-size: 0.9em;
+  color: var(--gray);
+  margin: 0 0 18px 44px;
+  font-style: italic;
+}
+
+p { margin: 0 0 12px; }
+strong { font-weight: 600; color: var(--dark); }
+
+/* === Поля === */
+
+.field {
+  margin: 14px 0 18px;
+}
+
+.field-label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.98em;
+  color: var(--dark);
+  margin-bottom: 4px;
+}
+
+.field-label .hint {
+  font-weight: 400;
+  color: var(--gray);
+  font-size: 0.92em;
+}
+
+.field-example {
+  font-size: 0.85em;
+  color: var(--gray);
+  margin: 0 0 8px;
+  font-style: italic;
+}
+
+.field-example::before {
+  content: '↳ ';
+  color: var(--gold);
+  font-style: normal;
+}
+
+.field-input {
+  border: 1.5px dashed var(--gray-l);
+  border-radius: 4px;
+  padding: 12px 14px;
+  min-height: 48px;
+  font-size: 0.95em;
+  color: var(--dark);
+  background: #FEFCF9;
+  outline: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.field-input:focus {
+  border-color: var(--terra);
+  border-style: solid;
+  background: #fff;
+}
+
+.field-input:empty::before {
+  content: attr(data-placeholder);
+  color: var(--gray-l);
+  font-style: italic;
+}
+
+.field-input.tall {
+  min-height: 96px;
+}
+
+.field-input.taller {
+  min-height: 160px;
+}
+
+.meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 24px;
+  margin: 0 0 8px;
+}
+
+.meta-grid .field { margin: 0; }
+
+@media (max-width: 600px) {
+  .meta-grid { grid-template-columns: 1fr; }
+}
+
+/* === Бейджи / выноски === */
+
+.callout {
+  background: var(--gold-soft);
+  border-left: 3px solid var(--gold);
+  padding: 14px 18px;
+  margin: 16px 0;
+  border-radius: 4px;
+  font-size: 0.93em;
+}
+
+.callout.info {
+  background: var(--blue-soft);
+  border-left-color: var(--blue);
+}
+
+.callout.warn {
+  background: #FFF4F2;
+  border-left-color: var(--terra);
+}
+
+.callout-label {
+  font-family: 'Caveat', cursive;
+  font-size: 1.2em;
+  color: var(--terra);
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+
+.callout.info .callout-label { color: var(--blue); }
+
+.canon {
+  background: #FBEAEA;
+  border-left: 3px solid var(--red);
+  padding: 14px 18px;
+  margin: 16px 0;
+  border-radius: 4px;
+  font-size: 0.92em;
+}
+
+.canon-title {
+  font-weight: 700;
+  color: var(--red);
+  margin-bottom: 8px;
+  font-size: 0.98em;
+}
+
+.canon ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.canon ul li { padding: 2px 0; }
+
+/* === Кнопки и футер === */
+
+.actions {
+  margin-top: 44px;
+  padding-top: 24px;
+  border-top: 2px solid var(--border);
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border-radius: 6px;
+  border: 1.5px solid var(--terra);
+  background: var(--terra);
+  color: white;
+  font-family: inherit;
+  font-size: 0.95em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn:hover { background: var(--terra-d); border-color: var(--terra-d); }
+
+.btn.secondary {
+  background: white;
+  color: var(--terra);
+}
+
+.btn.secondary:hover {
+  background: #FFF4F2;
+}
+
+.footer-meta {
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+  font-size: 0.85em;
+  color: var(--gray);
+}
+
+.footer-meta p { margin: 4px 0; }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <p class="eyebrow">Команда Клуба Планета Х</p>
+  <h1>Отчёт недели</h1>
+  <p class="subtitle">Личный еженедельный отчёт сотрудника</p>
+  <hr class="divider">
+
+  <!-- ============ ИНТРО ============ -->
+  <div class="intro">
+    <p><strong>Зачем этот отчёт.</strong> Чтобы у Шкоды каждый понедельник был ясный срез: кто что сделал, что не сделал и почему, что планирует. Без этого невозможно ставить задачи и распределять нагрузку.</p>
+    <p><strong>Когда сдаём.</strong> Каждую <strong>пятницу до 18:00</strong> по своему времени. Файл — в общую папку Я.Диска: <em>Синхронизация команды → Отчёты команды → ДД.ММ — ДД.ММ.ГГГГ → {имя}.html</em></p>
+    <p><strong>Сколько занимает.</strong> 20–30 минут. Если дольше — значит, заполняешь не то. Подсказки в каждом блоке.</p>
+    <p><strong>Главное правило.</strong> Не описания, а <strong>факты</strong>: ссылки, числа, скрины. «Работала над воронкой» — не отчёт. «Написала 3 поста, ссылки такие-то, открываемость 34%» — отчёт.</p>
+  </div>
+
+  <!-- ============ ШАПКА ============ -->
+  <h2 id="s0"><span class="num">0</span>Шапка</h2>
+  <p class="section-sub">Кто, какая роль, за какую неделю.</p>
+
+  <div class="meta-grid">
+    <div class="field">
+      <label class="field-label">Имя</label>
+      <div class="field-input" contenteditable="true" data-placeholder="Имя Фамилия"></div>
+    </div>
+    <div class="field">
+      <label class="field-label">Роль</label>
+      <div class="field-input" contenteditable="true" data-placeholder="Контент-менеджер / куратор / техника / SMM …"></div>
+    </div>
+    <div class="field">
+      <label class="field-label">Период недели <span class="hint">(пн–вс)</span></label>
+      <div class="field-input" contenteditable="true" data-placeholder="с ДД.ММ по ДД.ММ.2026"></div>
+    </div>
+    <div class="field">
+      <label class="field-label">Дата сдачи</label>
+      <div class="field-input" contenteditable="true" data-placeholder="ДД.ММ.2026, до 18:00"></div>
+    </div>
+  </div>
+
+  <!-- ============ 1. ГЛАВНОЕ ЗА НЕДЕЛЮ ============ -->
+  <h2 id="s1"><span class="num">1</span>Главное за неделю</h2>
+  <p class="section-sub">3–5 пунктов, что Шкоде обязательно нужно знать. Без этого блока всё тонет в деталях.</p>
+
+  <p class="field-example">Пример: «Запустили продажи Клуба Июнь 2026 — 47 оплат за 3 дня. Толкын в отпуске с пн, передала задачи Диане. Заметила риск: бот рассылок просел в открываемости — разбираюсь».</p>
+
+  <div class="field">
+    <div class="field-input taller" contenteditable="true" data-placeholder="• …&#10;• …&#10;• …"></div>
+  </div>
+
+  <!-- ============ 2. СДЕЛАНО ============ -->
+  <h2 id="s2"><span class="num">2</span>Сделано</h2>
+  <p class="section-sub">Список с фактами. Каждый пункт — со ссылкой / числом / скрином.</p>
+
+  <div class="callout info">
+    <span class="callout-label">Что считается фактом</span>
+    Ссылка на пост, документ, бот, рассылку. Скрин экрана. Число (отправлено, получено, оплачено, открыто). Имя сдавшего/принимающего. Без фактов пункт не считается.
+  </div>
+
+  <p class="field-example">Пример: «Опубликовано 8 постов в TG-канал интенсива (ссылки: …). Запущена рассылка по базе 12 480 адр., открываемость 38%, переходов 1 247. Согласовала с Олей сроки приёма работ участников до 15.05».</p>
+
+  <div class="field">
+    <div class="field-input taller" contenteditable="true" data-placeholder="• …&#10;• …&#10;• …&#10;• …&#10;• …"></div>
+  </div>
+
+  <!-- ============ 3. ДЕЯТЕЛЬНОСТЬ ВНЕ РОЛИ ============ -->
+  <h2 id="s3"><span class="num">3</span>Деятельность вне регламента</h2>
+  <p class="section-sub">Что делала помимо своей роли: помогала другим, тушила пожары, перехватывала чужие задачи, делала что-то новое и не описанное в ТО.</p>
+
+  <div class="callout info">
+    <span class="callout-label">Зачем этот блок</span>
+    Чтобы было видно реальное распределение нагрузки. Если ты неделю за неделей помогаешь кому-то с его задачами — это не «характер», это сигнал, что регламент рассинхронен с жизнью. Чем точнее опишешь — тем быстрее починим.
+  </div>
+
+  <p class="field-example">Пример: «Помогала Кате 2 часа во вторник — настраивала рассылку, она была на встрече. Отвечала в личке участникам по техническим вопросам (5 обращений, в моей роли куратора это не входит). Делала макет баннера на ходу — Диана попросила, Толкын подтвердила».</p>
+
+  <div class="field">
+    <div class="field-input tall" contenteditable="true" data-placeholder="• Что делала: …&#10;• Кому помогала / по чьей просьбе: …&#10;• Сколько примерно времени заняло: …"></div>
+  </div>
+
+  <!-- ============ 4. НЕ СДЕЛАНО / ПЕРЕНЕСЕНО ============ -->
+  <h2 id="s4"><span class="num">4</span>Не сделано / перенесено</h2>
+  <p class="section-sub">Что планировалось, но не вышло — и почему. Перенос — это нормально. Молча выпавшая задача — нет.</p>
+
+  <p class="field-example">Пример: «Не успела согласовать тексты МК с Натали Ви — ждала её правок 4 дня, перенесли на пн 06.05. Не настроила автобот для FAQ — срочно влилась в пожар с платёжкой».</p>
+
+  <div class="field">
+    <div class="field-input tall" contenteditable="true" data-placeholder="• …&#10;• …"></div>
+  </div>
+
+  <!-- ============ 5. МЕТРИКИ ============ -->
+  <h2 id="s5"><span class="num">5</span>Метрики</h2>
+  <p class="section-sub">Только если есть что мерить в твоей роли. Если нет — пиши «нет применимых метрик» и идём дальше.</p>
+
+  <div class="callout">
+    <span class="callout-label">Кому что считать (примерные ориентиры)</span>
+    <ul style="margin:6px 0 0; padding-left:20px;">
+      <li><strong>Контент-менеджер</strong> — охваты, ER, кол-во публикаций по плану.</li>
+      <li><strong>SMM</strong> — кол-во reels/постов, охваты, рост подписчиков.</li>
+      <li><strong>Копирайтер</strong> — кол-во текстов сдано/в работе, открываемость рассылок.</li>
+      <li><strong>Техника / ГК</strong> — оплат за неделю, ошибок платёжки, тикетов закрыто.</li>
+      <li><strong>Боты / рассылки</strong> — отправлено, доставлено, открыто, ошибок.</li>
+      <li><strong>Куратор</strong> — кол-во участников, обращений, ответов.</li>
+    </ul>
+  </div>
+
+  <div class="field">
+    <div class="field-input tall" contenteditable="true" data-placeholder="• Метрика 1: значение (vs прошлая неделя)&#10;• Метрика 2: значение"></div>
+  </div>
+
+  <!-- ============ 6. ПЛАНЫ НА СЛЕДУЮЩУЮ НЕДЕЛЮ ============ -->
+  <h2 id="s6"><span class="num">6</span>Планы на следующую неделю</h2>
+  <p class="section-sub">Топ-3–5 задач. Не «много всего», а конкретно что ты обещаешь сделать к пятнице.</p>
+
+  <p class="field-example">Пример: «1) Запустить рассылку по тёплой базе (вт). 2) Сдать Толкын тексты прогрева Клуба Июнь (чт). 3) Доделать дашборд шефов (пт)».</p>
+
+  <div class="field">
+    <div class="field-input tall" contenteditable="true" data-placeholder="1) …&#10;2) …&#10;3) …"></div>
+  </div>
+
+  <!-- ============ 7. РИСКИ И БЛОКЕРЫ ============ -->
+  <h2 id="s7"><span class="num">7</span>Риски и блокеры</h2>
+  <p class="section-sub">Что мешает, где нужна помощь, что может упасть. Лучше предупредить заранее, чем разбирать пожар.</p>
+
+  <p class="field-example">Пример: «Рассылочный бот стал реже доставлять — нужно консультация Лены. Без сценария интенсива от Толкын не могу дописать прогрев — жду до ср».</p>
+
+  <div class="field">
+    <div class="field-input tall" contenteditable="true" data-placeholder="• Блокер: …&#10;• Нужна помощь: …"></div>
+  </div>
+
+  <!-- ============ 8. ЗАМЕТКИ ============ -->
+  <h2 id="s8"><span class="num">8</span>Заметки <span style="font-weight:400; color:var(--gray); font-size:0.85em;">(необязательно)</span></h2>
+  <p class="section-sub">Что заметила, что бы изменила в процессах, идеи. Шкода читает.</p>
+
+  <div class="field">
+    <div class="field-input tall" contenteditable="true" data-placeholder="• …"></div>
+  </div>
+
+  <!-- ============ ПРАВИЛА ============ -->
+  <div class="canon">
+    <div class="canon-title">Что отчётом не считается</div>
+    <ul>
+      <li>«Работала над воронкой / контентом / задачами» — без указания <strong>что</strong> сделано.</li>
+      <li>«Сидела в проекте сутками» — без перечня результатов.</li>
+      <li>Перечисление статусов чужих задач (отчёт — про <strong>свои</strong> результаты).</li>
+      <li>Отчёт без блока «Не сделано» — идеальных недель не бывает.</li>
+      <li>Отчёт, сданный позже понедельника, — считается просроченным.</li>
+    </ul>
+  </div>
+
+  <!-- ============ ДЕЙСТВИЯ ============ -->
+  <div class="actions">
+    <button class="btn" onclick="saveAsHtml()">💾 Сохранить как HTML</button>
+    <button class="btn secondary" onclick="copyAsMarkdown()">📋 Скопировать в маркдаун</button>
+    <button class="btn secondary" onclick="window.print()">🖨 Распечатать</button>
+  </div>
+
+  <div class="footer-meta">
+    <p><strong>Версия:</strong> v1.0 · 03.05.2026 · приложение к Регламенту №8 «Отчётность команды»</p>
+    <p><strong>Автор:</strong> Татьяна Шкода (Планета Х)</p>
+    <p><strong>Куда сдавать:</strong> Я.Диск → <em>Синхронизация команды / Клуб Планета Х / Отчёты команды / ДД.ММ — ДД.ММ.ГГГГ</em></p>
+  </div>
+
+</div>
+
+<script>
+function getName() {
+  const inputs = document.querySelectorAll('#s0 .field-input');
+  return (inputs[0]?.textContent || 'без_имени').trim().replace(/\s+/g, '_') || 'без_имени';
+}
+
+function getWeek() {
+  const inputs = document.querySelectorAll('#s0 .field-input');
+  return (inputs[2]?.textContent || '').trim();
+}
+
+function saveAsHtml() {
+  const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const name = getName();
+  const week = getWeek().replace(/\s+/g, '_').replace(/[^а-яёА-ЯЁa-zA-Z0-9._-]/gi, '');
+  a.href = url;
+  a.download = `Отчёт_${name}_${week || 'неделя'}.html`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function copyAsMarkdown() {
+  let md = '# Отчёт недели\n\n';
+  document.querySelectorAll('h2').forEach(h2 => {
+    const num = h2.querySelector('.num')?.textContent || '';
+    const titleText = h2.textContent.replace(num, '').replace(/\(необязательно\)/i, '').trim();
+    md += `\n## ${num}. ${titleText}\n\n`;
+
+    let node = h2.nextElementSibling;
+    while (node && node.tagName !== 'H2') {
+      if (node.classList.contains('field')) {
+        const labelEl = node.querySelector('.field-label');
+        const inputEl = node.querySelector('.field-input');
+        if (inputEl) {
+          const text = (inputEl.innerText || '').trim();
+          if (labelEl) {
+            const label = labelEl.childNodes[0].textContent.trim();
+            md += `**${label}:** ${text || '—'}\n\n`;
+          } else {
+            md += (text || '—') + '\n\n';
+          }
+        }
+      }
+      node = node.nextElementSibling;
+    }
+  });
+
+  navigator.clipboard.writeText(md).then(() => {
+    const btn = event.target;
+    const orig = btn.textContent;
+    btn.textContent = '✓ Скопировано';
+    setTimeout(() => { btn.textContent = orig; }, 1800);
+  });
+}
+</script>
+</body>
+</html>
