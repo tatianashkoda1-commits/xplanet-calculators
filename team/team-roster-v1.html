@@ -18,6 +18,7 @@
   --gray: #6B645C;
   --border: #E8E0D5;
   --green: #4CAF50;
+  --blue: #4A7BA8;
 }
 * { box-sizing: border-box; }
 body {
@@ -60,7 +61,26 @@ h1 { font-size: 2.2em; margin: 0 0 6px; letter-spacing: -0.5px; font-weight: 700
   gap: 8px;
   position: relative;
 }
-.card.escalation, .card.founder { padding-top: 42px; }
+.card.escalation, .card.founder, .card.tech-key { padding-top: 42px; }
+
+.card.tech-key {
+  border-color: var(--blue);
+  background: linear-gradient(180deg, #fff 0%, #F4F8FC 100%);
+}
+.card.tech-key::before {
+  content: "ключ к системе";
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: var(--blue);
+  color: white;
+  font-size: 0.7em;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
 .card.escalation {
   border-color: var(--terra);
   background: linear-gradient(180deg, #fff 0%, #FFF8F4 100%);
@@ -176,7 +196,7 @@ h1 { font-size: 2.2em; margin: 0 0 6px; letter-spacing: -0.5px; font-weight: 700
       <p class="email"><a href="mailto:omarovy94@yandex.ru">omarovy94@yandex.ru</a></p>
     </div>
 
-    <div class="card">
+    <div class="card tech-key">
       <h3 class="name">Катя</h3>
       <p class="role">Технический директор</p>
       <p class="zone">Платежи, GetCourse, домены, юридическая часть, БотХелп. Платформа Клуба и техническая инфраструктура.</p>
