@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Синхронизация команды · Клуб Планета Х</title>
+<style>
+:root {
+  --accent: #E8632F;
+  --accent-dark: #C84F1F;
+  --accent-soft: #FEF3EE;
+  --hot: #E53935;
+  --hot-soft: #FEEBEB;
+  --text: #1F2937;
+  --gray-text: #6B7280;
+  --border: #E5E7EB;
+  --bg: #FAFAFA;
+  --white: #FFFFFF;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.container {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 32px 20px 60px;
+}
+
+.header {
+  margin-bottom: 32px;
+}
+
+.header h1 {
+  margin: 0 0 6px;
+  font-size: 1.6em;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.header-subtitle {
+  font-size: 0.9em;
+  color: var(--gray-text);
+}
+
+.section {
+  margin-top: 32px;
+}
+
+.section-title {
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gray-text);
+  font-weight: 600;
+  margin: 0 0 14px;
+  padding-left: 4px;
+}
+
+.cards-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.cards-grid.months {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.cards-grid.hot {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .cards-grid.hot {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 20px;
+  text-decoration: none;
+  color: var(--text);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+  min-height: 110px;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+  border-color: var(--accent);
+}
+
+.card.month {
+  background: var(--accent-soft);
+  border-color: var(--accent-soft);
+  min-height: 130px;
+}
+
+.card.month:hover {
+  border-color: var(--accent);
+}
+
+.card.month .card-title {
+  color: var(--accent-dark);
+  font-size: 1.6em;
+}
+
+.card.hot {
+  border-left: 4px solid var(--hot);
+}
+
+.card.hot:hover {
+  border-color: var(--hot);
+  border-left-color: var(--hot);
+}
+
+.card-eyebrow {
+  font-size: 0.72em;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--hot);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.card-title {
+  font-size: 1.15em;
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+.card-sub {
+  font-size: 0.88em;
+  color: var(--gray-text);
+  margin: 0;
+}
+
+.card-arrow {
+  margin-top: 10px;
+  font-size: 0.82em;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.card.hot .card-arrow {
+  color: var(--hot);
+}
+
+.card-dates {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 8px;
+}
+
+.card-date {
+  display: inline-block;
+  padding: 2px 9px;
+  font-size: 0.78em;
+  background: var(--hot-soft);
+  color: var(--hot);
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.cards-grid.wave {
+  grid-template-columns: 1fr;
+}
+
+.card.wave {
+  background: linear-gradient(135deg, #FFF8F4 0%, #FEF3EE 100%);
+  border: 1px solid var(--accent);
+  border-left: 4px solid var(--accent);
+  min-height: 120px;
+}
+
+.card.wave .card-eyebrow {
+  color: var(--accent-dark);
+}
+
+.card.wave .card-title {
+  font-size: 1.45em;
+  color: var(--accent-dark);
+}
+
+.card.wave .card-date {
+  background: rgba(232, 99, 47, 0.14);
+  color: var(--accent-dark);
+}
+
+.card.wave .card-arrow {
+  color: var(--accent);
+}
+
+.card.placeholder {
+  border-style: dashed;
+  background: #FFF;
+  cursor: default;
+}
+
+.card.placeholder:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: var(--accent);
+}
+
+.card.placeholder .card-arrow {
+  color: var(--gray-text);
+}
+
+.footer {
+  margin-top: 40px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-size: 0.8em;
+  color: var(--gray-text);
+  text-align: center;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>Синхронизация команды</h1>
+    <div class="header-subtitle">Клуб Планета Х · быстрый доступ к рабочим папкам</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">По месяцам</div>
+    <div class="cards-grid months">
+      <a class="card month" href="https://disk.yandex.ru/d/DmQpPMds4Z4xMQ" target="_blank" rel="noopener">
+        <div>
+          <div class="card-title">Май 2026</div>
+          <div class="card-sub">Текущий месяц — материалы, шефы, прогрев</div>
+        </div>
+        <div class="card-arrow">Открыть папку →</div>
+      </a>
+      <a class="card month" href="https://disk.yandex.ru/d/EQMyl8x1boH1TA" target="_blank" rel="noopener">
+        <div>
+          <div class="card-title">Июнь 2026</div>
+          <div class="card-sub">Параллельная подготовка следующего месяца</div>
+        </div>
+        <div class="card-arrow">Открыть папку →</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Сейчас у станка</div>
+    <div class="cards-grid hot">
+      <a class="card hot" href="https://disk.yandex.ru/d/kIHaoHfxq3foVw" target="_blank" rel="noopener">
+        <div>
+          <div class="card-eyebrow">Интенсив</div>
+          <div class="card-title">Семенюк</div>
+          <div class="card-dates">
+            <span class="card-date">15–21 мая</span>
+          </div>
+          <p class="card-sub">Подготовка интенсива</p>
+        </div>
+        <div class="card-arrow">Открыть папку →</div>
+      </a>
+      <a class="card hot" href="https://disk.yandex.ru/d/g1r3LhEFe_VHAg" target="_blank" rel="noopener">
+        <div>
+          <div class="card-eyebrow">Эфир + десерт</div>
+          <div class="card-title">Шкода</div>
+          <div class="card-dates">
+            <span class="card-date">12 мая</span>
+            <span class="card-date">20 мая</span>
+          </div>
+          <p class="card-sub">Манго-стики райс · десерт для Волковой</p>
+        </div>
+        <div class="card-arrow">Открыть папку →</div>
+      </a>
+      <a class="card hot" href="https://disk.yandex.ru/d/1zmMs8HzceJGEw" target="_blank" rel="noopener">
+        <div>
+          <div class="card-eyebrow">МК «Торт»</div>
+          <div class="card-title">Волкова</div>
+          <div class="card-dates">
+            <span class="card-date">22–24 мая</span>
+          </div>
+          <p class="card-sub">К 25 мая на запуск</p>
+        </div>
+        <div class="card-arrow">Открыть папку →</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Ближайший запуск</div>
+    <div class="cards-grid wave">
+      <a class="card wave" href="https://disk.yandex.ru/d/ftmOf5O45uSfBA" target="_blank" rel="noopener">
+        <div>
+          <div class="card-eyebrow">Старт 1 июня</div>
+          <div class="card-title">Волна Июнь</div>
+          <div class="card-dates">
+            <span class="card-date">1 июня</span>
+          </div>
+          <p class="card-sub">Прогрев, продажи, материалы запуска</p>
+        </div>
+        <div class="card-arrow">Открыть папку →</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer">
+    Карточки «у станка» и «ближайший запуск» меняются вручную по мере появления новых блоков работы.
+  </div>
+</div>
+</body>
+</html>
